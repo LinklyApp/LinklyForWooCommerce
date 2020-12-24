@@ -1,0 +1,12 @@
+{
+    "name": "msthu/billing",
+    "authors": [
+        {
+            "name": "msthu",
+            "email": "mischa@b302.nl"
+        }
+    ],
+    "require": {
+        "skyverge/wc-plugin-framework": "^5.10"
+    }
+}
