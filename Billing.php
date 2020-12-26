@@ -1,5 +1,6 @@
 <?php
 
+require 'admin/BillingForWooCommerceAdmin.php';
 require 'actions/ActionCallbacks.php';
 require 'BillingCustomer.php';
 require 'mocks/CustomerMock.php';
@@ -28,6 +29,7 @@ class Billing
 
     private function addActions() {
         add_action('woocommerce_customer_object_updated_props', 'updateUserMetaSSO', 10 , 2);
+        add_action('admin_menu', 'billingRegisterMenu');
     }
 
     /**
