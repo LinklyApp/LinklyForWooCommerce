@@ -1,0 +1,15 @@
+a.button.button__billing {
+    flex: 1 1 auto;
+    display: block;
+    margin: 5px 0;
+    max-width: 280px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    background: #1327c1;
+    color: white;
+}
+
+a.button.button__billing:hover {
+    background-color: #060e9e;
+}

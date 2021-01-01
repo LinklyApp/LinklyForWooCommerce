@@ -25,12 +25,19 @@ class Billing
         $customer = new BillingCustomer();
         $customer->set_props($mappedCustomer);
         $customer->save();
+        $customer->login();
     }
 
     private function addActions() {
         add_action('woocommerce_customer_object_updated_props', 'updateUserMetaSSO', 10 , 2);
         add_action('admin_menu', 'billingRegisterMenu');
+        add_action('woocommerce_before_checkout_form', 'loginButton', 8);
+        add_action('wp_enqueue_scripts', 'addStyles');
+        add_action('login_enqueue_scripts', 'addStyles');
+
     }
+
+
 
     /**
      * Gets the plugin singleton instance.

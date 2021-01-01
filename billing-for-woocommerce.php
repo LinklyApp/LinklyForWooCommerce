@@ -12,6 +12,9 @@ Text Domain: billing
 
 defined('ABSPATH') or exit;
 
+defined( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL' )
+|| define( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
 /**
  * The plugin loader class.
  *
