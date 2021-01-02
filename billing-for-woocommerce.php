@@ -12,8 +12,12 @@ Text Domain: billing
 
 defined('ABSPATH') or exit;
 
+defined( 'BILLING_FOR_WOOCOMMERCE_ABS_PATH' )
+|| define( 'BILLING_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path( __FILE__ ) );
+
 defined( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL' )
 || define( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
 
 /**
  * The plugin loader class.
@@ -103,7 +107,7 @@ class WC_Billing_Loader
 
         $this->load_framework();
 
-        require_once(plugin_dir_path(__FILE__) . 'billing.php');
+        require_once(plugin_dir_path(__FILE__) . 'includes/class-billing.php');
 
 //         fire it up!
         if (function_exists('billing')) {

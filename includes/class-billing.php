@@ -1,10 +1,13 @@
 <?php
 
-require 'admin/BillingForWooCommerceAdmin.php';
-require 'actions/ActionCallbacks.php';
-require 'BillingCustomer.php';
-require 'mocks/CustomerMock.php';
-require 'helpers/BCustomerToWCCustomerMapper.php';
+defined('ABSPATH') or exit;
+
+require 'actions-billing.php';
+require 'admin/class-billing-admin.php';
+require 'parts/actions-billing-parts.php';
+require 'helpers/class-billing-helpers.php';
+require 'class-billing-customer.php';
+require BILLING_FOR_WOOCOMMERCE_ABS_PATH . '/mocks/class-customer-mock.php';
 
 class Billing
 {
@@ -14,7 +17,6 @@ class Billing
 
     public function __construct()
     {
-        $this->addActions();
 //        $this->newCustomer();
     }
 
@@ -25,18 +27,8 @@ class Billing
         $customer = new BillingCustomer();
         $customer->set_props($mappedCustomer);
         $customer->save();
-        $customer->login();
+//        $customer->login();
     }
-
-    private function addActions() {
-        add_action('woocommerce_customer_object_updated_props', 'updateUserMetaSSO', 10 , 2);
-        add_action('admin_menu', 'billingRegisterMenu');
-        add_action('woocommerce_before_checkout_form', 'loginButton', 8);
-        add_action('wp_enqueue_scripts', 'addStyles');
-        add_action('login_enqueue_scripts', 'addStyles');
-
-    }
-
 
 
     /**
