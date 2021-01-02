@@ -8,23 +8,21 @@ class BillingAdmin
 {
     public function __construct()
     {
-        $this->registerMenu();
+        add_action('admin_menu', [$this, 'registerMenu']);
     }
 
-    private function registerMenu()
+    public function registerMenu()
     {
-//        add_options_page(
-//            'Billing for Woocommerce',
-//            'Billing for Woocommerce',
-//            'manage_options',
-//            'billing-for-woocommerce',
-//            [$this, 'adminPage']
-//        );
-
-        add_action('admin_init', 'billingRegisterSetting');
+        add_options_page(
+            'Billing for Woocommerce',
+            'Billing for Woocommerce',
+            'manage_options',
+            'billing-for-woocommerce',
+            [$this, 'adminPage']
+        );
     }
 
-    private function adminPage(){
+    public function adminPage(){
         include_once __DIR__ . '/views/html-admin-page.php';
     }
 }
