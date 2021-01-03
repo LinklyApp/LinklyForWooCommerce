@@ -17,18 +17,8 @@ class Billing
 
     public function __construct()
     {
-//        $this->newCustomer();
     }
 
-    public function newCustomer() {
-        $mockedCustomer = CustomerMock::mock();
-        $mappedCustomer = BCustomerToWCCustomerMapper::map($mockedCustomer);
-
-        $customer = new BillingCustomer();
-        $customer->set_props($mappedCustomer);
-        $customer->save();
-//        $customer->login();
-    }
 
 
     /**

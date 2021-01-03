@@ -8,9 +8,12 @@ class BCustomerToWCCustomerMapper
             'email' => $data['email'],
             'first_name' => $data['firstName'],
             'last_name' => self::createLastName($data['familyNameInfix'], $data['familyName']),
+            'billing_first_name' => $data['firstName'],
+            'billing_last_name' => self::createLastName($data['familyNameInfix'], $data['familyName']),
             'billing_address_1' => self::createAddress($data['street'], $data['houseNumber'], $data['houseNumberSuffix']),
+            'billing_city' => $data['city'],
             'billing_postcode' => $data['postcode'],
-            'billing_country' => $data['country'],
+            'billing_country' => $data['country_code_short'],
             'sso_version' => $data['version'],
         ];
     }

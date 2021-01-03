@@ -1,6 +1,10 @@
 <?php
 defined('ABSPATH') or exit;
+
 ?>
 <div>
-    <a class='button button__billing' href=''>Sign in with Billing</a>
+    <form action="">
+        <input type="hidden" name="billing_login_action" value="yes">
+        <button type="submit" class='button button__billing'>Sign in with Billing</button>
+    </form>
 </div>

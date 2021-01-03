@@ -29,3 +29,26 @@ function updateUserMetaSSO($customer, $updated_props)
 }
 
 add_action('woocommerce_customer_object_updated_props', 'updateUserMetaSSO', 10 , 2);
+
+
+function newCustomer() {
+    $mockedCustomer = CustomerMock::mock();
+    $mappedCustomer = BCustomerToWCCustomerMapper::map($mockedCustomer);
+
+    $customer = new BillingCustomer();
+    $customer->set_props($mappedCustomer);
+    $customer->save();
+    wc_set_customer_auth_cookie($customer->get_id());
+}
+
+function billing_login_action()
+{
+    if( isset($_GET['billing_login_action']) ) {
+        newCustomer();
+    }
+}
+
+add_action('init', 'billing_login_action');
+
+
+
