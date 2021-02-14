@@ -1,58 +1,34 @@
 <?php
 
+use League\OAuth2\Client\Provider\BillingUser;
+
 class BCustomerToWCCustomerMapper
 {
-    public static function map($data)
+    public static function map(BillingUser $user)
     {
         return [
-            'email' => $data['email'],
-            'first_name' => $data['firstName'],
-            'last_name' => self::createLastName($data['familyNameInfix'], $data['familyName']),
+            'email' => $user->getEmail(),
+            'first_name' => $user->getFirstName(),
+            'last_name' => $user->getFamilyNameWithInfix(),
 
-            'billing_email' => $data['email'],
-            'billing_first_name' => $data['firstName'],
-            'billing_last_name' => self::createLastName($data['familyNameInfix'], $data['familyName']),
-            'billing_address_1' => self::createAddress($data['billing']['street'], $data['billing']['houseNumber'],
-                $data['billing']['houseNumberSuffix']),
-            'billing_city' => $data['billing']['city'],
-            'billing_postcode' => $data['billing']['postcode'],
-            'billing_country' => $data['billing']['country']['alpha2'],
+            'billing_email' => $user->getEmail(),
+            'billing_first_name' => $user->getBillingAddress()->getFirstName(),
+            'billing_last_name' => $user->getBillingAddress()->getFamilyNameWithInfix(),
+            'billing_address_1' => $user->getBillingAddress()->getStreetAddress(),
+            'billing_city' => $user->getBillingAddress()->getCity(),
+            'billing_postcode' => $user->getBillingAddress()->getPostcode(),
+            'billing_country' => $user->getBillingAddress()->getCountry()->getAlpha2(),
 
-            'shipping_first_name' => $data['firstName'],
-            'shipping_last_name' => self::createLastName($data['familyNameInfix'], $data['familyName']),
-            'shipping_address_1' => self::createAddress($data['shipping']['street'], $data['shipping']['houseNumber'],
-                $data['shipping']['houseNumberSuffix']),
-            'shipping_city' => $data['shipping']['city'],
-            'shipping_postcode' => $data['shipping']['postcode'],
-            'shipping_country' => $data['shipping']['country']['alpha2'],
+            'shipping_email' => $user->getEmail(),
+            'shipping_first_name' => $user->getShippingAddress()->getFirstName(),
+            'shipping_last_name' => $user->getShippingAddress()->getFamilyNameWithInfix(),
+            'shipping_address_1' => $user->getShippingAddress()->getStreetAddress(),
+            'shipping_city' => $user->getShippingAddress()->getCity(),
+            'shipping_postcode' => $user->getShippingAddress()->getPostcode(),
+            'shipping_country' => $user->getShippingAddress()->getCountry()->getAlpha2(),
 
-            'sso_version' => $data['version'],
+            'sso_version' => 2,
         ];
-    }
-
-    private static function createLastName($familyNameInfix, $familyName)
-    {
-        $lastName = '';
-        if ($familyNameInfix) {
-            $lastName .= $familyNameInfix . ' ';
-        }
-        $lastName .= $familyName;
-        return $lastName;
-    }
-
-    private static function createAddress($street, $houseNumber, $houseNumberSuffix)
-    {
-        $address = $street . ' ' . $houseNumber;
-
-        if ($houseNumberSuffix) {
-            $houseNumberContainsNumbers = !!preg_match('~[0-9]~', $houseNumberSuffix);
-            if ($houseNumberContainsNumbers) {
-                $address .= '-';
-            }
-            $address .= $houseNumberSuffix;
-        }
-
-        return $address;
     }
 }
 

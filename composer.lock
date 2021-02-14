@@ -464,12 +464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Thullner/oauth2-billing.git",
-                "reference": "f2ff5cfae2b097e1e26ef99fcaf13858835a249a"
+                "reference": "b6833c7ca76d41b58a6f63dc8837fe5367148064"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Thullner/oauth2-billing/zipball/f2ff5cfae2b097e1e26ef99fcaf13858835a249a",
-                "reference": "f2ff5cfae2b097e1e26ef99fcaf13858835a249a",
+                "url": "https://api.github.com/repos/Thullner/oauth2-billing/zipball/b6833c7ca76d41b58a6f63dc8837fe5367148064",
+                "reference": "b6833c7ca76d41b58a6f63dc8837fe5367148064",
                 "shasum": ""
             },
             "require": {
@@ -498,7 +498,7 @@
                 "billing",
                 "oauth2"
             ],
-            "time": "2021-02-14T13:35:20+00:00"
+            "time": "2021-02-14T20:17:26+00:00"
         }
     ],
     "packages-dev": [],
