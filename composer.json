@@ -7,6 +7,6 @@
         }
     ],
     "require": {
-        "skyverge/wc-plugin-framework": "^5.10"
+        "thullner/oath2-billing": "dev-development"
     }
 }
