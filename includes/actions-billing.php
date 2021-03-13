@@ -14,11 +14,15 @@ add_action('login_enqueue_scripts', 'addStyles');
 
 function updateUserMetaSSO($customer, $updated_props)
 {
-    $sso_props = ['sso_version' => 'sso_version'];
+    $sso_props = [
+        'thullner_user_version' => 'thullner_user_version',
+        'thullner_user_guid' => 'thullner_user_guid',
+    ];
     $changed_props = $customer->get_changes();
 
     foreach ($sso_props as $meta_key => $prop) {
-        if (!isset($changed_props['sso_version'])) {
+        // TODO Check if this registers
+        if (!isset($changed_props['thullner'])) {
             continue;
         }
 
@@ -102,6 +106,7 @@ function billing_login_callback()
         }
 
         // Try to get an access token (using the authorization code grant)
+
         $token = $provider->getAccessToken('authorization_code', [
             'code' => $_GET['code'],
         ]);
@@ -119,6 +124,7 @@ function billing_login_callback()
 
         } catch (Exception $e) {
 
+            var_dump($e);
             // Failed to get user details
             exit('Oh dear...');
         }
@@ -126,6 +132,17 @@ function billing_login_callback()
 }
 
 add_action('init', 'billing_login_callback');
+
+
+function billing_get_order($order_id)
+{
+    $order = wc_get_order( $order_id );
+
+    $bInvoice = WCOrderToBInvoiceMapper::map($order);
+}
+
+
+add_action( 'woocommerce_order_status_processing', 'billing_get_order');
 
 
 
