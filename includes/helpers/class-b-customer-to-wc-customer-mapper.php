@@ -27,7 +27,8 @@ class BCustomerToWCCustomerMapper
             'shipping_postcode' => $user->getShippingAddress()->getPostcode(),
             'shipping_country' => $user->getShippingAddress()->getCountry()->getAlpha2(),
 
-            'sso_version' => 2,
+            'memento_user_guid' => $user->getId(),
+            'memento_user_version' => 2,
         ];
     }
 }

@@ -9,28 +9,32 @@ class BillingCustomer extends WC_Customer
         parent::__construct($data, $is_session);
 
         $this->data = array_merge($this->data, [
-            'thullner_user_version' => null,
-            'thullner_user_guid' => null
+            'memento' => [
+                'user_guid' => null,
+                'user_version' => null
+            ]
         ]);
     }
 
-    public function get_sso_version($context = 'view')
+    public function get_memento_user_guid($context = 'view')
     {
-        return $this->get_prop('thullner_user_version', $context);
+        return $this->get_address_prop('user_guid', 'memento', $context);
     }
 
-    public function set_sso_version($version)
+    public function set_memento_user_guid($guid)
     {
-        $this->set_prop('thullner_user_version', $version);
+        $this->set_address_prop('user_guid', 'memento', $guid);
     }
 
-    public function get_thullner_guid($context = 'view')
+    public function get_memento_user_version($context = 'view')
     {
-        return $this->get_prop('thullner_user_guid', $context);
+        return $this->get_address_prop('user_version', 'memento', $context);
     }
 
-    public function set_thullner_guid($guid)
+    public function set_memento_user_version($version)
     {
-        $this->set_prop('thullner_user_version', $guid);
+        $this->set_address_prop('user_version', 'memento', $version);
     }
+
+
 }

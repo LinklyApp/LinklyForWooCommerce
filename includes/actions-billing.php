@@ -15,14 +15,16 @@ add_action('login_enqueue_scripts', 'addStyles');
 function updateUserMetaSSO($customer, $updated_props)
 {
     $sso_props = [
-        'thullner_user_version' => 'thullner_user_version',
-        'thullner_user_guid' => 'thullner_user_guid',
+        'memento_user_guid' => 'memento_user_guid',
+        'memento_user_version' => 'memento_user_version'
     ];
     $changed_props = $customer->get_changes();
 
     foreach ($sso_props as $meta_key => $prop) {
         // TODO Check if this registers
-        if (!isset($changed_props['thullner'])) {
+        $prop_key = substr($prop, 8);
+
+        if (!isset($changed_props['memento']) || !array_key_exists($prop_key, $changed_props['memento'])) {
             continue;
         }
 
@@ -42,6 +44,11 @@ function newCustomer($data)
 
     $customer = new BillingCustomer();
     $customer->set_props($mappedCustomer);
+
+//    echo '<pre>' . var_export($customer, true) . '</pre>';
+//    exit();
+
+
     $customer->save();
     wc_set_customer_auth_cookie($customer->get_id());
 }
@@ -114,12 +121,23 @@ function billing_login_callback()
         // Optional: Now you have a token you can look up a users profile data
         try {
 
+
+
+
+            $tokenPayload = get_payload_from_token($token);
+
+            $userId = get_user_id_for_memento_guid($tokenPayload->sub);
+
+            if ($userId == null) {
+                $billingUser = $provider->getResourceOwner($token);
+                newCustomer($billingUser);
+            } else {
+                $billingUser = $provider->getResourceOwner($token);
+                wc_set_customer_auth_cookie($userId);
+            }
             // We got an access token, let's now get the user's details
-            $user = $provider->getResourceOwner($token);
 
-            newCustomer($user);
-
-            wp_redirect( $_SESSION['url_to_return_to']);
+            wp_redirect($_SESSION['url_to_return_to']);
             exit;
 
         } catch (Exception $e) {
@@ -136,13 +154,13 @@ add_action('init', 'billing_login_callback');
 
 function billing_get_order($order_id)
 {
-    $order = wc_get_order( $order_id );
+    $order = wc_get_order($order_id);
 
     $bInvoice = WCOrderToBInvoiceMapper::map($order);
 }
 
 
-add_action( 'woocommerce_order_status_processing', 'billing_get_order');
+add_action('woocommerce_order_status_processing', 'billing_get_order');
 
 
 
