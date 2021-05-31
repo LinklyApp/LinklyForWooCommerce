@@ -35,3 +35,11 @@ if (!function_exists('dd')) {
     }
 }
 
+if (!function_exists('session_start_if_none')) {
+    function session_start_if_none(){
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+}
+

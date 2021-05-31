@@ -103,6 +103,9 @@ class Memento_For_WC_Loader
 
         require MEMENTO_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
 
+        // Helpers
+        include_once plugin_dir_path(__FILE__) . 'includes/helpers/functions-helper.php';
+
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-customer.php';
@@ -113,8 +116,7 @@ class Memento_For_WC_Loader
         // Admin
         include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin.php';
 
-        // Helpers
-        include_once plugin_dir_path(__FILE__) . 'includes/helpers/helper-functions.php';
+
 
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-memento-to-wc-customer-mapper.php';
