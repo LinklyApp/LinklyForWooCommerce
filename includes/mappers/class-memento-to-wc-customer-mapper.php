@@ -1,10 +1,10 @@
 <?php
 
-use League\OAuth2\Client\Provider\BillingUser;
+use League\OAuth2\Client\Provider\MementoUser;
 
 class BCustomerToWCCustomerMapper
 {
-    public static function map(BillingUser $user)
+    public static function map(MementoUser $user)
     {
         return [
             'email' => $user->getEmail(),

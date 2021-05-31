@@ -1,5 +1,5 @@
 {
-    "name": "msthu/billing",
+    "name": "msthu/memento",
     "authors": [
         {
             "name": "msthu",
@@ -7,6 +7,6 @@
         }
     ],
     "require": {
-        "thullner/oath2-billing": "dev-development"
+        "thullner/oath2-memento": "dev-development"
     }
 }

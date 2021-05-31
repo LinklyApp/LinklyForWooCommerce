@@ -2,7 +2,7 @@
 
 defined('ABSPATH') or exit;
 
-class BillingCustomer extends WC_Customer
+class MementoCustomer extends WC_Customer
 {
     public function __construct($data = 0, $is_session = false)
     {
@@ -15,6 +15,7 @@ class BillingCustomer extends WC_Customer
             ]
         ]);
     }
+
 
     public function get_memento_user_guid($context = 'view')
     {

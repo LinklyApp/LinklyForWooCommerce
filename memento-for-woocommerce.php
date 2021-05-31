@@ -1,22 +1,22 @@
 <?php
 /*
-Plugin Name: Billing for Woocommerce
+Plugin Name: Memento for Woocommerce
 Plugin URI: https://thullner.nl/
-Description: Plugin to couple woocommerce to Billing SSO
+Description: Plugin to couple woocommerce to Memento SSO
 Version: 1.0
 Author: Mischa Thullner
 Author URI: https://thullner.nl/
 License: GPLv2 or later
-Text Domain: billing
+Text Domain: memento
 */
 
 defined('ABSPATH') or exit;
 
-defined( 'BILLING_FOR_WOOCOMMERCE_ABS_PATH' )
-|| define( 'BILLING_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path( __FILE__ ) );
+defined('MEMENTO_FOR_WOOCOMMERCE_ABS_PATH')
+|| define('MEMENTO_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path(__FILE__));
 
-defined( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL' )
-|| define( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+defined('MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL')
+|| define('MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 
 /**
@@ -24,12 +24,10 @@ defined( 'BILLING_FOR_WOOCOMMERCE_PLUGIN_URL' )
  *
  * @since 1.0.0
  */
-class WC_Billing_Loader
+class Memento_For_WC_Loader
 {
-
-
     /** minimum PHP version required by this plugin */
-    const MINIMUM_PHP_VERSION = '7.0.0';
+    const MINIMUM_PHP_VERSION = '7.1.0';
 
     /** minimum WordPress version required by this plugin */
     const MINIMUM_WP_VERSION = '5.3';
@@ -37,18 +35,14 @@ class WC_Billing_Loader
     /** minimum WooCommerce version required by this plugin */
     const MINIMUM_WC_VERSION = '4.8.0';
 
-    /** SkyVerge plugin framework version used by this plugin */
-    const FRAMEWORK_VERSION = '5.10.0';
-
     /** the plugin name, for displaying notices */
-    const PLUGIN_NAME = 'Billing for WooCommerce';
+    const PLUGIN_NAME = 'Memento for WooCommerce';
 
-
-    /** @var WC_Billing_Loader single instance of this class */
+    /** @var Memento_For_WC_Loader single instance of this class */
     private static $instance;
 
     /** @var array the admin notices to add */
-    private $notices = array();
+    private $notices = [];
 
 
     /**
@@ -58,16 +52,18 @@ class WC_Billing_Loader
      */
     protected function __construct()
     {
-        register_activation_hook(__FILE__, array($this, 'activation_check'));
+        register_activation_hook(__FILE__, [$this, 'activation_check']);
 
-        add_action('admin_init', array($this, 'check_environment'));
-        add_action('admin_init', array($this, 'add_plugin_notices'));
 
-        add_action('admin_notices', array($this, 'admin_notices'), 15);
+        add_action('admin_init', [$this, 'check_environment']);
+        add_action('admin_init', [$this, 'add_plugin_notices']);
+
+
+        add_action('admin_notices', [$this, 'admin_notices'], 15);
 
         // if the environment check fails, initialize the plugin
         if ($this->is_environment_compatible()) {
-            add_action('plugins_loaded', array($this, 'init_plugin'));
+            add_action('plugins_loaded', [$this, 'init_plugin']);
         }
     }
 
@@ -105,49 +101,35 @@ class WC_Billing_Loader
             return;
         }
 
-        require_once(plugin_dir_path(__FILE__) . 'includes/class-billing.php');
+        require MEMENTO_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
+
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-customer.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-customer-data-store.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-order.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/functions-memento.php';
+
+        // Admin
+        include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin.php';
+
+        // Helpers
+        include_once plugin_dir_path(__FILE__) . 'includes/helpers/helper-functions.php';
+
+        // Mappers
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-memento-to-wc-customer-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
+
+        // Parts
+        include_once plugin_dir_path(__FILE__) . 'includes/parts/class-memento-parts.php';
+
+        // Settings
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
 
 //         fire it up!
-        if (function_exists('billing')) {
-            billing();
+        if (function_exists('memento')) {
+            memento();
         }
-    }
-
-
-    /**
-     * Loads the base framework classes.
-     *
-     * @since 1.10.0
-     */
-    private function load_framework()
-    {
-
-    }
-
-
-    /**
-     * Gets the framework version in namespace form.
-     *
-     * @return string
-     * @since 1.10.0
-     *
-     */
-    public function get_framework_version_namespace()
-    {
-        return 'v' . str_replace('.', '_', $this->get_framework_version());
-    }
-
-
-    /**
-     * Gets the framework version used by this plugin.
-     *
-     * @return string
-     * @since 1.10.0
-     *
-     */
-    public function get_framework_version()
-    {
-        return self::FRAMEWORK_VERSION;
     }
 
 
@@ -312,7 +294,7 @@ class WC_Billing_Loader
 
 
     /**
-     * Displays any admin notices added with \WC_Facebook_Loader::add_admin_notice()
+     * Displays any admin notices added with \Memento_For_WC_Loader::add_admin_notice()
      *
      * @internal
      *
@@ -363,11 +345,11 @@ class WC_Billing_Loader
 
 
     /**
-     * Gets the main \WC_Facebook_Loader instance.
+     * Gets the main \Memento_For_WC_Loader instance.
      *
      * Ensures only one instance can be loaded.
      *
-     * @return \WC_Facebook_Loader
+     * @return \Memento_For_WC_Loader
      * @since 1.10.0
      *
      */
@@ -385,5 +367,5 @@ class WC_Billing_Loader
 }
 
 // fire it up!
-WC_Billing_Loader::instance();
+Memento_For_WC_Loader::instance();
 

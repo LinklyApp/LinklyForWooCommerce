@@ -1,7 +1,7 @@
 <?php
 
 
-class WCOrderToBInvoiceMapper
+class WCOrderToMementoInvoiceMapper
 {
     public static function map(WC_Order $order) {
         return [

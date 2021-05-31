@@ -1,4 +1,4 @@
-button.button.button__billing {
+button.button.button__memento {
     flex: 1 1 auto;
     display: block;
     margin: 5px 0;
@@ -10,6 +10,6 @@ button.button.button__billing {
     color: white;
 }
 
-a.button.button__billing:hover {
+a.button.button__memento:hover {
     background-color: #060e9e;
 }

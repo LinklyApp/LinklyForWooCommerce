@@ -2,6 +2,7 @@
 if (!function_exists('get_user_id_for_memento_guid')) {
     function get_user_id_for_memento_guid($guid)
     {
+        // TODO Check if non valid guid doesn't return a non null
         if (!$guid) {
             return null;
         }
@@ -21,6 +22,16 @@ if (!function_exists('get_payload_from_token')) {
         $secondSeparator = strpos($token, '.', $firstSeparator + 1);
         $payload = substr($token, $firstSeparator + 1, $secondSeparator - $firstSeparator - 1);
         return json_decode(base64_decode($payload));
+    }
+}
+
+if (!function_exists('dd')) {
+    function dd($variable)
+    {
+        echo "<pre>";
+        var_export($variable, true);
+        echo "</pre>";
+        die;
     }
 }
 
