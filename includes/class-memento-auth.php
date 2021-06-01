@@ -10,6 +10,28 @@ class MementoAuth
         session_start_if_none();
     }
 
+    function memento_renew_token()
+    {
+        try {
+            $currentToken = $_SESSION['token'];
+            if(!$currentToken->hasExpired()) {
+                return;
+            }
+
+            $provider = getMementoProvider();
+            $newAccessToken = $provider->getAccessToken('refresh_token', [
+                'refresh_token' => $currentToken->getRefreshToken()
+            ]);
+            $_SESSION['token'] = $newAccessToken;
+        } catch (Exception $exception) {
+            unset($_SESSION['token']);
+
+            // Try to reauthorize the user
+            wp_redirect(get_site_url() . '?memento_login_action=' . urlencode($_SERVER['REQUEST_URI']));
+            exit;
+        }
+    }
+
     function memento_login_action()
     {
         if (!isset($_GET['memento_login_action'])) {
@@ -20,15 +42,16 @@ class MementoAuth
             return;
         }
 
+
+        $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['memento_login_action']);
         $provider = getMementoProvider();
 
         $authUrl = $provider->getAuthorizationUrl();
 
         $_SESSION['oauth2state'] = $provider->getState();
-        $_SESSION['url_to_return_to'] = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
-
 
         header('Location: ' . $authUrl);
+
         exit;
     }
 
@@ -66,6 +89,7 @@ class MementoAuth
             exit;
 
         } catch (Exception $e) {
+            wp_clear_auth_cookie();
             var_dump($e);
         }
     }

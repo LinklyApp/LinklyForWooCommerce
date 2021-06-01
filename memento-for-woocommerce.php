@@ -116,8 +116,6 @@ class Memento_For_WC_Loader
         // Admin
         include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin.php';
 
-
-
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-memento-to-wc-customer-mapper.php';
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
