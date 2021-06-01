@@ -14,7 +14,7 @@ class MementoAuth
     {
         try {
             $currentToken = $_SESSION['token'];
-            if(!$currentToken->hasExpired()) {
+            if (!$currentToken->hasExpired()) {
                 return;
             }
 
@@ -76,13 +76,9 @@ class MementoAuth
             $tokenPayload = get_payload_from_token($token->getToken());
             $userId = get_user_id_for_memento_guid($tokenPayload->sub);
 
-            if ($userId == null) {
-                $mementoUser = $provider->getResourceOwner($token);
-                newCustomer($mementoUser);
-            } else {
-                $mementoUser = $provider->getResourceOwner($token);
-                login_memento_user($userId);
-            }
+            $mementoUser = $provider->getResourceOwner($token);
+            createOrUpdateMementoCustomer($mementoUser, $userId);
+
 
             wp_redirect($_SESSION['url_to_return_to']);
             unset($_SESSION['url_to_return_to']);
