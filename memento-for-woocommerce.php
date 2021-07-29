@@ -124,7 +124,7 @@ class Memento_For_WC_Loader
         include_once plugin_dir_path(__FILE__) . 'includes/parts/class-memento-parts.php';
 
         // Settings
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/settings/class-memento-settings.php';
 
 //         fire it up!
         if (function_exists('memento')) {

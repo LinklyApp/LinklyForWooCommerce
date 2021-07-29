@@ -11,8 +11,8 @@ class MementoSettings
 
     function memento_register_settings()
     {
-        register_setting('memento_options', 'memento_settings_app_key', 1);
-        register_setting('memento_options', 'memento_settings_app_secret', 1);
+        add_option( 'memento_settings_app_key');
+        add_option( 'memento_settings_app_secret');
     }
 }
 

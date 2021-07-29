@@ -3,8 +3,8 @@
 function getMementoProvider()
 {
     return new \League\OAuth2\Client\Provider\Memento([
-        'clientId' => 'test-wp-plugin',
-        'clientSecret' => 'secret',
+        'clientId' => get_option('memento_settings_app_key'), // 'test-wp-plugin'
+        'clientSecret' => get_option('memento_settings_app_secret'), // 'secret',
         'redirectUri' => 'http://billing-wordpress.test?memento-callback',
         'environment' => 'local' // options are "prod", "beta", "local"
     ]);
