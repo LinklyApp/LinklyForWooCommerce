@@ -1,6 +1,7 @@
 <?php
 
-use League\OAuth2\Client\Provider\MementoUser;
+
+use League\OAuth2\Client\Provider\User\MementoUser;
 
 class BCustomerToWCCustomerMapper
 {

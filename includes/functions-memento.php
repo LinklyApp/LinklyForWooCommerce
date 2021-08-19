@@ -2,10 +2,10 @@
 
 function getMementoProvider()
 {
-    return new \League\OAuth2\Client\Provider\Memento([
+    return new \League\OAuth2\Client\Provider\MementoProvider([
         'clientId' => get_option('memento_settings_app_key'), // 'test-wp-plugin'
         'clientSecret' => get_option('memento_settings_app_secret'), // 'secret',
-        'redirectUri' => 'http://billing-wordpress.test?memento-callback',
+        'redirectUri' => rtrim(get_site_url() . '?memento-callback'),
         'environment' => 'local' // options are "prod", "beta", "local"
     ]);
 }
