@@ -26,6 +26,7 @@ class MementoAdmin
 
         update_option('memento_settings_app_key', sanitize_text_field($_POST['memento_client_id']));
         update_option('memento_settings_app_secret', sanitize_text_field($_POST['memento_client_secret']));
+        update_option('memento_settings_environment', sanitize_text_field($_POST['memento_environment']));
     }
 
     public function register_menu()

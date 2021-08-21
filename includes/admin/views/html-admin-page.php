@@ -22,6 +22,10 @@ defined('ABSPATH') or exit;
             <label class="memento-form__label">Client Secret</label>
             <input name="memento_client_secret" class="memento-form__input" type="text" value="<?= get_option('memento_settings_app_secret') ?>">
         </div>
+        <div class="memento-form__group">
+            <label class="memento-form__label">Environment (prod, beta, local)</label>
+            <input name="memento_environment" class="memento-form__input" type="text" value="<?= get_option('memento_settings_environment') ?>">
+        </div>
         <button class="button-primary" type="submit">Save changes</button>
     </form>
 </div>

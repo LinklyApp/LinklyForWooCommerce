@@ -13,6 +13,7 @@ class MementoSettings
     {
         add_option( 'memento_settings_app_key');
         add_option( 'memento_settings_app_secret');
+        add_option( 'memento_settings_environment', 'beta');
     }
 }
 
