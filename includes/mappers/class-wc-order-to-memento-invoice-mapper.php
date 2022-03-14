@@ -3,9 +3,11 @@
 
 class WCOrderToMementoInvoiceMapper
 {
-    public static function map(WC_Order $order) {
+    public static function map(WC_Order $order, $memento_user_id) {
         return [
+            'userId' => $memento_user_id,
             'invoiceNumber' => $order->get_order_number(),
+            'orderNumber' => $order->get_order_number(),
             'reference' => 'Shopping at store',
             'issueDate' => $order->get_date_created()->format('Y-m-d'),
             'dueDate' => $order->get_date_created()->format('Y-m-d'),
@@ -18,7 +20,7 @@ class WCOrderToMementoInvoiceMapper
     }
 
     /**
-     * @param WC_Order_Item_Product[] $items
+     * @param WC_Order_Item[] $items
      */
     private static function generateInvoiceLines(array $items)
     {
@@ -26,7 +28,7 @@ class WCOrderToMementoInvoiceMapper
         $i = 1;
         foreach ($items as $item) {
             $taxRate = current(WC_Tax::get_rates( $item->get_tax_class(), WC()->customer ))['rate'];
-            $invoiceLine['order_number'] = $i;
+            $invoiceLine['sequenceNumber'] = $i;
             $invoiceLine['name'] = $item->get_name();
             $invoiceLine['unitAmount'] = $item->get_total() / $item->get_quantity();
             $invoiceLine['quantity'] = $item->get_quantity();

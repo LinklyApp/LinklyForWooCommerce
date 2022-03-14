@@ -3,7 +3,7 @@
 function createOrUpdateMementoCustomer($data, $userId)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($data);
-    $customer = new MementoCustomer($userId);
+    $customer = new WC_Customer($userId);
     $customer->set_props($mappedCustomer);
     $customer->save();
 

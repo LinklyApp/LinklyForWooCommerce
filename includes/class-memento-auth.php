@@ -1,18 +1,18 @@
 <?php
 
-use League\OAuth2\Client\Helpers\MementoAuthHelper;
-use League\OAuth2\Client\Provider\MementoProvider;
+use Memento\OAuth2\Client\Helpers\MementoSsoHelper;
+use Memento\OAuth2\Client\Provider\MementoProvider;
 
 class MementoAuth
 {
     /**
-     * @var MementoAuthHelper
+     * @var MementoSsoHelper
      */
-    private $authHelper;
+    private $ssoHelper;
 
-    public function __construct(MementoAuthHelper $authHelper)
+    public function __construct(MementoSsoHelper $ssoHelper)
     {
-        $this->authHelper = $authHelper;
+        $this->ssoHelper = $ssoHelper;
 
         add_action('init', [$this, 'memento_login_action']);
         add_action('init', [$this, 'memento_login_callback']);
@@ -25,7 +25,7 @@ class MementoAuth
         }
 
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['memento_login_action']);
-        $this->authHelper->authorize();
+        $this->ssoHelper->authorize();
         exit;
     }
 
@@ -36,9 +36,9 @@ class MementoAuth
         }
 
         try {
-            $this->authHelper->callback();
-            $mementoUser = $this->authHelper->getUser();
-            $userId = get_user_id_for_memento_guid($this->authHelper->getSubject());
+            $this->ssoHelper->callback();
+            $mementoUser = $this->ssoHelper->getUser();
+            $userId = get_user_id_for_memento_guid($this->ssoHelper->getSubject());
 
             createOrUpdateMementoCustomer($mementoUser, $userId);
 
@@ -59,5 +59,5 @@ $mementoProvider = new MementoProvider([
     'environment' => get_option('memento_settings_environment') // options are "prod", "beta", "local"
 ]);
 
-$mementoAuthHelper = new MementoAuthHelper($mementoProvider);
-new MementoAuth($mementoAuthHelper);
+$MementoSsoHelper = new MementoSsoHelper($mementoProvider);
+new MementoAuth($MementoSsoHelper);

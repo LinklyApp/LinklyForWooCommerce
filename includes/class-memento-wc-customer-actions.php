@@ -1,12 +1,11 @@
 <?php
 
-class MementoCustomerDataStore
+class MementoWCCustomerActions
 {
     public function __construct()
     {
         add_action('woocommerce_customer_object_updated_props', [$this, 'update_user_meta_sso'], 10, 2);
     }
-
 
     function update_user_meta_sso($customer, $updated_props)
     {
@@ -31,4 +30,4 @@ class MementoCustomerDataStore
     }
 }
 
-new MementoCustomerDataStore();
+new MementoWCCustomerActions();

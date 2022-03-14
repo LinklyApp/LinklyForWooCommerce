@@ -108,8 +108,7 @@ class Memento_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-customer.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-customer-data-store.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-wc-customer-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-order.php';
         include_once plugin_dir_path(__FILE__) . 'includes/functions-memento.php';
 
