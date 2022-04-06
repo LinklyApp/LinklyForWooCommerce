@@ -2,7 +2,7 @@
 
 defined('ABSPATH') or exit;
 
-class MementoAdmin
+class MementoAdminActions
 {
     public function __construct()
     {
@@ -53,4 +53,4 @@ class MementoAdmin
     }
 }
 
-new MementoAdmin();
+new MementoAdminActions();

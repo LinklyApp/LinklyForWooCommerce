@@ -3,7 +3,7 @@
 use Memento\OAuth2\Client\Helpers\MementoSsoHelper;
 use Memento\OAuth2\Client\Provider\MementoProvider;
 
-class MementoAuth
+class MementoAuthActions
 {
     /**
      * @var MementoSsoHelper
@@ -16,6 +16,8 @@ class MementoAuth
 
         add_action('init', [$this, 'memento_login_action']);
         add_action('init', [$this, 'memento_login_callback']);
+
+        add_action('wp_logout', [$this, 'memento_logout']);
     }
 
     function memento_login_action()
@@ -50,14 +52,11 @@ class MementoAuth
             var_dump($e);
         }
     }
+
+    function memento_logout()
+    {
+        $this->ssoHelper->logout();
+    }
 }
 
-$mementoProvider = new MementoProvider([
-    'clientId' => get_option('memento_settings_app_key'), // 'test-wp-plugin'
-    'clientSecret' => get_option('memento_settings_app_secret'), // 'secret',
-    'redirectUri' => rtrim(get_site_url() . '?memento-callback'),
-    'environment' => get_option('memento_settings_environment') // options are "prod", "beta", "local"
-]);
-
-$MementoSsoHelper = new MementoSsoHelper($mementoProvider);
-new MementoAuth($MementoSsoHelper);
+new MementoAuthActions(MementoHelpers::instance()->getSsoHelper());

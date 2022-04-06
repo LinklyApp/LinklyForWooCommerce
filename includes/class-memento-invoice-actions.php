@@ -4,10 +4,8 @@ use Memento\OAuth2\Client\Helpers\MementoInvoiceHelper;
 use Memento\OAuth2\Client\Provider\Invoice\MementoInvoice;
 use Memento\OAuth2\Client\Provider\MementoProvider;
 
-class MementoOrder
+class MementoInvoiceActions
 {
-
-
     /**
      * @var MementoInvoiceHelper
      */
@@ -35,13 +33,4 @@ class MementoOrder
     }
 }
 
-$mementoProvider = new MementoProvider([
-    'clientId' => get_option('memento_settings_app_key'), // 'test-wp-plugin'
-    'clientSecret' => get_option('memento_settings_app_secret'), // 'secret',
-    'redirectUri' => rtrim(get_site_url() . '?memento-callback'),
-    'environment' => get_option('memento_settings_environment') // options are "prod", "beta", "local"
-]);
-
-$mementoInvoiceHelper = new MementoInvoiceHelper($mementoProvider);
-
-new MementoOrder($mementoInvoiceHelper);
+new MementoInvoiceActions(MementoHelpers::instance()->getInvoiceHelper());

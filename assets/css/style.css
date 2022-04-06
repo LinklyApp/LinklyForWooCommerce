@@ -1,7 +1,11 @@
-button.button.button__memento {
+.memento-button {
     flex: 1 1 auto;
     display: block;
+}
+
+.memento-button a {
     margin: 5px 0;
+    padding: 0.5rem 1rem;
     max-width: 280px;
     width: 100%;
     border-radius: 4px;

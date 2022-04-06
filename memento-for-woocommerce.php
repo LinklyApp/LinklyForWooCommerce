@@ -105,27 +105,29 @@ class Memento_For_WC_Loader
 
         // Helpers
         include_once plugin_dir_path(__FILE__) . 'includes/helpers/functions-helper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-helpers.php';
 
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-style-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-invoice-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-wc-customer-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-order.php';
+
         include_once plugin_dir_path(__FILE__) . 'includes/functions-memento.php';
 
         // Admin
-        include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin-actions.php';
 
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-memento-to-wc-customer-mapper.php';
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
 
         // Parts
-        include_once plugin_dir_path(__FILE__) . 'includes/parts/class-memento-parts.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/parts/class-memento-parts-actions.php';
 
         // Settings
-        include_once plugin_dir_path(__FILE__) . 'includes/settings/class-memento-settings.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/settings/class-memento-setting-actions.php';
 
-//         fire it up!
+        //         fire it up!
         if (function_exists('memento')) {
             memento();
         }

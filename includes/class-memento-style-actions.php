@@ -3,13 +3,12 @@
 defined('ABSPATH') or exit;
 
 
-class Memento
+class MementoStyleActions
 {
-
-    /** @var \Memento singleton instance */
+    /** @var \MementoStyleActions singleton instance */
     protected static $instance;
 
-    public function __construct()
+    protected function __construct()
     {
 
         add_action('wp_enqueue_scripts', [$this, 'add_styles']);
@@ -19,7 +18,7 @@ class Memento
     /**
      * Gets the plugin singleton instance.
      *
-     * @return \Memento the plugin singleton instance
+     * @return \MementoStyleActions the plugin singleton instance
      * @since 1.10.0
      *
      * @see \facebook_for_woocommerce()
@@ -47,7 +46,7 @@ class Memento
 
 function memento()
 {
-    return Memento::instance();
+    return MementoStyleActions::instance();
 }
 
 

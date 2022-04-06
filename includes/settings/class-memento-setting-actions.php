@@ -2,7 +2,7 @@
 
 defined('ABSPATH') or exit;
 
-class MementoSettings
+class MementoSettingActions
 {
     public function __construct()
     {
@@ -17,7 +17,7 @@ class MementoSettings
     }
 }
 
-new MementoSettings();
+new MementoSettingActions();
 
 
 
