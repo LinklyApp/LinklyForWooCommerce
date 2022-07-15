@@ -56,6 +56,7 @@ class MementoAuthActions
     function memento_logout()
     {
         $this->ssoHelper->logout();
+
     }
 }
 

@@ -1,6 +1,7 @@
 <?php
 
 use Memento\OAuth2\Client\Helpers\MementoInvoiceHelper;
+use Memento\OAuth2\Client\Provider\Exception\MementoProviderException;
 use Memento\OAuth2\Client\Provider\Invoice\MementoInvoice;
 use Memento\OAuth2\Client\Provider\MementoProvider;
 
@@ -25,11 +26,13 @@ class MementoInvoiceActions
         $customer = new WC_Customer($user_id);
 
         $memento_user_id = $customer->get_meta('memento_user_guid');
-
         $invoiceData = WCOrderToMementoInvoiceMapper::map($order, $memento_user_id);
-        $mementoInvoice = new MementoInvoice($invoiceData);
 
-        $this->mementoInvoiceHelper->sendInvoice($mementoInvoice);
+        try {
+            $response = $this->mementoInvoiceHelper->sendInvoice($invoiceData);
+        } catch (MementoProviderException $e) {
+            dd($e->getResponseBody());
+        }
     }
 }
 
