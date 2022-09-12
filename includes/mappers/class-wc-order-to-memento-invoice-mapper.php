@@ -3,10 +3,10 @@
 
 class WCOrderToMementoInvoiceMapper
 {
-    public static function map(WC_Order $order, $memento_user_id) {
+    public static function map(WC_Order $order, $memento_user_email) {
 
         return json_encode([
-            'customerId' => $memento_user_id,
+            'customerEmail' => $memento_user_email,
             'invoiceNumber' => $order->get_order_number(),
             'orderNumber' => $order->get_order_number(),
             'reference' => 'Shopping at store',
@@ -17,6 +17,8 @@ class WCOrderToMementoInvoiceMapper
             'taxExclusiveAmount' => (float) $order->get_total() - $order->get_total_tax(),
             'taxAmount' => (float) $order->get_total_tax(),
             'taxInclusiveAmount' => (float) $order->get_total(),
+            'paidAmount' => (float) $order->get_date_paid() ? $order->get_total() : 0,
+            'payableAmount' => (float) $order->get_date_paid() ? 0 : $order->get_total(),
             'lines' => self::generateInvoiceLines($order->get_items())
         ]);
     }
@@ -29,13 +31,13 @@ class WCOrderToMementoInvoiceMapper
         $invoiceLines = [];
         $i = 1;
         foreach ($items as $item) {
-            $taxRate = current(WC_Tax::get_rates( $item->get_tax_class(), WC()->customer ))['rate'];
+            $taxRatePercentage = current(WC_Tax::get_rates( $item->get_tax_class(), WC()->customer ))['rate'];
             $invoiceLine['sequenceNumber'] = $i;
             $invoiceLine['name'] = $item->get_name();
             $invoiceLine['unitAmount'] = $item->get_total() / $item->get_quantity();
             $invoiceLine['quantity'] = $item->get_quantity();
             $invoiceLine['totalAmount'] = $item->get_total();
-            $invoiceLine['taxRate'] = $taxRate;
+            $invoiceLine['taxRatePercentage'] = $taxRatePercentage;
             $invoiceLines[] = $invoiceLine;
 
             $i++;

@@ -22,11 +22,10 @@ class MementoInvoiceActions
     {
         $order = wc_get_order($order_id);
         $user_id = $order->get_user_id();
-
         $customer = new WC_Customer($user_id);
 
-        $memento_user_id = $customer->get_meta('memento_user_guid');
-        $invoiceData = WCOrderToMementoInvoiceMapper::map($order, $memento_user_id);
+        $memento_user_email= $customer->get_email();
+        $invoiceData = WCOrderToMementoInvoiceMapper::map($order, $memento_user_email);
 
         try {
             $response = $this->mementoInvoiceHelper->sendInvoice($invoiceData);
