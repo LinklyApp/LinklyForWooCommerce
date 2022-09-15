@@ -5,9 +5,6 @@ class MementoPartsActions
 
     public function __construct()
     {
-        add_action('admin_menu', array($this, 'add_menu_page'));
-
-
         $mementoSsoHelper = MementoHelpers::instance()->getSsoHelper();
 
         if (!$mementoSsoHelper->isAuthenticated()) {

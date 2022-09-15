@@ -33,7 +33,10 @@ class Memento_For_WC_Loader
     const MINIMUM_WP_VERSION = '5.3';
 
     /** minimum WooCommerce version required by this plugin */
-    const MINIMUM_WC_VERSION = '4.8.0';
+    const MINIMUM_WC_VERSION = '6.9.1';
+
+    /** minimum WooCommercePDF version required by this plugin */
+    const MINIMUM_WC_PDF_VERSION = '3.1.1';
 
     /** the plugin name, for displaying notices */
     const PLUGIN_NAME = 'Memento for WooCommerce';
@@ -57,8 +60,6 @@ class Memento_For_WC_Loader
 
         add_action('admin_init', [$this, 'check_environment']);
         add_action('admin_init', [$this, 'add_plugin_notices']);
-
-
         add_action('admin_notices', [$this, 'admin_notices'], 15);
 
         // if the environment check fails, initialize the plugin
@@ -110,7 +111,6 @@ class Memento_For_WC_Loader
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-invoice-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-wc-customer-actions.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/functions-memento.php';
 
@@ -173,8 +173,7 @@ class Memento_For_WC_Loader
         }
     }
 
-
-    /**
+        /**
      * Adds notices for out-of-date WordPress and/or WooCommerce versions.
      *
      * @internal
@@ -203,6 +202,17 @@ class Memento_For_WC_Loader
                 '<a href="' . esc_url(admin_url('update-core.php')) . '">', '</a>',
                 '<a href="' . esc_url('https://downloads.wordpress.org/plugin/woocommerce.' . self::MINIMUM_WC_VERSION . '.zip') . '">', '</a>'
             ));
+        }
+
+        if (!$this->is_wc_pdf_compatible()) {
+
+                $this->add_admin_notice('update_woocommerce_pdf', 'error', sprintf(
+                    '%1$s requires WooCommerce PDF Invoices & Packing Slips version %2$s or higher. Please %3$supdate WooCommerce PDF Invoices & Packing Slips%4$s to the latest version, or %5$sdownload the minimum required version &raquo;%6$s',
+                    '<strong>' . self::PLUGIN_NAME . '</strong>',
+                    self::MINIMUM_WC_PDF_VERSION,
+                    '<a href="' . esc_url(admin_url('update-core.php')) . '">', '</a>',
+                    '<a href="' . esc_url('https://downloads.wordpress.org/plugin/woocommerce-pdf-invoices-packing-slips.' . self::MINIMUM_WC_PDF_VERSION . '.zip') . '">', '</a>'
+                ));
         }
     }
 
@@ -255,6 +265,24 @@ class Memento_For_WC_Loader
 
         return defined('WC_VERSION') && version_compare(WC_VERSION, self::MINIMUM_WC_VERSION, '>=');
     }
+
+    /**
+     * Determines if the WooCommerce PDF compatible.
+     *
+     * @return bool
+     * @since 1.10.0
+     *
+     */
+    private function is_wc_pdf_compatible()
+    {
+
+        if (!self::MINIMUM_WC_PDF_VERSION) {
+            return true;
+        }
+
+        return defined('WPO_WCPDF_VERSION') && version_compare(WPO_WCPDF_VERSION, self::MINIMUM_WC_PDF_VERSION, '>=');
+    }
+
 
 
     /**

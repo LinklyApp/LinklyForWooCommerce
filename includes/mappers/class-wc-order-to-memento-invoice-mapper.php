@@ -1,25 +1,29 @@
 <?php
 
 
+use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
+use WPO\WC\PDF_Invoices\Documents\Order_Document;
+
 class WCOrderToMementoInvoiceMapper
 {
-    public static function map(WC_Order $order, $memento_user_email) {
-
+    public static function mapInvoice(Order_Document $invoice)
+    {
         return json_encode([
-            'customerEmail' => $memento_user_email,
-            'invoiceNumber' => $order->get_order_number(),
-            'orderNumber' => $order->get_order_number(),
+            'customerEmail' => $invoice->order->get_user()->user_email,
+            'invoiceNumber' => $invoice->get_number()->number,
+            'orderNumber' => $invoice->get_order_number(),
             'reference' => 'Shopping at store',
-            'countryCode' => $order->get_billing_country(),
-            'issueDate' => $order->get_date_created()->format('Y-m-d'),
-            'dueDate' => $order->get_date_created()->format('Y-m-d'),
-            'paidAtDate' => $order->get_date_paid() ? $order->get_date_paid()->format('Y-m-d') : null,
-            'taxExclusiveAmount' => (float) $order->get_total() - $order->get_total_tax(),
-            'taxAmount' => (float) $order->get_total_tax(),
-            'taxInclusiveAmount' => (float) $order->get_total(),
-            'paidAmount' => (float) $order->get_date_paid() ? $order->get_total() : 0,
-            'payableAmount' => (float) $order->get_date_paid() ? 0 : $order->get_total(),
-            'lines' => self::generateInvoiceLines($order->get_items())
+            'countryCode' => $invoice->order->get_billing_country(),
+            'issueDate' => $invoice->order->get_date_created()->format('Y-m-d'),
+            'dueDate' => $invoice->order->get_date_created()->format('Y-m-d'),
+            'paidAtDate' => $invoice->order->get_date_paid() ? $invoice->order->get_date_paid()->format('Y-m-d') : null,
+            'taxExclusiveAmount' => (float) $invoice->order->get_total() - $invoice->order->get_total_tax(),
+            'taxAmount' => (float) $invoice->order->get_total_tax(),
+            'taxInclusiveAmount' => (float) $invoice->order->get_total(),
+            'paidAmount' => (float) $invoice->order->get_date_paid() ? $invoice->order->get_total() : 0,
+            'payableAmount' => (float) $invoice->order->get_date_paid() ? 0 : $invoice->order->get_total(),
+            'lines' => self::generateInvoiceLines($invoice->order->get_items()),
+            'file' => base64_encode($invoice->get_pdf()),
         ]);
     }
 

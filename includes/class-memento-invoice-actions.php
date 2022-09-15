@@ -2,8 +2,6 @@
 
 use Memento\OAuth2\Client\Helpers\MementoInvoiceHelper;
 use Memento\OAuth2\Client\Provider\Exception\MementoProviderException;
-use Memento\OAuth2\Client\Provider\Invoice\MementoInvoice;
-use Memento\OAuth2\Client\Provider\MementoProvider;
 
 class MementoInvoiceActions
 {
@@ -15,17 +13,22 @@ class MementoInvoiceActions
     public function __construct(MementoInvoiceHelper $mementoInvoiceHelper)
     {
         $this->mementoInvoiceHelper = $mementoInvoiceHelper;
-        add_action('woocommerce_order_status_processing', [$this, 'memento_get_order']);
+
+        // TODO - change to status_completed
+        add_action('woocommerce_order_status_processing', [$this, 'memento_get_invoice']);
     }
 
-    function memento_get_order($order_id)
+    function memento_get_invoice($order_id)
     {
         $order = wc_get_order($order_id);
-        $user_id = $order->get_user_id();
-        $customer = new WC_Customer($user_id);
 
-        $memento_user_email= $customer->get_email();
-        $invoiceData = WCOrderToMementoInvoiceMapper::map($order, $memento_user_email);
+        $invoice = wcpdf_get_document('invoice', $order, true);
+
+        try {
+            $invoiceData = WCOrderToMementoInvoiceMapper::mapInvoice($invoice);
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
 
         try {
             $response = $this->mementoInvoiceHelper->sendInvoice($invoiceData);
