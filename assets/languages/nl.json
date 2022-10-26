@@ -1,0 +1,10 @@
+{
+  "code": "NL",
+  "name": "Nederlands",
+  "translations": {
+    "login-button": "Login met",
+    "link-account-button": "Koppel account met",
+    "change-address-button": "Wijzig adres bij",
+    "admin-connect-button": "Koppel met"
+  }
+}

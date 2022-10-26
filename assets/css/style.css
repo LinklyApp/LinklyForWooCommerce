@@ -1,20 +1,51 @@
-.memento-button {
-    flex: 1 1 auto;
-    display: block;
+@font-face {
+    font-family: "Sora";
+    src: url("./Sora-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+
 }
 
-.memento-button a {
-    margin: 5px 0;
-    padding: 0.5rem 1rem;
-    max-width: 280px;
-    width: 100%;
-    border-radius: 4px;
-    cursor: pointer;
-    background: #1327c1;
-    color: white;
+.linkly-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-a.button.button__memento:hover {
-    background-color: #060e9e;
+.linkly-button button, .linkly-button a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 12px 24px;
+    gap: 8px;
+
+    background: #2F0066;
+    border-radius: 8px;
+
+    text-decoration: none !important;
 }
 
+.linkly-button a:hover, .linkly-button button:hover {
+    background: #450094;
+    text-decoration-line: underline !important;
+}
+
+.linkly-button * span {
+    display: inline-block;
+
+    font-family: 'Sora', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+
+
+    color: #FFFFFF;
+}
+
+.linkly-button * img {
+    display: inline;
+    width: 78px;
+    height: 24px;
+}

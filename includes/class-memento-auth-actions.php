@@ -60,4 +60,4 @@ class MementoAuthActions
     }
 }
 
-new MementoAuthActions(MementoHelpers::instance()->getSsoHelper());
+new MementoAuthActions(LinklyHelpers::instance()->getSsoHelper());

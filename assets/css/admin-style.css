@@ -9,8 +9,9 @@
 }
 
 
-.memento-form__group {
+.memento-form-group {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
@@ -19,7 +20,7 @@
     max-width: 30rem;
 }
 
-.memento-form__label {
+.memento-form-label {
     min-width: 8rem;
     font-weight: 600;
     font-size: 14px;
@@ -27,8 +28,9 @@
     padding: .2rem 0;
 }
 
-.memento-form__input {
+.memento-form-input {
+    display: inline-block;
     width: 100%;
-    max-width: 22rem;
+    max-width: 22rem !important;
     margin: 0;
 }

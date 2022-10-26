@@ -36,4 +36,4 @@ class MementoInvoiceActions
     }
 }
 
-new MementoInvoiceActions(MementoHelpers::instance()->getInvoiceHelper());
+new MementoInvoiceActions(LinklyHelpers::instance()->getInvoiceHelper());

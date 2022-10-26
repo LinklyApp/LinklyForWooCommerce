@@ -14,7 +14,7 @@ class MementoAdminActions
     public function handle_save_client_credentials()
     {
         if (!isset($_REQUEST['page'])
-            || $_REQUEST['page'] !== 'memento-for-woocommerce'
+            || $_REQUEST['page'] !== 'linkly-for-woocommerce'
             || empty($_POST)
         ) {
             return;
@@ -23,7 +23,7 @@ class MementoAdminActions
         if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'memento_credentials' ) ) {
             throw new Exception('Invalid CSRF token');
         }
-
+	    update_option('memento_settings_language', sanitize_text_field($_POST['memento_language']));
         update_option('memento_settings_app_key', sanitize_text_field($_POST['memento_client_id']));
         update_option('memento_settings_app_secret', sanitize_text_field($_POST['memento_client_secret']));
         update_option('memento_settings_environment', sanitize_text_field($_POST['memento_environment']));
@@ -32,10 +32,10 @@ class MementoAdminActions
     public function register_menu()
     {
         add_options_page(
-            'Memento for Woocommerce',
-            'Memento for Woocommerce',
+            'Linkly for Woocommerce',
+            'Linkly for Woocommerce',
             'manage_options',
-            'memento-for-woocommerce',
+            'linkly-for-woocommerce',
             [$this, 'admin_page']
         );
     }
@@ -44,8 +44,12 @@ class MementoAdminActions
         if (!wp_style_is('memento-admin-style', 'registered')) {
             wp_register_style("memento-admin-style", MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/admin-style.css");
         }
+	    if (!wp_style_is('memento-style', 'registered')) {
+		    wp_register_style("memento-style", MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
+	    }
 
-        wp_enqueue_style("memento-admin-style");
+	    wp_enqueue_style("memento-admin-style");
+	    wp_enqueue_style("memento-style");
     }
 
     public function admin_page(){

@@ -4,8 +4,8 @@ use Memento\OAuth2\Client\Helpers\MementoInvoiceHelper;
 use Memento\OAuth2\Client\Helpers\MementoSsoHelper;
 use Memento\OAuth2\Client\Provider\MementoProvider;
 
-class MementoHelpers {
-    /** @var MementoHelpers singleton instance */
+class LinklyHelpers {
+    /** @var LinklyHelpers singleton instance */
     protected static $instance;
 
     /**
@@ -34,8 +34,7 @@ class MementoHelpers {
         $this->mementoInvoiceHelper = new MementoInvoiceHelper($this->mementoProvider);
     }
 
-    public static function instance()
-    {
+    public static function instance(): LinklyHelpers {
         if (null === self::$instance) {
             self::$instance = new self();
         }
@@ -58,4 +57,8 @@ class MementoHelpers {
     {
         return $this->mementoInvoiceHelper;
     }
+
+	public function isConnected() : bool {
+		return !empty(get_option('memento_settings_app_key')) && !empty(get_option('memento_settings_app_secret'));
+	}
 }

@@ -105,7 +105,8 @@ class Memento_For_WC_Loader
 
         // Helpers
         include_once plugin_dir_path(__FILE__) . 'includes/helpers/functions-helper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-helpers.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-helpers.php';
+	    include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-language-helper.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth-actions.php';
