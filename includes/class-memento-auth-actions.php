@@ -40,9 +40,10 @@ class MementoAuthActions
         try {
             $this->ssoHelper->callback();
             $mementoUser = $this->ssoHelper->getUser();
-            $userId = get_user_id_for_memento_guid($this->ssoHelper->getSubject());
 
-            createOrUpdateMementoCustomer($mementoUser, $userId);
+            $user = get_user_by( 'email', $this->ssoHelper->getEmail() );
+
+            createOrUpdateMementoCustomer($mementoUser, $user->id);
 
             wp_redirect($_SESSION['url_to_return_to']);
             unset($_SESSION['url_to_return_to']);

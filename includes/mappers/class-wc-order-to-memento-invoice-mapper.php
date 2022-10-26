@@ -1,23 +1,29 @@
 <?php
 
 
+use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
+use WPO\WC\PDF_Invoices\Documents\Order_Document;
+
 class WCOrderToMementoInvoiceMapper
 {
-    public static function map(WC_Order $order, $memento_user_id) {
-
+    public static function mapInvoice(Order_Document $invoice)
+    {
         return json_encode([
-            'customerId' => $memento_user_id,
-            'invoiceNumber' => $order->get_order_number(),
-            'orderNumber' => $order->get_order_number(),
+            'customerEmail' => $invoice->order->get_user()->user_email,
+            'invoiceNumber' => $invoice->get_number()->number,
+            'orderNumber' => $invoice->get_order_number(),
             'reference' => 'Shopping at store',
-            'countryCode' => $order->get_billing_country(),
-            'issueDate' => $order->get_date_created()->format('Y-m-d'),
-            'dueDate' => $order->get_date_created()->format('Y-m-d'),
-            'paidAtDate' => $order->get_date_paid() ? $order->get_date_paid()->format('Y-m-d') : null,
-            'taxExclusiveAmount' => (float) $order->get_total() - $order->get_total_tax(),
-            'taxAmount' => (float) $order->get_total_tax(),
-            'taxInclusiveAmount' => (float) $order->get_total(),
-            'lines' => self::generateInvoiceLines($order->get_items())
+            'countryCode' => $invoice->order->get_billing_country(),
+            'issueDate' => $invoice->order->get_date_created()->format('Y-m-d'),
+            'dueDate' => $invoice->order->get_date_created()->format('Y-m-d'),
+            'paidAtDate' => $invoice->order->get_date_paid() ? $invoice->order->get_date_paid()->format('Y-m-d') : null,
+            'taxExclusiveAmount' => (float) $invoice->order->get_total() - $invoice->order->get_total_tax(),
+            'taxAmount' => (float) $invoice->order->get_total_tax(),
+            'taxInclusiveAmount' => (float) $invoice->order->get_total(),
+            'paidAmount' => (float) $invoice->order->get_date_paid() ? $invoice->order->get_total() : 0,
+            'payableAmount' => (float) $invoice->order->get_date_paid() ? 0 : $invoice->order->get_total(),
+            'lines' => self::generateInvoiceLines($invoice->order->get_items()),
+            'file' => base64_encode($invoice->get_pdf()),
         ]);
     }
 
@@ -29,13 +35,13 @@ class WCOrderToMementoInvoiceMapper
         $invoiceLines = [];
         $i = 1;
         foreach ($items as $item) {
-            $taxRate = current(WC_Tax::get_rates( $item->get_tax_class(), WC()->customer ))['rate'];
+            $taxRatePercentage = current(WC_Tax::get_rates( $item->get_tax_class(), WC()->customer ))['rate'];
             $invoiceLine['sequenceNumber'] = $i;
             $invoiceLine['name'] = $item->get_name();
             $invoiceLine['unitAmount'] = $item->get_total() / $item->get_quantity();
             $invoiceLine['quantity'] = $item->get_quantity();
             $invoiceLine['totalAmount'] = $item->get_total();
-            $invoiceLine['taxRate'] = $taxRate;
+            $invoiceLine['taxRatePercentage'] = $taxRatePercentage;
             $invoiceLines[] = $invoiceLine;
 
             $i++;

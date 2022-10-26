@@ -17,7 +17,6 @@ class MementoPartsActions
         } elseif ($mementoSsoHelper->isAuthenticated()) {
             add_action('woocommerce_before_checkout_form', [$this, 'address_button'], 8);
         }
-        add_shortcode('memento', [$this, 'buttons' ]);
     }
 
     function buttons()
