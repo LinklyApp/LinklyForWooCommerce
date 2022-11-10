@@ -1,7 +1,6 @@
 <?php
 
 use Memento\OAuth2\Client\Helpers\MementoSsoHelper;
-use Memento\OAuth2\Client\Provider\MementoProvider;
 
 class MementoAuthActions
 {
@@ -15,9 +14,21 @@ class MementoAuthActions
         $this->ssoHelper = $ssoHelper;
 
         add_action('init', [$this, 'memento_login_action']);
+        add_action('init', [$this, 'memento_link_account_action']);
         add_action('init', [$this, 'memento_login_callback']);
 
         add_action('wp_logout', [$this, 'memento_logout']);
+    }
+
+    function memento_link_account_action()
+    {
+        if (!isset($_GET['memento_link_account_action'])) {
+            return;
+        }
+        $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['memento_login_action']);
+        $_SESSION['memento_link_account'] = true;
+        $this->ssoHelper->authorize();
+        exit;
     }
 
     function memento_login_action()
@@ -40,10 +51,13 @@ class MementoAuthActions
         try {
             $this->ssoHelper->callback();
             $mementoUser = $this->ssoHelper->getUser();
+            if (!isset($_SESSION['memento_link_account'])) {
+                $user = get_user_by('email', $this->ssoHelper->getEmail());
+                createOrUpdateMementoCustomer($mementoUser, $user->id);
+            } else {
+                linkLinklyCustomer($mementoUser, wp_get_current_user());
+            }
 
-            $user = get_user_by( 'email', $this->ssoHelper->getEmail() );
-
-            createOrUpdateMementoCustomer($mementoUser, $user->id);
 
             wp_redirect($_SESSION['url_to_return_to']);
             unset($_SESSION['url_to_return_to']);

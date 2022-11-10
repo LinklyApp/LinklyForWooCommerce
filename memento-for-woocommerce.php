@@ -113,7 +113,7 @@ class Memento_For_WC_Loader
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-memento-invoice-actions.php';
 
-        include_once plugin_dir_path(__FILE__) . 'includes/functions-memento.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/functions-linkly.php';
 
         // Admin
         include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin-actions.php';

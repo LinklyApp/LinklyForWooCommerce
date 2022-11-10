@@ -23,6 +23,7 @@ class MementoAdminActions
         if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'memento_credentials' ) ) {
             throw new Exception('Invalid CSRF token');
         }
+
 	    update_option('memento_settings_language', sanitize_text_field($_POST['memento_language']));
         update_option('memento_settings_app_key', sanitize_text_field($_POST['memento_client_id']));
         update_option('memento_settings_app_secret', sanitize_text_field($_POST['memento_client_secret']));
