@@ -1,22 +1,22 @@
 <?php
 /*
-Plugin Name: Memento for Woocommerce
+Plugin Name: Linkly for Woocommerce
 Plugin URI: https://thullner.nl/
-Description: Plugin to couple woocommerce to Memento SSO
+Description: Plugin to couple woocommerce to Linkly SSO
 Version: 1.0
 Author: Mischa Thullner
 Author URI: https://thullner.nl/
 License: GPLv2 or later
-Text Domain: memento
+Text Domain: linkly
 */
 
 defined('ABSPATH') or exit;
 
-defined('MEMENTO_FOR_WOOCOMMERCE_ABS_PATH')
-|| define('MEMENTO_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path(__FILE__));
+defined('LINKLY_FOR_WOOCOMMERCE_ABS_PATH')
+|| define('LINKLY_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path(__FILE__));
 
-defined('MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL')
-|| define('MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url(__FILE__));
+defined('LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL')
+|| define('LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 
 /**
@@ -39,7 +39,7 @@ class Memento_For_WC_Loader
     const MINIMUM_WC_PDF_VERSION = '3.1.1';
 
     /** the plugin name, for displaying notices */
-    const PLUGIN_NAME = 'Memento for WooCommerce';
+    const PLUGIN_NAME = 'Linkly for WooCommerce';
 
     /** @var Memento_For_WC_Loader single instance of this class */
     private static $instance;
@@ -62,13 +62,21 @@ class Memento_For_WC_Loader
         add_action('admin_init', [$this, 'add_plugin_notices']);
         add_action('admin_notices', [$this, 'admin_notices'], 15);
 
+        // add the settings page
+        $plugin = plugin_basename( __FILE__ );
+        add_filter( "plugin_action_links_$plugin", [$this, 'plugin_add_settings_link'] );
+
         // if the environment check fails, initialize the plugin
         if ($this->is_environment_compatible()) {
             add_action('plugins_loaded', [$this, 'init_plugin']);
         }
     }
 
-
+    function plugin_add_settings_link( $links ) {
+        $settings_link = '<a href="options-general.php?page=linkly-for-woocommerce">' . __( 'Settings' ) . '</a>';
+        array_unshift( $links, $settings_link );
+        return $links;
+    }
     /**
      * Cloning instances is forbidden due to singleton pattern.
      *
@@ -102,7 +110,7 @@ class Memento_For_WC_Loader
             return;
         }
 
-        require MEMENTO_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
+        require LINKLY_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
 
         // Helpers
         include_once plugin_dir_path(__FILE__) . 'includes/helpers/functions-helper.php';

@@ -7,10 +7,6 @@ class MementoPartsActions
     {
         add_action('admin_menu', array($this, 'add_menu_page'));
 
-
-
-
-
         add_action('woocommerce_before_checkout_form', [$this, 'buttons'], 8);
         add_action('woocommerce_after_checkout_form', [$this, 'addJavascript'], 8);
         add_action('login_form', [$this, 'buttons']);

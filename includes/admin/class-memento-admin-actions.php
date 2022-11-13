@@ -9,6 +9,7 @@ class MementoAdminActions
         add_action('admin_menu', [$this, 'register_menu']);
         add_action('admin_enqueue_scripts', [$this, 'memento_admin_style']);
         add_action('admin_init', [$this, 'handle_save_client_credentials']);
+
     }
 
     public function handle_save_client_credentials()
@@ -32,6 +33,7 @@ class MementoAdminActions
 
     public function register_menu()
     {
+
         add_options_page(
             'Linkly for Woocommerce',
             'Linkly for Woocommerce',
@@ -43,10 +45,10 @@ class MementoAdminActions
 
     function memento_admin_style() {
         if (!wp_style_is('memento-admin-style', 'registered')) {
-            wp_register_style("memento-admin-style", MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/admin-style.css");
+            wp_register_style("memento-admin-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/admin-style.css");
         }
 	    if (!wp_style_is('memento-style', 'registered')) {
-		    wp_register_style("memento-style", MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
+		    wp_register_style("memento-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
 	    }
 
 	    wp_enqueue_style("memento-admin-style");

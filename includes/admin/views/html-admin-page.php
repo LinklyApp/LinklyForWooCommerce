@@ -17,8 +17,8 @@ defined('ABSPATH') or exit;
         <?php if (!LinklyHelpers::instance()->isConnected()) { ?>
             <div class="memento-form-group">
                 <div class="linkly-button">
-                    <a href=""><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
-                        <img src="<?= MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
+                    <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/options-general.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
+                        <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
                 </div>
             </div>
         <?php } ?>

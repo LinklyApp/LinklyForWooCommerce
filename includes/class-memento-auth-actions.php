@@ -16,8 +16,26 @@ class MementoAuthActions
         add_action('init', [$this, 'memento_login_action']);
         add_action('init', [$this, 'memento_link_account_action']);
         add_action('init', [$this, 'memento_login_callback']);
+        add_action('init', [$this, 'linkly_request_token_action']);
 
         add_action('wp_logout', [$this, 'memento_logout']);
+    }
+
+    function linkly_request_token_action()
+    {
+        if(!isset($_GET['linkly_request_token'])) {
+            return;
+        }
+        $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_request_token']);
+        $url = $this->getBaseUrl();
+        $params = [
+            'redirect_uri' => get_site_url() . '/wp-admin/admin-ajax.php?action=linkly_request_token_callback',
+            'oauth_cors_uri' => get_site_url(),
+            'oauth_redirect_uri'=> get_site_url() . '?memento-callback',
+        ];
+        $url .= '/request-token?' . http_build_query($params);
+        wp_redirect($url);
+        exit;
     }
 
     function memento_link_account_action()
@@ -73,6 +91,18 @@ class MementoAuthActions
         $this->ssoHelper->logout();
 
     }
-}
 
+    private function getBaseUrl()
+    {
+        $env = get_option('memento_settings_environment');
+        if ($env === 'local') {
+            return LinklyHelpers::instance()->getMementoProvider()->localDomain;
+        }
+        if ($env === 'beta') {
+            return LinklyHelpers::instance()->getMementoProvider()->betaDomain;
+        }
+        return LinklyHelpers::instance()->getMementoProvider()->domain;
+
+    }
+}
 new MementoAuthActions(LinklyHelpers::instance()->getSsoHelper());

@@ -20,7 +20,7 @@ if (is_user_logged_in() && !$linklyHelpers->getSsoHelper()->isAuthenticated()) {
 <div id="memento-login-button">
 <div class="linkly-button">
     <a href="<?= $buttonUrl ?>"><span><?= $buttonText ?></span>
-        <img src="<?= MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
+        <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
 </div>
 <hr>
 </div>
