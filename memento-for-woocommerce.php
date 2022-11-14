@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Linkly for Woocommerce
-Plugin URI: https://thullner.nl/
+Plugin URI: https://linkly.me/
 Description: Plugin to couple woocommerce to Linkly SSO
 Version: 1.0
-Author: Mischa Thullner
-Author URI: https://thullner.nl/
+Author: Linkly
+Author URI: https://linkly.me/
 License: GPLv2 or later
 Text Domain: linkly
 */
