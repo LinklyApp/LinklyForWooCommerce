@@ -58,6 +58,11 @@ class LinklyHelpers {
         return $this->mementoInvoiceHelper;
     }
 
+    public function getMementoProvider(): MementoProvider
+    {
+        return $this->mementoProvider;
+    }
+
 	public function isConnected() : bool {
 		return !empty(get_option('memento_settings_app_key')) && !empty(get_option('memento_settings_app_secret'));
 	}

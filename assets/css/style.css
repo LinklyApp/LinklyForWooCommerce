@@ -6,16 +6,20 @@
 
 }
 
-.linkly-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+
+#memento-login-button hr {
+    width: 100%;
+    margin: 15px 0;
+    border: none;
+    height: 2px;
+    background: #c3c4c7;
 }
 
 .linkly-button button, .linkly-button a {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
 
     padding: 12px 24px;
     gap: 8px;

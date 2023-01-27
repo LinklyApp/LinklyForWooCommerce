@@ -1,0 +1,17 @@
+{
+  "code": "en_US",
+  "name": "English",
+  "translations": {
+    "login-button": "Login with",
+    "link-account-button": "Link account with",
+    "change-address-button": "Change address at",
+    "admin-connect-button": "Link with",
+    "language": "Language",
+    "environment": {
+      "title": "Environment",
+      "production": "Production",
+      "beta": "Beta",
+      "local": "Local"
+    }
+  }
+}

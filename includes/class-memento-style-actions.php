@@ -36,7 +36,7 @@ class MementoStyleActions
     function add_styles()
     {
         if (!wp_style_is('memento-style', 'registered')) {
-            wp_register_style("memento-style", MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
+            wp_register_style("memento-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
         }
 
         wp_enqueue_style("memento-style");

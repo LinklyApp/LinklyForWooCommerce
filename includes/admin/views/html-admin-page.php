@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or exit;
+defined('ABSPATH') or exit;
 
 ?>
 
@@ -12,43 +12,43 @@ defined( 'ABSPATH' ) or exit;
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
         laborum.
     </p>
-    <form method="post" action="<?= home_url( "/wp-admin/options-general.php?page=linkly-for-woocommerce" ) ?>">
-		<?php wp_nonce_field( 'memento_credentials' ); ?>
-		<?php if ( ! LinklyHelpers::instance()->isConnected() ) { ?>
+    <form method="post" action="<?= home_url("/wp-admin/options-general.php?page=linkly-for-woocommerce") ?>">
+        <?php wp_nonce_field('memento_credentials'); ?>
+        <?php if (!LinklyHelpers::instance()->isConnected()) { ?>
             <div class="memento-form-group">
                 <div class="linkly-button">
-                    <a href=""><span><?=LinklyLanguageHelper::instance()->get("admin-connect-button")?></span>
-                        <img src="<?= MEMENTO_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
+                    <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/options-general.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
+                        <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
                 </div>
             </div>
-		<?php } ?>
+        <?php } ?>
         <div class="memento-form-group">
-            <label class="memento-form-label">Language</label>
+            <label class="memento-form-label"><?= LinklyLanguageHelper::instance()->get("language"); ?></label>
             <select name="memento_language" class="memento-form-input">
-				<?= LinklyLanguageHelper::instance()->getLanguageSelectOptions() ?>
+                <?= LinklyLanguageHelper::instance()->getLanguageSelectOptions() ?>
             </select>
         </div>
         <div class="memento-form-group">
             <label class="memento-form-label">Client ID</label>
             <input name="memento_client_id" class="memento-form-input" type="text"
-                   value="<?= get_option( 'memento_settings_app_key' ) ?>"/>
+                   value="<?= get_option('memento_settings_app_key') ?>"/>
         </div>
         <div class="memento-form-group">
             <label class="memento-form-label">Client Secret</label>
             <input name="memento_client_secret" class="memento-form-input" type="text"
-                   value="<?= get_option( 'memento_settings_app_secret' ) ?>">
+                   value="<?= get_option('memento_settings_app_secret') ?>">
         </div>
         <div class="memento-form-group">
-            <label class="memento-form-label">Environment</label>
+            <label class="memento-form-label"><?= LinklyLanguageHelper::instance()->get("environment.title"); ?></label>
             <select name="memento_environment" class="memento-form-input">
-                <option value="prod" <?= get_option( 'memento_settings_environment' ) === 'prod' ? 'selected' : '' ?>>
-                    Production
+                <option value="prod" <?= get_option('memento_settings_environment') === 'prod' ? 'selected' : '' ?>>
+                    <?= LinklyLanguageHelper::instance()->get("environment.production"); ?>
                 </option>
-                <option value="beta" <?= get_option( 'memento_settings_environment' ) === 'beta' ? 'selected' : '' ?>>
-                    Beta
+                <option value="beta" <?= get_option('memento_settings_environment') === 'beta' ? 'selected' : '' ?>>
+                    <?= LinklyLanguageHelper::instance()->get("environment.beta"); ?>
                 </option>
-                <option value="local" <?= get_option( 'memento_settings_environment' ) === 'local' ? 'selected' : '' ?>>
-                    Local
+                <option value="local" <?= get_option('memento_settings_environment') === 'local' ? 'selected' : '' ?>>
+                    <?= LinklyLanguageHelper::instance()->get("environment.local"); ?>
                 </option>
             </select>
         </div>
