@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  linkly_wp_example:
+    build:
+      context: .
+    restart: always
+    container_name: "linkly_wp_example"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    ports:
+      - 8080:80
+    environment:
+      WORDPRESS_DEBUG: true
+      WORDPRESS_DB_HOST: linkly_wp_example_mysql
+      WORDPRESS_DB_USER: linkly_wp_example
+      WORDPRESS_DB_PASSWORD: linkly_wp_example
+      WORDPRESS_DB_NAME: linkly_wp_example
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - linkly_wp_example
+    depends_on:
+      - linkly_wp_example_mysql
+  linkly_wp_example_mysql:
+    image: mysql:5.7
+    restart: always
+    container_name: "linkly_wp_example_mysql"
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    environment:
+      MYSQL_DATABASE: linkly_wp_example
+      MYSQL_USER: linkly_wp_example
+      MYSQL_PASSWORD: linkly_wp_example
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    ports:
+      - "13306:3306"
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - linkly_wp_example
+networks:
+  linkly_wp_example:
+volumes:
+  wordpress:
+  db:
