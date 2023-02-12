@@ -1,0 +1,20 @@
+trigger:
+- development
+-
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: Docker@2
+  inputs:
+    containerRegistry: 'linkly-docker-hub'
+    repository: 'linklyapp/linkly_wp_example'
+    command: 'build'
+    Dockerfile: '**/Dockerfile'
+    tags: 'latest'
+- task: Docker@2
+  inputs:
+    containerRegistry: 'linkly-docker-hub'
+    repository: 'linklyapp/linkly_wp_example'
+    command: 'push'
+    tags: 'latest'
