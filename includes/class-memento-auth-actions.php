@@ -101,13 +101,12 @@ class MementoAuthActions
                 linkLinklyCustomer($mementoUser, wp_get_current_user());
             }
 
-
             wp_redirect($_SESSION['url_to_return_to']);
             unset($_SESSION['url_to_return_to']);
             exit;
         } catch (Exception $e) {
             wp_clear_auth_cookie();
-            var_dump($e);
+            dd($e);
         }
     }
 

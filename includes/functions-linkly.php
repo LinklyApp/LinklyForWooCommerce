@@ -11,8 +11,6 @@ function createOrUpdateMementoCustomer($data, $userId)
     login_memento_user($customer->get_id());
 }
 
-
-
 function linkLinklyCustomer($data, $wpUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($data);

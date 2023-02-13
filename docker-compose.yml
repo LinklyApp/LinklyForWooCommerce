@@ -14,7 +14,6 @@ services:
     ports:
       - 8080:80
     environment:
-      WORDPRESS_DEBUG: true
       WORDPRESS_DB_HOST: linkly_wp_example_mysql
       WORDPRESS_DB_USER: linkly_wp_example
       WORDPRESS_DB_PASSWORD: linkly_wp_example
