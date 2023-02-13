@@ -2,7 +2,8 @@ version: '3'
 
 services:
   linkly_wp_example:
-    image: linklyapp/linkly_wp_example
+    build:
+      context: .
     restart: always
     container_name: "linkly_wp_example"
     logging:
@@ -19,6 +20,7 @@ services:
       WORDPRESS_DB_NAME: linkly_wp_example
     volumes:
       - wordpress:/var/www/html
+      - /var/www/html/wp-content/plugins/linkly-wp-plugin/vendor
     networks:
       - linkly_wp_example
     depends_on:
