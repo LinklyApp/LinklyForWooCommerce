@@ -791,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Thullner/oauth2-memento.git",
-                "reference": "8f34339f2a95ccb5a4811591ed74562afcbc27cb"
+                "reference": "b0506c5cc9e20f17bc5156de83bef6a07614790f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Thullner/oauth2-memento/zipball/8f34339f2a95ccb5a4811591ed74562afcbc27cb",
-                "reference": "8f34339f2a95ccb5a4811591ed74562afcbc27cb",
+                "url": "https://api.github.com/repos/Thullner/oauth2-memento/zipball/b0506c5cc9e20f17bc5156de83bef6a07614790f",
+                "reference": "b0506c5cc9e20f17bc5156de83bef6a07614790f",
                 "shasum": ""
             },
             "require": {
@@ -835,7 +835,7 @@
                 "issues": "https://github.com/Thullner/oauth2-memento/issues",
                 "source": "https://github.com/Thullner/oauth2-memento/tree/development"
             },
-            "time": "2023-02-12T19:24:37+00:00"
+            "time": "2023-02-13T14:48:26+00:00"
         }
     ],
     "packages-dev": [],

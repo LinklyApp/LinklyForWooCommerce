@@ -40,7 +40,7 @@ class WCOrderToMementoInvoiceMapper
             $invoiceLine['name'] = $item->get_name();
             $invoiceLine['unitAmount'] = $item->get_total() / $item->get_quantity();
             $invoiceLine['quantity'] = $item->get_quantity();
-            $invoiceLine['totalAmount'] = $item->get_total();
+            $invoiceLine['lineAmount'] = $item->get_total();
             $invoiceLine['taxRatePercentage'] = $taxRatePercentage;
             $invoiceLines[] = $invoiceLine;
 
