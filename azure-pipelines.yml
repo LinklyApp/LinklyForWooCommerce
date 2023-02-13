@@ -16,5 +16,6 @@ steps:
   inputs:
     containerRegistry: 'linkly-docker-hub'
     repository: 'linklyapp/linkly_wp_example'
-    command: 'push'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
     tags: 'latest'
