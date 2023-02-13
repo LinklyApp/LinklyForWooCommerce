@@ -14,8 +14,7 @@ WORKDIR /var/www/html/wp-content/plugins/linkly-wp-plugin
 
 COPY . .
 
-RUN composer install
-
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 WORKDIR /var/www/html
 
