@@ -121,6 +121,8 @@ class Linkly_For_WC_Loader
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-invoice-actions.php';
 
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
+
         include_once plugin_dir_path(__FILE__) . 'includes/functions-linkly.php';
 
         // Admin
@@ -403,6 +405,7 @@ class Linkly_For_WC_Loader
 
 
 }
+session_start();
 
 // fire it up!
 Linkly_For_WC_Loader::instance();
