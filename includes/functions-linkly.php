@@ -1,6 +1,6 @@
 <?php
 
-function createOrUpdateMementoCustomer($data, $userId)
+function createOrUpdateLinklyCustomer($data, $userId)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($data);
     $customer = new WC_Customer($userId);
@@ -8,7 +8,7 @@ function createOrUpdateMementoCustomer($data, $userId)
     $customer->set_props($mappedCustomer);
     $customer->save();
 
-    login_memento_user($customer->get_id());
+    login_linkly_user($customer->get_id());
 }
 
 function linkLinklyCustomer($data, $wpUser)
@@ -19,7 +19,7 @@ function linkLinklyCustomer($data, $wpUser)
     $customer->set_props($mappedCustomer);
     $customer->save();
 }
-function login_memento_user($user_id)
+function login_linkly_user($user_id)
 {
     wp_clear_auth_cookie();
     wc_set_customer_auth_cookie($user_id);

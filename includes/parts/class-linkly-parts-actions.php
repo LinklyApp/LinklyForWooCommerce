@@ -1,6 +1,6 @@
 <?php
 
-class MementoPartsActions
+class LinklyPartsActions
 {
 
     public function __construct()
@@ -32,4 +32,4 @@ class MementoPartsActions
     }
 }
 
-new MementoPartsActions();
+new LinklyPartsActions();

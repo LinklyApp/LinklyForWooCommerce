@@ -4,7 +4,7 @@
 use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
 use WPO\WC\PDF_Invoices\Documents\Order_Document;
 
-class WCOrderToMementoInvoiceMapper
+class WCOrderToLinklyInvoiceMapper
 {
     public static function mapInvoice(Order_Document $invoice)
     {

@@ -791,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Thullner/oauth2-memento.git",
-                "reference": "b0506c5cc9e20f17bc5156de83bef6a07614790f"
+                "reference": "7a02ddc29e466fbf1d27d541966ab6639b0d3304"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Thullner/oauth2-memento/zipball/b0506c5cc9e20f17bc5156de83bef6a07614790f",
-                "reference": "b0506c5cc9e20f17bc5156de83bef6a07614790f",
+                "url": "https://api.github.com/repos/Thullner/oauth2-memento/zipball/7a02ddc29e466fbf1d27d541966ab6639b0d3304",
+                "reference": "7a02ddc29e466fbf1d27d541966ab6639b0d3304",
                 "shasum": ""
             },
             "require": {
@@ -811,7 +811,7 @@
                     "src/Helpers/helpers.php"
                 ],
                 "psr-4": {
-                    "Memento\\OAuth2\\Client\\": "src/"
+                    "Linkly\\OAuth2\\Client\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -824,18 +824,18 @@
                     "email": "mischa@b302.nl"
                 }
             ],
-            "description": "Memento OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+            "description": "Linkly OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
             "keywords": [
                 "Authentication",
                 "authorization",
-                "memento",
+                "linkly",
                 "oauth2"
             ],
             "support": {
                 "issues": "https://github.com/Thullner/oauth2-memento/issues",
                 "source": "https://github.com/Thullner/oauth2-memento/tree/development"
             },
-            "time": "2023-02-13T14:48:26+00:00"
+            "time": "2023-02-24T10:14:49+00:00"
         }
     ],
     "packages-dev": [],

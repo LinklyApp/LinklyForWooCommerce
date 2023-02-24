@@ -1,15 +1,15 @@
-.memento-admin-page {
+.linkly-admin-page {
     padding-right: 0.625rem;
 }
 
 @media screen and (min-width: 768px) {
-    .memento-admin-page {
+    .linkly-admin-page {
         padding-right: 2rem;
     }
 }
 
 
-.memento-form-group {
+.linkly-form-group {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -20,7 +20,7 @@
     max-width: 30rem;
 }
 
-.memento-form-label {
+.linkly-form-label {
     min-width: 8rem;
     font-weight: 600;
     font-size: 14px;
@@ -28,7 +28,7 @@
     padding: .2rem 0;
 }
 
-.memento-form-input {
+.linkly-form-input {
     display: inline-block;
     width: 100%;
     max-width: 22rem !important;

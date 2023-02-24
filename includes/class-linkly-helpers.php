@@ -1,37 +1,37 @@
 <?php
 
-use Memento\OAuth2\Client\Helpers\MementoInvoiceHelper;
-use Memento\OAuth2\Client\Helpers\MementoSsoHelper;
-use Memento\OAuth2\Client\Provider\MementoProvider;
+use Linkly\OAuth2\Client\Helpers\LinklyInvoiceHelper;
+use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
+use Linkly\OAuth2\Client\Provider\LinklyProvider;
 
 class LinklyHelpers {
     /** @var LinklyHelpers singleton instance */
     protected static $instance;
 
     /**
-     * @var MementoProvider
+     * @var LinklyProvider
      */
-    private $mementoProvider;
+    private $linklyProvider;
     /**
-     * @var MementoSsoHelper
+     * @var LinklySsoHelper
      */
-    private $mementoSsoHelper;
+    private $linklySsoHelper;
     /**
-     * @var MementoInvoiceHelper
+     * @var LinklyInvoiceHelper
      */
-    private $mementoInvoiceHelper;
+    private $linklyInvoiceHelper;
 
     protected function __construct()
     {
-        $this->mementoProvider = new MementoProvider([
-            'clientId' => get_option('memento_settings_app_key'), // 'test-wp-plugin'
-            'clientSecret' => get_option('memento_settings_app_secret'), // 'secret',
-            'redirectUri' => rtrim(get_site_url() . '?memento-callback'),
-            'environment' => get_option('memento_settings_environment') // options are "prod", "beta", "local"
+        $this->linklyProvider = new LinklyProvider([
+            'clientId' => get_option('linkly_settings_app_key'), // 'test-wp-plugin'
+            'clientSecret' => get_option('linkly_settings_app_secret'), // 'secret',
+            'redirectUri' => rtrim(get_site_url() . '?linkly-callback'),
+            'environment' => get_option('linkly_settings_environment') // options are "prod", "beta", "local"
         ]);
 
-        $this->mementoSsoHelper = new MementoSsoHelper($this->mementoProvider);
-        $this->mementoInvoiceHelper = new MementoInvoiceHelper($this->mementoProvider);
+        $this->linklySsoHelper = new LinklySsoHelper($this->linklyProvider);
+        $this->linklyInvoiceHelper = new LinklyInvoiceHelper($this->linklyProvider);
     }
 
     public static function instance(): LinklyHelpers {
@@ -43,27 +43,27 @@ class LinklyHelpers {
     }
 
     /**
-     * @return MementoSsoHelper
+     * @return LinklySsoHelper
      */
-    public function getSsoHelper(): MementoSsoHelper
+    public function getSsoHelper(): LinklySsoHelper
     {
-        return $this->mementoSsoHelper;
+        return $this->linklySsoHelper;
     }
 
     /**
-     * @return MementoInvoiceHelper
+     * @return LinklyInvoiceHelper
      */
-    public function getInvoiceHelper(): MementoInvoiceHelper
+    public function getInvoiceHelper(): LinklyInvoiceHelper
     {
-        return $this->mementoInvoiceHelper;
+        return $this->linklyInvoiceHelper;
     }
 
-    public function getMementoProvider(): MementoProvider
+    public function getLinklyProvider(): LinklyProvider
     {
-        return $this->mementoProvider;
+        return $this->linklyProvider;
     }
 
 	public function isConnected() : bool {
-		return !empty(get_option('memento_settings_app_key')) && !empty(get_option('memento_settings_app_secret'));
+		return !empty(get_option('linkly_settings_app_key')) && !empty(get_option('linkly_settings_app_secret'));
 	}
 }
