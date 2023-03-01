@@ -6,7 +6,7 @@ class LinklyAdminActions
 {
     public function __construct()
     {
-        add_action('admin_menu', [$this, 'register_menu']);
+        add_action('admin_menu', [$this, 'register_menu'], 9999);
         add_action('admin_enqueue_scripts', [$this, 'linkly_admin_style']);
         add_action('admin_init', [$this, 'handle_save_client_credentials']);
 
@@ -33,10 +33,12 @@ class LinklyAdminActions
 
     public function register_menu()
     {
+        $parent_slug = 'woocommerce';
 
-        add_options_page(
-            'Linkly for Woocommerce',
-            'Linkly for Woocommerce',
+        add_submenu_page(
+            $parent_slug,
+            'Linkly for WooCommerce',
+            'Linkly WooCommerce',
             'manage_options',
             'linkly-for-woocommerce',
             [$this, 'admin_page']

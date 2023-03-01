@@ -73,7 +73,7 @@ class Linkly_For_WC_Loader
     }
 
     function plugin_add_settings_link( $links ) {
-        $settings_link = '<a href="options-general.php?page=linkly-for-woocommerce">' . __( 'Settings' ) . '</a>';
+        $settings_link = '<a href="' . admin_url('admin.php?page=linkly-for-woocommerce') . '">' . __( 'Settings' ) . '</a>';
         array_unshift( $links, $settings_link );
         return $links;
     }

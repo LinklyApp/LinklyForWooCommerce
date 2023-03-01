@@ -12,12 +12,12 @@ defined('ABSPATH') or exit;
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
         laborum.
     </p>
-    <form method="post" action="<?= home_url("/wp-admin/options-general.php?page=linkly-for-woocommerce") ?>">
+    <form method="post" action="">
         <?php wp_nonce_field('linkly_credentials'); ?>
         <?php if (!LinklyHelpers::instance()->isConnected()) { ?>
             <div class="linkly-form-group">
                 <div class="linkly-button">
-                    <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/options-general.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
+                    <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/admin.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
                         <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
                 </div>
             </div>

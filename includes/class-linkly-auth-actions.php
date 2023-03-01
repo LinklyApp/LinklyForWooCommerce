@@ -58,7 +58,7 @@ class LinklyAuthActions
         update_option('linkly_settings_app_secret', sanitize_text_field($_GET["client_secret"]));
 
 
-        wp_redirect(admin_url('options-general.php?page=linkly-for-woocommerce'));
+        wp_redirect(admin_url('admin.php?page=linkly-for-woocommerce'));
         exit;
 
     }
