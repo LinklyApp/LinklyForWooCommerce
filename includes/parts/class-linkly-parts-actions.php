@@ -21,7 +21,7 @@ class LinklyPartsActions
 
     function addJavascript()
     {
-        include_once __DIR__ . '/views/buttonToTop.php';
+        include_once __DIR__ . '/views/button-to-top.php';
     }
 
     function buttons()

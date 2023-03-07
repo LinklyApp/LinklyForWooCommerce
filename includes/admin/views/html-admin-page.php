@@ -19,7 +19,15 @@ defined('ABSPATH') or exit;
                     <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
             </div>
         </div>
-    <?php } ?>/
+    <?php } ?>
+    <?php if (LinklyHelpers::instance()->isConnected()) { ?>
+        <div class="linkly-form-group">
+            <div class="linkly-button">
+                <a href="https://web.linkly.me" target="_blank"><span><?= LinklyLanguageHelper::instance()->get("go-to-linkly-button") ?></span>
+                    <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
+            </div>
+        </div>
+    <?php } ?>
     <form method="post" action="">
         <?php wp_nonce_field('linkly_credentials'); ?>
         <div class="linkly-form-group">

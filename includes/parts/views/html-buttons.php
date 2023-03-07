@@ -8,17 +8,16 @@ $linklyHelpers = LinklyHelpers::instance();
 
 // if the user is logged in and is not a linkly user
 // TODO - put in LinklyHelpers
-if (is_user_logged_in() && !$linklyHelpers->getSsoHelper()->isAuthenticated()) {
-    $buttonUrl = './?linkly_link_account_action=' . urlencode($_SERVER['REQUEST_URI']);
-    $buttonText = LinklyLanguageHelper::instance()->get('link-account-button');
-} else if ($linklyHelpers->getSsoHelper()->isAuthenticated()) {
+if (is_user_logged_in() && $linklyHelpers->getSsoHelper()->isAuthenticated()) {
     $buttonUrl = './?linkly_change_address_action=' . urlencode($_SERVER['REQUEST_URI']);
     $buttonText = LinklyLanguageHelper::instance()->get('change-address-button');
+} else if (is_user_logged_in() && !$linklyHelpers->getSsoHelper()->isAuthenticated()) {
+    $buttonUrl = './?linkly_link_account_action=' . urlencode($_SERVER['REQUEST_URI']);
+    $buttonText = LinklyLanguageHelper::instance()->get('link-account-button');
 } else {
     $buttonUrl = './?linkly_login_action=' . urlencode($_SERVER['REQUEST_URI']);
     $buttonText = LinklyLanguageHelper::instance()->get('login-button');
 }
-
 
 ?>
 <div id="linkly-login-button">
