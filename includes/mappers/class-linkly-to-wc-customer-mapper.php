@@ -8,6 +8,7 @@ class BCustomerToWCCustomerMapper
     public static function map(LinklyUser $user)
     {
         return [
+            'display_name' => $user->getFirstName(),
             'email' => $user->getEmail(),
             'first_name' => $user->getFirstName(),
             'last_name' => $user->getFamilyNameWithInfix(),

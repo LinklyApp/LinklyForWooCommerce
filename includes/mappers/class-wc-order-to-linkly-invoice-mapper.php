@@ -20,7 +20,7 @@ class WCOrderToLinklyInvoiceMapper
             'taxExclusiveAmount' => (float) $invoice->order->get_total() - $invoice->order->get_total_tax(),
             'taxAmount' => (float) $invoice->order->get_total_tax(),
             'taxInclusiveAmount' => (float) $invoice->order->get_total(),
-            'paidAmount' => (float) $invoice->order->get_date_paid() ? $invoice->order->get_total() : 0,
+            'prePaidAmount' => (float) $invoice->order->get_date_paid() ? $invoice->order->get_total() : 0,
             'payableAmount' => (float) $invoice->order->get_date_paid() ? 0 : $invoice->order->get_total(),
             'lines' => self::generateInvoiceLines($invoice->order->get_items()),
             'file' => base64_encode($invoice->get_pdf()),

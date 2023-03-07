@@ -1,25 +1,63 @@
 <?php
 
+use Linkly\OAuth2\Client\Provider\Exception\LinklyProviderException;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
-function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, $userId)
+function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUser = null)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
-    $customer = new WC_Customer($userId);
+    $customer = new WC_Customer($currentUser->ID);
 
     $customer->set_props($mappedCustomer);
+    $customer->add_meta_data('linkly_user', true);
     $customer->save();
 
     login_linkly_user($customer);
 }
 
-function linkLinklyCustomer(LinklyUser $linklyUser, $wpUser)
+function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
-    $mappedCustomer['email'] = $wpUser->user_email;
-    $customer = new WC_Customer($wpUser->id);
+
+    if ($linklyUser->getEmail() !== $currentUser->user_email) {
+        $currentUser->user_email = $linklyUser->getEmail();
+        $response = wp_update_user($currentUser);
+        if (is_wp_error($response)) {
+            throw new Exception($response->get_error_message());
+        }
+    }
+
+    $customer = new WC_Customer($currentUser->id);
     $customer->set_props($mappedCustomer);
+    $customer->add_meta_data('linkly_user', true);
     $customer->save();
+
+
+    $args = array(
+        'limit' => -1, // Limit of orders to retrieve
+        'meta_key' => 'linkly_exported', // Postmeta key field
+        'meta_compare' => 'NOT EXISTS',
+        'customer_id' => $customer->get_id(), // User ID
+        'return' => 'objects', // Possible values are ‘ids’ and ‘objects’.
+    );
+
+    $orders = wc_get_orders($args);
+
+    $linklyInvoiceHelper = LinklyHelpers::instance()->getInvoiceHelper();
+
+    foreach ($orders as $order) {
+        try {
+            $invoice = wcpdf_get_document('invoice', $order, true);
+            $invoiceData = WCOrderToLinklyInvoiceMapper::mapInvoice($invoice);
+            $linklyInvoiceHelper->sendInvoice($invoiceData);
+            $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
+            $order->save();
+        } catch (LinklyProviderException $e) {
+            error_log($e->getResponseBody());
+        } catch (Exception $e) {
+            error_log($e->getMessage());
+        }
+    }
 }
 function login_linkly_user(WC_Customer $customer)
 {

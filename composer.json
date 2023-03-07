@@ -7,6 +7,6 @@
         }
     ],
     "require": {
-        "thullner/oath2-memento": "dev-development"
+        "linkly-app/php-adapter": "dev-main"
     }
 }

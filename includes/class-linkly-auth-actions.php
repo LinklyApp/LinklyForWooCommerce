@@ -45,7 +45,7 @@ class LinklyAuthActions
             'oauth_post_logout_redirect_uri' => get_site_url(),
             'oauth_redirect_uri' => get_site_url() . '?linkly-callback',
         ];
-        $url .= '/request-token?' . http_build_query($params);
+        $url .= '/external-api/clients?' . http_build_query($params);
         wp_redirect($url);
         exit;
     }
@@ -57,6 +57,7 @@ class LinklyAuthActions
         update_option('linkly_settings_app_key', sanitize_text_field($_GET["client_id"]));
         update_option('linkly_settings_app_secret', sanitize_text_field($_GET["client_secret"]));
 
+        $this->ssoHelper->verifyClientCredentials();
 
         wp_redirect(admin_url('admin.php?page=linkly-for-woocommerce'));
         exit;
@@ -94,11 +95,11 @@ class LinklyAuthActions
         try {
             $this->ssoHelper->callback();
             $linklyUser = $this->ssoHelper->getUser();
-            if (!isset($_SESSION['linkly_link_account'])) {
-                $user = get_user_by('email', $this->ssoHelper->getEmail());
-                createOrUpdateLinklyCustomer($linklyUser, $user->id);
+            if (isset($_SESSION['linkly_link_account'])) {
+                attachWCCustomerToLinkly($linklyUser, wp_get_current_user());
             } else {
-                linkLinklyCustomer($linklyUser, wp_get_current_user());
+                $user = get_user_by( 'email', $this->ssoHelper->getEmail() );
+                createOrUpdateLinklyCustomer($linklyUser, $user);
             }
 
             wp_redirect($_SESSION['url_to_return_to']);
@@ -113,7 +114,6 @@ class LinklyAuthActions
     function linkly_logout()
     {
         $this->ssoHelper->logout();
-
     }
 
     private function getBaseUrl()

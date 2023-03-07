@@ -12,22 +12,16 @@ defined('ABSPATH') or exit;
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
         laborum.
     </p>
+    <?php if (!LinklyHelpers::instance()->isConnected()) { ?>
+        <div class="linkly-form-group">
+            <div class="linkly-button">
+                <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/admin.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
+                    <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
+            </div>
+        </div>
+    <?php } ?>/
     <form method="post" action="">
         <?php wp_nonce_field('linkly_credentials'); ?>
-        <?php if (!LinklyHelpers::instance()->isConnected()) { ?>
-            <div class="linkly-form-group">
-                <div class="linkly-button">
-                    <a href="<?= home_url("?linkly_request_token=" . urlencode("/wp-admin/admin.php?page=linkly-for-woocommerce")) ?>"><span><?= LinklyLanguageHelper::instance()->get("admin-connect-button") ?></span>
-                        <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal.svg" ?>"></a>
-                </div>
-            </div>
-        <?php } ?>
-        <div class="linkly-form-group">
-            <label class="linkly-form-label"><?= LinklyLanguageHelper::instance()->get("language"); ?></label>
-            <select name="linkly_language" class="linkly-form-input">
-                <?= LinklyLanguageHelper::instance()->getLanguageSelectOptions() ?>
-            </select>
-        </div>
         <div class="linkly-form-group">
             <label class="linkly-form-label">Client ID</label>
             <input name="linkly_client_id" class="linkly-form-input" type="text"

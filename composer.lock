@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2963e072a6ceb3d04a23a75d608d8ba2",
+    "content-hash": "6d43c323d9dc6d3f0009606d9d09d4d5",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -465,6 +465,58 @@
             "time": "2021-12-22T16:42:49+00:00"
         },
         {
+            "name": "linkly-app/php-adapter",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LinklyApp/PhpAdapter.git",
+                "reference": "3d2178ade12e7a48ce8e78bf6208a541afb992e4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LinklyApp/PhpAdapter/zipball/3d2178ade12e7a48ce8e78bf6208a541afb992e4",
+                "reference": "3d2178ade12e7a48ce8e78bf6208a541afb992e4",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^5.4",
+                "league/oauth2-client": "^2.6",
+                "php": ">=7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Helpers/helpers.php"
+                ],
+                "psr-4": {
+                    "Linkly\\OAuth2\\Client\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "msthu",
+                    "email": "mischa@b302.nl"
+                }
+            ],
+            "description": "Linkly PHP Adapter to connect to the Linkly API",
+            "keywords": [
+                "Authentication",
+                "authorization",
+                "linkly",
+                "oauth2"
+            ],
+            "support": {
+                "issues": "https://github.com/LinklyApp/PhpAdapter/issues",
+                "source": "https://github.com/LinklyApp/PhpAdapter/tree/main"
+            },
+            "time": "2023-03-07T13:22:00+00:00"
+        },
+        {
             "name": "paragonie/random_compat",
             "version": "v9.99.100",
             "source": {
@@ -720,16 +772,16 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.2.0",
+            "version": "v3.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3"
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/1ee04c65529dea5d8744774d474e7cbd2f1206d3",
-                "reference": "1ee04c65529dea5d8744774d474e7cbd2f1206d3",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
+                "reference": "e2d1534420bd723d0ef5aec58a22c5fe60ce6f5e",
                 "shasum": ""
             },
             "require": {
@@ -767,7 +819,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.0"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.2.1"
             },
             "funding": [
                 {
@@ -783,66 +835,14 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-11-25T10:21:52+00:00"
-        },
-        {
-            "name": "thullner/oath2-memento",
-            "version": "dev-development",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Thullner/oauth2-memento.git",
-                "reference": "7a02ddc29e466fbf1d27d541966ab6639b0d3304"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Thullner/oauth2-memento/zipball/7a02ddc29e466fbf1d27d541966ab6639b0d3304",
-                "reference": "7a02ddc29e466fbf1d27d541966ab6639b0d3304",
-                "shasum": ""
-            },
-            "require": {
-                "firebase/php-jwt": "^5.4",
-                "league/oauth2-client": "^2.6",
-                "php": ">=7.4"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "src/Helpers/helpers.php"
-                ],
-                "psr-4": {
-                    "Linkly\\OAuth2\\Client\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "msthu",
-                    "email": "mischa@b302.nl"
-                }
-            ],
-            "description": "Linkly OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
-            "keywords": [
-                "Authentication",
-                "authorization",
-                "linkly",
-                "oauth2"
-            ],
-            "support": {
-                "issues": "https://github.com/Thullner/oauth2-memento/issues",
-                "source": "https://github.com/Thullner/oauth2-memento/tree/development"
-            },
-            "time": "2023-02-24T10:14:49+00:00"
+            "time": "2023-03-01T10:25:55+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "thullner/oath2-memento": 20
+        "linkly-app/php-adapter": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

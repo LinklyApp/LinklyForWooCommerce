@@ -20,21 +20,23 @@ class LinklyInvoiceActions
 
     function linkly_get_invoice($order_id)
     {
-        $order = wc_get_order($order_id);
-        $user_id = $order->get_user_id();
-
-        $invoice = wcpdf_get_document('invoice', $order, true);
-
         try {
+            $order = wc_get_order($order_id);
+            $customer = new WC_Customer($order->get_user_id());
+
+            if ($customer->get_meta('linkly_user') !== true) {
+                return;
+            }
+
+            $invoice = wcpdf_get_document('invoice', $order, true);
             $invoiceData = WCOrderToLinklyInvoiceMapper::mapInvoice($invoice);
-        } catch (Exception $e) {
-            dd($e->getMessage());
-        }
-
-        try {
-            $response = $this->linklyInvoiceHelper->sendInvoice($invoiceData);
+            $this->linklyInvoiceHelper->sendInvoice($invoiceData);
+            $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
+            $order->save();
         } catch (LinklyProviderException $e) {
-            dd($e->getResponseBody());
+            error_log($e->getResponseBody());
+        } catch (Exception $e) {
+            error_log($order, $e->getMessage());
         }
     }
 }
