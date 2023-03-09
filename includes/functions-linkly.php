@@ -19,7 +19,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
 
-    if ($linklyUser->getEmail() !== $currentUser->user_email) {
+    if ($currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email) {
         $currentUser->user_email = $linklyUser->getEmail();
         $response = wp_update_user($currentUser);
         if (is_wp_error($response)) {
@@ -27,12 +27,21 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
         }
     }
 
-    $customer = new WC_Customer($currentUser->id);
+    $customer = new WC_Customer($currentUser->ID);
+
     $customer->set_props($mappedCustomer);
     $customer->add_meta_data('linkly_user', true);
     $customer->save();
 
+    sync_customer_invoices_with_linkly($customer);
+}
 
+/**
+ * @param WC_Customer $customer
+ * @return void
+ */
+function sync_customer_invoices_with_linkly(WC_Customer $customer): void
+{
     $args = array(
         'limit' => -1, // Limit of orders to retrieve
         'meta_key' => 'linkly_exported', // Postmeta key field
@@ -59,6 +68,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
         }
     }
 }
+
 function login_linkly_user(WC_Customer $customer)
 {
     wp_clear_auth_cookie();

@@ -82,6 +82,8 @@ class LinklyAuthActions
         }
 
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_login_action']);
+        unset($_SESSION['linkly_link_account']);
+
         $this->ssoHelper->authorize();
         exit;
     }
@@ -96,6 +98,7 @@ class LinklyAuthActions
             $this->ssoHelper->callback();
             $linklyUser = $this->ssoHelper->getUser();
             if (isset($_SESSION['linkly_link_account'])) {
+                unset($_SESSION['linkly_link_account']);
                 attachWCCustomerToLinkly($linklyUser, wp_get_current_user());
             } else {
                 $user = get_user_by( 'email', $this->ssoHelper->getEmail() );
