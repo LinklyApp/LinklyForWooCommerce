@@ -25,7 +25,7 @@ class LinklyAdminActions
             throw new Exception('Invalid CSRF token');
         }
 
-	    update_option('linkly_settings_language', sanitize_text_field($_POST['linkly_language']));
+//	    update_option('linkly_settings_language', sanitize_text_field($_POST['linkly_language']));
         update_option('linkly_settings_app_key', sanitize_text_field($_POST['linkly_client_id']));
         update_option('linkly_settings_app_secret', sanitize_text_field($_POST['linkly_client_secret']));
         update_option('linkly_settings_environment', sanitize_text_field($_POST['linkly_environment']));

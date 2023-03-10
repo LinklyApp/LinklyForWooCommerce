@@ -9,7 +9,13 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
     $customer = new WC_Customer($currentUser->ID);
 
     $customer->set_props($mappedCustomer);
+
     $customer->add_meta_data('linkly_user', true);
+    $customer->update_meta_data('linkly_billing_id', $linklyUser->getBillingAddress()->getId());
+    $customer->update_meta_data('linkly_billing_version', $linklyUser->getBillingAddress()->getVersion());
+    $customer->update_meta_data('linkly_shipping_id', $linklyUser->getShippingAddress()->getId());
+    $customer->update_meta_data('linkly_shipping_version', $linklyUser->getShippingAddress()->getVersion());
+
     $customer->save();
 
     login_linkly_user($customer);

@@ -30,9 +30,6 @@ class BCustomerToWCCustomerMapper
             'shipping_city' => $user->getShippingAddress()->getCity(),
             'shipping_postcode' => $user->getShippingAddress()->getPostcode(),
             'shipping_country' => $user->getShippingAddress()->getCountry()->getAlpha2(),
-
-            'linkly_user_guid' => $user->getId(),
-            'linkly_user_version' => 2,
         ];
     }
 }

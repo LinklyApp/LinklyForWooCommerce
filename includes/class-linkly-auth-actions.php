@@ -19,6 +19,9 @@ class LinklyAuthActions
         add_action('init', [$this, 'linkly_request_token_action']);
         add_action('init', [$this, 'linkly_request_token_callback']);
 
+        add_action('woocommerce_before_checkout_form', [$this, 'linkly_check_and_update_addresses_if_changed']);
+        add_action('woocommerce_before_edit_account_address_form', [$this, 'linkly_check_and_update_addresses_if_changed']);
+
         add_action('wp_logout', [$this, 'linkly_logout']);
     }
 
@@ -50,8 +53,9 @@ class LinklyAuthActions
         exit;
     }
 
-    function linkly_request_token_callback(){
-        if(!isset($_GET["linkly_request_token_callback"])){
+    function linkly_request_token_callback()
+    {
+        if (!isset($_GET["linkly_request_token_callback"])) {
             return;
         }
         update_option('linkly_settings_app_key', sanitize_text_field($_GET["client_id"]));
@@ -101,7 +105,7 @@ class LinklyAuthActions
                 unset($_SESSION['linkly_link_account']);
                 attachWCCustomerToLinkly($linklyUser, wp_get_current_user());
             } else {
-                $user = get_user_by( 'email', $this->ssoHelper->getEmail() );
+                $user = get_user_by('email', $this->ssoHelper->getEmail());
                 createOrUpdateLinklyCustomer($linklyUser, $user);
             }
 
@@ -111,6 +115,46 @@ class LinklyAuthActions
         } catch (Exception $e) {
             wp_clear_auth_cookie();
             dd($e);
+        }
+    }
+
+    public function linkly_check_and_update_addresses_if_changed()
+    {
+        if (!is_user_logged_in()) {
+            return;
+        }
+
+        $customer = new WC_Customer(get_current_user_id());
+        if (!$customer->get_meta('linkly_user')) {
+            return;
+        }
+
+        $addressData = [
+            'billingAddressId' => $customer->get_meta('linkly_billing_id'),
+            'billingAddressVersion' => $customer->get_meta('linkly_billing_version'),
+            'shippingAddressId' => $customer->get_meta('linkly_shipping_id'),
+            'shippingAddressVersion' => $customer->get_meta('linkly_shipping_version'),
+        ];
+
+        try {
+            if(!$this->ssoHelper->hasAddressBeenChanged($addressData))
+            {
+                return;
+            }
+
+            $linklyUser = $this->ssoHelper->getUser();
+            $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
+            $customer->set_props($mappedCustomer);
+
+            $customer->add_meta_data('linkly_user', true);
+            $customer->update_meta_data('linkly_billing_id', $linklyUser->getBillingAddress()->getId());
+            $customer->update_meta_data('linkly_billing_version', $linklyUser->getBillingAddress()->getVersion());
+            $customer->update_meta_data('linkly_shipping_id', $linklyUser->getShippingAddress()->getId());
+            $customer->update_meta_data('linkly_shipping_version', $linklyUser->getShippingAddress()->getVersion());
+
+            $customer->save();
+        } catch (Exception $e) {
+            error_log($e->getMessage());
         }
     }
 
