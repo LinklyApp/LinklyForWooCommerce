@@ -22,7 +22,7 @@ class LinklyLanguageHelper
     public function getLanguageSelectOptions(): string
     {
         $availableLanguages = $this->getAvailableLanguages();
-        $selectedLanguage = get_option('memento_settings_language');
+        $selectedLanguage = get_option('linkly_settings_language');
         $options = '<option value="wordpress" ' . ($selectedLanguage == "wordpress" ? 'selected' : '') . '>Wordpress Language</option>';
         foreach ($availableLanguages as $code => $data) {
             $options .= '<option value="' . $code . '" ' . ($selectedLanguage === $code ? 'selected' : '') . '>' . $data["name"] . '</option>';
@@ -64,8 +64,8 @@ class LinklyLanguageHelper
     private function checkLanguageFiles(): void
     {
         $languages = $this->getAvailableLanguages();
-        if (get_option('memento_settings_language') !== "wordpress" && !isset($languages[get_option('memento_settings_language')])) {
-            update_option('memento_settings_language', "wordpress");
+        if (get_option('linkly_settings_language') !== "wordpress" && !isset($languages[get_option('linkly_settings_language')])) {
+            update_option('linkly_settings_language', "wordpress");
         }
 
 
@@ -98,7 +98,7 @@ class LinklyLanguageHelper
 
     private function getLanguageStrings()
     {
-        $langCode = get_option('memento_settings_language');
+        $langCode = get_option('linkly_settings_language');
         if ($langCode === "wordpress") {
             $langCode = get_locale();
         }

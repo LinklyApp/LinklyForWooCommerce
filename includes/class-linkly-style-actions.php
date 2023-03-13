@@ -3,9 +3,9 @@
 defined('ABSPATH') or exit;
 
 
-class MementoStyleActions
+class LinklyStyleActions
 {
-    /** @var \MementoStyleActions singleton instance */
+    /** @var \LinklyStyleActions singleton instance */
     protected static $instance;
 
     protected function __construct()
@@ -18,7 +18,7 @@ class MementoStyleActions
     /**
      * Gets the plugin singleton instance.
      *
-     * @return \MementoStyleActions the plugin singleton instance
+     * @return \LinklyStyleActions the plugin singleton instance
      * @since 1.10.0
      *
      * @see \facebook_for_woocommerce()
@@ -35,18 +35,18 @@ class MementoStyleActions
 
     function add_styles()
     {
-        if (!wp_style_is('memento-style', 'registered')) {
-            wp_register_style("memento-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
+        if (!wp_style_is('linkly-style', 'registered')) {
+            wp_register_style("linkly-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/style.css");
         }
 
-        wp_enqueue_style("memento-style");
+        wp_enqueue_style("linkly-style");
     }
 
 }
 
-function memento()
+function linkly()
 {
-    return MementoStyleActions::instance();
+    return LinklyStyleActions::instance();
 }
 
 

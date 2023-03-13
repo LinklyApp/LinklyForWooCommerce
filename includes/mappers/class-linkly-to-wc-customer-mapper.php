@@ -1,13 +1,14 @@
 <?php
 
 
-use Memento\OAuth2\Client\Provider\User\MementoUser;
+use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
 class BCustomerToWCCustomerMapper
 {
-    public static function map(MementoUser $user)
+    public static function map(LinklyUser $user)
     {
         return [
+            'display_name' => $user->getFirstName(),
             'email' => $user->getEmail(),
             'first_name' => $user->getFirstName(),
             'last_name' => $user->getFamilyNameWithInfix(),
@@ -29,9 +30,6 @@ class BCustomerToWCCustomerMapper
             'shipping_city' => $user->getShippingAddress()->getCity(),
             'shipping_postcode' => $user->getShippingAddress()->getPostcode(),
             'shipping_country' => $user->getShippingAddress()->getCountry()->getAlpha2(),
-
-            'memento_user_guid' => $user->getId(),
-            'memento_user_version' => 2,
         ];
     }
 }

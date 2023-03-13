@@ -1,6 +1,6 @@
 <?php
-if (!function_exists('get_user_id_for_memento_guid')) {
-    function get_user_id_for_memento_guid($guid)
+if (!function_exists('get_user_id_for_linkly_guid')) {
+    function get_user_id_for_linkly_guid($guid)
     {
         // TODO Check if non valid guid doesn't return a non null
         if (!$guid) {
@@ -8,7 +8,7 @@ if (!function_exists('get_user_id_for_memento_guid')) {
         }
 
         return get_users(array(
-            'meta_key' => 'memento_user_guid',
+            'meta_key' => 'linkly_user_guid',
             'meta_value' => $guid,
             'fields' => 'ids'
         ))[0];

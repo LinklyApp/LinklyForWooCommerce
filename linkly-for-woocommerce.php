@@ -24,7 +24,7 @@ defined('LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL')
  *
  * @since 1.0.0
  */
-class Memento_For_WC_Loader
+class Linkly_For_WC_Loader
 {
     /** minimum PHP version required by this plugin */
     const MINIMUM_PHP_VERSION = '7.1.0';
@@ -41,7 +41,7 @@ class Memento_For_WC_Loader
     /** the plugin name, for displaying notices */
     const PLUGIN_NAME = 'Linkly for WooCommerce';
 
-    /** @var Memento_For_WC_Loader single instance of this class */
+    /** @var Linkly_For_WC_Loader single instance of this class */
     private static $instance;
 
     /** @var array the admin notices to add */
@@ -73,7 +73,7 @@ class Memento_For_WC_Loader
     }
 
     function plugin_add_settings_link( $links ) {
-        $settings_link = '<a href="options-general.php?page=linkly-for-woocommerce">' . __( 'Settings' ) . '</a>';
+        $settings_link = '<a href="' . admin_url('admin.php?page=linkly-for-woocommerce') . '">' . __( 'Settings' ) . '</a>';
         array_unshift( $links, $settings_link );
         return $links;
     }
@@ -117,28 +117,30 @@ class Memento_For_WC_Loader
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-helpers.php';
 	    include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-language-helper.php';
 
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-style-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-auth-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-memento-invoice-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-invoice-actions.php';
+
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/functions-linkly.php';
 
         // Admin
-        include_once plugin_dir_path(__FILE__) . 'includes/admin/class-memento-admin-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/admin/class-linkly-admin-actions.php';
 
         // Mappers
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-memento-to-wc-customer-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-memento-invoice-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-invoice-mapper.php';
 
         // Parts
-        include_once plugin_dir_path(__FILE__) . 'includes/parts/class-memento-parts-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/parts/class-linkly-parts-actions.php';
 
         // Settings
-        include_once plugin_dir_path(__FILE__) . 'includes/settings/class-memento-setting-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/settings/class-linkly-setting-actions.php';
 
         //         fire it up!
-        if (function_exists('memento')) {
-            memento();
+        if (function_exists('linkly')) {
+            linkly();
         }
     }
 
@@ -332,7 +334,7 @@ class Memento_For_WC_Loader
 
 
     /**
-     * Displays any admin notices added with \Memento_For_WC_Loader::add_admin_notice()
+     * Displays any admin notices added with \Linkly_For_WC_Loader::add_admin_notice()
      *
      * @internal
      *
@@ -383,11 +385,11 @@ class Memento_For_WC_Loader
 
 
     /**
-     * Gets the main \Memento_For_WC_Loader instance.
+     * Gets the main \Linkly_For_WC_Loader instance.
      *
      * Ensures only one instance can be loaded.
      *
-     * @return \Memento_For_WC_Loader
+     * @return \Linkly_For_WC_Loader
      * @since 1.10.0
      *
      */
@@ -403,7 +405,8 @@ class Memento_For_WC_Loader
 
 
 }
+session_start();
 
 // fire it up!
-Memento_For_WC_Loader::instance();
+Linkly_For_WC_Loader::instance();
 
