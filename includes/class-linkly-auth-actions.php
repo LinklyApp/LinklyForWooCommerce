@@ -58,10 +58,9 @@ class LinklyAuthActions
         if (!isset($_GET["linkly_request_token_callback"])) {
             return;
         }
+
         update_option('linkly_settings_app_key', sanitize_text_field($_GET["client_id"]));
         update_option('linkly_settings_app_secret', sanitize_text_field($_GET["client_secret"]));
-
-        $this->ssoHelper->verifyClientCredentials();
 
         wp_redirect(admin_url('admin.php?page=linkly-for-woocommerce'));
         exit;
