@@ -105,7 +105,7 @@ class LinklyAuthActions
                 attachWCCustomerToLinkly($linklyUser, wp_get_current_user());
             } else {
                 $user = get_user_by('email', $this->ssoHelper->getEmail());
-                createOrUpdateLinklyCustomer($linklyUser, $user);
+                createOrUpdateLinklyCustomer($linklyUser, $user ?: null);
             }
 
             wp_redirect($_SESSION['url_to_return_to']);
