@@ -58,13 +58,13 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
 
     $orders = wc_get_orders($args);
 
-    $linklyInvoiceHelper = LinklyHelpers::instance()->getInvoiceHelper();
+    $linklyOrderHelper = LinklyHelpers::instance()->getInvoiceHelper();
 
     foreach ($orders as $order) {
         try {
             $invoice = wcpdf_get_document('invoice', $order, true);
-            $invoiceData = WCOrderToLinklyInvoiceMapper::mapInvoice($invoice);
-            $linklyInvoiceHelper->sendInvoice($invoiceData);
+            $invoiceData = WCOrderToLinklyInvoiceMapper::mapOrder($invoice);
+            $linklyOrderHelper->sendInvoice($invoiceData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
         } catch (LinklyProviderException $e) {

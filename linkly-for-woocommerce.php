@@ -119,7 +119,7 @@ class Linkly_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-invoice-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-order-actions.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
 
@@ -130,7 +130,7 @@ class Linkly_For_WC_Loader
 
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-invoice-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-order-mapper.php';
 
         // Parts
         include_once plugin_dir_path(__FILE__) . 'includes/parts/class-linkly-parts-actions.php';

@@ -31,7 +31,7 @@ class LinklyLanguageHelper
         return $options;
     }
 
-    public function get($key): string
+    public function get($key, array $parameters = []): string
     {
         $strings = $this->getLanguageStrings();
         $keys = explode(".", $key);
@@ -43,6 +43,11 @@ class LinklyLanguageHelper
                 return $key;
             }
         }
+
+        for ($i = 0; $i < count($parameters); $i++) {
+            $value = str_replace("{{$i}}", $parameters[$i], $value);
+        }
+
         return $value;
     }
 

@@ -1,6 +1,6 @@
 <?php
 
-use Linkly\OAuth2\Client\Helpers\LinklyInvoiceHelper;
+use Linkly\OAuth2\Client\Helpers\LinklyOrderHelper;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\LinklyProvider;
 
@@ -17,9 +17,9 @@ class LinklyHelpers {
      */
     private $linklySsoHelper;
     /**
-     * @var LinklyInvoiceHelper
+     * @var LinklyOrderHelper
      */
-    private $linklyInvoiceHelper;
+    private $linklyOrderHelper;
 
     protected function __construct()
     {
@@ -31,7 +31,7 @@ class LinklyHelpers {
         ]);
 
         $this->linklySsoHelper = new LinklySsoHelper($this->linklyProvider);
-        $this->linklyInvoiceHelper = new LinklyInvoiceHelper($this->linklyProvider);
+        $this->linklyOrderHelper = new LinklyOrderHelper($this->linklyProvider);
     }
 
     public static function instance(): LinklyHelpers {
@@ -51,11 +51,11 @@ class LinklyHelpers {
     }
 
     /**
-     * @return LinklyInvoiceHelper
+     * @return LinklyOrderHelper
      */
-    public function getInvoiceHelper(): LinklyInvoiceHelper
+    public function getInvoiceHelper(): LinklyOrderHelper
     {
-        return $this->linklyInvoiceHelper;
+        return $this->linklyOrderHelper;
     }
 
     public function getLinklyProvider(): LinklyProvider
