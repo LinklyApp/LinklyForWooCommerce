@@ -1,29 +1,26 @@
 <?php
 
-
 use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
 use WPO\WC\PDF_Invoices\Documents\Order_Document;
 
-class WCOrderToLinklyInvoiceMapper
+class WCOrderToLinklyOrderMapper
 {
-    public static function mapOrder(WC_Order $order, Order_Document $orderDocument = null)
+    public static function mapOrder(WC_Order $order, string $statusName)
     {
-
-        $response = json_encode([
+        return json_encode([
             'customerEmail' => $order->get_user()->user_email,
             'orderNumber' => $order->get_order_number(),
             'reference' => LinklyLanguageHelper::instance()->get('order_description', [get_bloginfo('name')]),
+            'purchaseDate' => $order->get_date_created()->format('Y-m-d'),
+            'statusName' => $statusName,
             'countryCode' => $order->get_billing_country(),
             'taxExclusiveAmount' => $order->get_total() - $order->get_total_tax(),
             'taxAmount' => $order->get_total_tax(),
             'taxInclusiveAmount' => $order->get_total(),
             'prePaidAmount' => $order->get_date_paid() ? $order->get_total() : 0,
             'payableAmount' => $order->get_date_paid() ? 0 : $order->get_total(),
-            'lines' => self::generateOrderLines($order->get_items()),
-            'invoice' => $orderDocument != null ? self::getInvoice($orderDocument) : null
+            'lines' => self::generateOrderLines($order->get_items())
         ]);
-
-        return $response;
     }
 
     /**
@@ -47,21 +44,5 @@ class WCOrderToLinklyInvoiceMapper
         }
 
         return $orderLines;
-    }
-
-    private static function getInvoice(Order_Document $orderDocument){
-        return [
-            'invoiceNumber' => $orderDocument->get_number()->number,
-            'reference' => LinklyLanguageHelper::instance()->get('order_description', [get_bloginfo('name')]),
-            'issueDate' => $orderDocument->order->get_date_created()->format('Y-m-d'),
-            'dueDate' => $orderDocument->order->get_date_created()->format('Y-m-d'),
-            'paidAtDate' => $orderDocument->order->get_date_paid() ? $orderDocument->order->get_date_paid()->format('Y-m-d') : null,
-            'taxExclusiveAmount' => $orderDocument->order->get_total() - $orderDocument->order->get_total_tax(),
-            'taxAmount' => $orderDocument->order->get_total_tax(),
-            'taxInclusiveAmount' => $orderDocument->order->get_total(),
-            'prePaidAmount' => (float)$orderDocument->order->get_date_paid() ? $orderDocument->order->get_total() : 0,
-            'payableAmount' => (float)$orderDocument->order->get_date_paid() ? 0 : $orderDocument->order->get_total(),
-            'pdf' => base64_encode($orderDocument->get_pdf()),
-        ];
     }
 }

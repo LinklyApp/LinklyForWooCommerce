@@ -17,6 +17,16 @@ class LinklyOrderActions
      */
     private $linklySsoHelper;
 
+    /**
+     * @var string The status name for when the order is processing
+     */
+    private string $processing_status_name = "Processing";
+
+    /**
+     * @var string The status name for when the order is completed
+     */
+    private string $completed_status_name = "Completed";
+
     public function __construct(LinklyOrderHelper $linklyOrderHelper,
                                 LinklySsoHelper   $linklySsoHelper)
     {
@@ -34,7 +44,7 @@ class LinklyOrderActions
     {
         try {
             $order = wc_get_order($order_id);
-            $orderData = WCOrderToLinklyInvoiceMapper::mapOrder($order);
+            $orderData = WCOrderToLinklyOrderMapper::mapOrder($order, $this->processing_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
@@ -55,14 +65,17 @@ class LinklyOrderActions
                 return;
             }
 
-            $orderDocument = wcpdf_get_document('invoice', $order, true);
-            $orderData = WCOrderToLinklyInvoiceMapper::mapOrder($order, $orderDocument);
+            $orderData = WCOrderToLinklyOrderMapper::mapOrder($order, $this->completed_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
+
+            $orderDocument = wcpdf_get_document('invoice', $order, true);
+            $invoiceData = WCInvoiceToLinklyInvoiceMapper::mapInvoice($order, $orderDocument);
+            $this->linklyOrderHelper->sendInvoice($invoiceData);
+
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
-
         } catch (LinklyProviderException $e) {
-            error_log($e->getResponseBody());
+            error_log($e->getMessage());
         } catch (Exception $e) {
             error_log($order, $e->getMessage());
         }
