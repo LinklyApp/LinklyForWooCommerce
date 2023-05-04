@@ -9,11 +9,24 @@
     "go-to-linkly-button": "Ga naar",
     "order_description": "Bestelling bij {0}",
     "language": "Taal",
+    "warning": {
+      "title": "Waarschuwing",
+      "pdf-invoice-plugin": "De WooCommerce PDF Invoices & Packing Slips plugin is niet geactiveerd. Activeer deze plugin om facturen te kunnen genereren."
+    },
+    "client": {
+      "id": "Client ID",
+      "secret": "Client Secret"
+    },
     "environment": {
       "title": "Omgeving",
       "production": "Productie",
       "beta": "Beta",
       "local": "Lokaal"
-    }
+    },
+    "button_style": {
+      "purple": "Paars",
+      "white": "Wit"
+    },
+    "save_changes": "Aanpassingen opslaan"
   }
 }

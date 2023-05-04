@@ -17,6 +17,11 @@ class LinklyOrderActions
      */
     private $linklySsoHelper;
 
+	/**
+	 * @var string The plugin name for the used PDF invoices plugin
+	 */
+	private $pdf_invoices_plugin = 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php';
+
     /**
      * @var string The status name for when the order is processing
      */
@@ -68,9 +73,11 @@ class LinklyOrderActions
             $orderData = WCOrderToLinklyOrderMapper::mapOrder($order, $this->completed_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
 
-            $orderDocument = wcpdf_get_document('invoice', $order, true);
-            $invoiceData = WCInvoiceToLinklyInvoiceMapper::mapInvoice($order, $orderDocument);
-            $this->linklyOrderHelper->sendInvoice($invoiceData);
+			if (!is_plugin_inactive($this->pdf_invoices_plugin)) {
+				$orderDocument = wcpdf_get_document( 'invoice', $order, true );
+				$invoiceData   = WCInvoiceToLinklyInvoiceMapper::mapInvoice( $order, $orderDocument );
+				$this->linklyOrderHelper->sendInvoice( $invoiceData );
+			}
 
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
@@ -83,7 +90,8 @@ class LinklyOrderActions
 
     public function sync_current_wc_customer_invoices_to_linkly(): void
     {
-        if (is_user_logged_in() && $this->linklySsoHelper->isAuthenticated()) {
+		// TODO - Vervang ssohelper isauthenticated
+        if (is_user_logged_in()) {
             $customer = new WC_Customer(get_current_user_id());
             sync_customer_invoices_with_linkly($customer);
         }
