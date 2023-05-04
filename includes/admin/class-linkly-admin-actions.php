@@ -8,28 +8,39 @@ class LinklyAdminActions
     {
         add_action('admin_menu', [$this, 'register_menu'], 9999);
         add_action('admin_enqueue_scripts', [$this, 'linkly_admin_style']);
-        add_action('admin_init', [$this, 'handle_save_client_credentials']);
-
+        add_action('admin_init', [$this, 'handle_save']);
     }
+
+	public function handle_save()
+	{
+		if (!isset($_REQUEST['page'])
+		    || $_REQUEST['page'] !== 'linkly-for-woocommerce'
+		    || empty($_POST)
+		) {
+			return;
+		}
+
+		if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+			$this->handle_save_client_credentials();
+		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+			$this->handle_save_button_style();
+		} else {
+			throw new Exception('Invalid CSRF token');
+		}
+	}
 
     public function handle_save_client_credentials()
     {
-        if (!isset($_REQUEST['page'])
-            || $_REQUEST['page'] !== 'linkly-for-woocommerce'
-            || empty($_POST)
-        ) {
-            return;
-        }
-
-        if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
-            throw new Exception('Invalid CSRF token');
-        }
-
 //	    update_option('linkly_settings_language', sanitize_text_field($_POST['linkly_language']));
         update_option('linkly_settings_app_key', sanitize_text_field($_POST['linkly_client_id']));
         update_option('linkly_settings_app_secret', sanitize_text_field($_POST['linkly_client_secret']));
         update_option('linkly_settings_environment', sanitize_text_field($_POST['linkly_environment']));
     }
+
+	public function handle_save_button_style()
+	{
+		update_option('linkly_button_style', sanitize_text_field($_POST['linkly_button_style']));
+	}
 
     public function register_menu()
     {
