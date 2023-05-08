@@ -19,7 +19,7 @@ class LinklySettingActions
 
 	function linkly_button_settings()
 	{
-		add_option('linkly_button_style', 'purple');
+		add_option('linkly_button_style', 'primary');
 	}
 }
 

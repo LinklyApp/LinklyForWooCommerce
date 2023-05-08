@@ -4,7 +4,7 @@ $buttonUrl = "";
 $buttonText = "";
 $linklyHelpers = LinklyHelpers::instance();
 $buttonStyle = get_option('linkly_button_style');
-$logoStyle = $buttonStyle === 'purple' ? 'light' : 'dark';
+$logoStyle = $buttonStyle === 'primary' ? 'light' : 'dark';
 
 /** @var $onlyLink */
 
@@ -26,7 +26,10 @@ if (is_user_logged_in() && $linklyHelpers->getSsoHelper()->isAuthenticated()) {
     $buttonText = LinklyLanguageHelper::instance()->get('login-button');
 }
 
+
+// TODO - In de PHP adapter komt er een functie waar je aan mee kan geven of het primary/secondary is, of de gebruiker geauthoriseed is en of de gebruiker ingelogd is en/of gelinkt is aan linkly
 ?>
+
 <div id="linkly-login-button">
     <div class="linkly-button <?= $buttonStyle ?>">
         <a href="<?= $buttonUrl ?>"><span><?= $buttonText ?></span>

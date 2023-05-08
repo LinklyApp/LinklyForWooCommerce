@@ -24,8 +24,9 @@
       "local": "Lokaal"
     },
     "button_style": {
-      "purple": "Paars",
-      "white": "Wit"
+      "title": "Knop stijl",
+      "primary": "Primair",
+      "secondary": "Secundair"
     },
     "save_changes": "Aanpassingen opslaan"
   }

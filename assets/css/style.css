@@ -31,6 +31,10 @@
     text-decoration-line: underline !important;
 }
 
+.linkly-button a:active, .linkly-button button:active {
+    border-radius: 8px;
+}
+
 .linkly-button * span {
     display: inline-block;
 
@@ -47,30 +51,30 @@
     height: 24px;
 }
 
-.purple {
+.linkly-button.primary {
     background: #2F0066;
     margin: 1px;
     border-radius: 8px;
 }
 
-.purple:hover {
+.linkly-button.primary:hover {
     background: #450094;
 }
 
-.purple * span {
+.linkly-button.primary * span {
     color: #FFFFFF;
 }
 
-.white {
+.linkly-button.secondary {
     background: #FFFFFF;
     border: #eeeeee 1px solid;
     border-radius: 8px;
 }
 
-.white:hover {
+.linkly-button.secondary:hover {
     background: #F2F2F2;
 }
 
-.white * span {
+.linkly-button.secondary * span {
     color: #212121;
 }

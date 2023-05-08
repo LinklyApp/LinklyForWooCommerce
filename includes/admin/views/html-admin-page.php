@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or exit;
 $buttonStyle = get_option('linkly_button_style');
-$logoStyle = get_option('linkly_button_style') === 'purple' ? 'light' : 'dark';
+$logoStyle = get_option('linkly_button_style') === 'primary' ? 'light' : 'dark';
 
 ?>
 
@@ -81,11 +81,11 @@ $logoStyle = get_option('linkly_button_style') === 'purple' ? 'light' : 'dark';
                 <?= LinklyLanguageHelper::instance()->get("button_style.title"); ?>
             </label>
             <select name="linkly_button_style" class="linkly-form-input">
-                <option value="purple" <?= get_option('linkly_button_style') === 'purple' ? 'selected' : '' ?>>
-                    <?= LinklyLanguageHelper::instance()->get("button_style.purple"); ?>
+                <option value="primary" <?= get_option('linkly_button_style') === 'primary' ? 'selected' : '' ?>>
+                    <?= LinklyLanguageHelper::instance()->get("button_style.primary"); ?>
                 </option>
-                <option value="white" <?= get_option('linkly_button_style') === 'white' ? 'selected' : '' ?>>
-                    <?= LinklyLanguageHelper::instance()->get("button_style.white"); ?>
+                <option value="secondary" <?= get_option('linkly_button_style') === 'secondary' ? 'selected' : '' ?>>
+                    <?= LinklyLanguageHelper::instance()->get("button_style.secondary"); ?>
                 </option>
             </select>
         </div>

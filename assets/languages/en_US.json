@@ -25,8 +25,8 @@
     },
     "button_style": {
       "title": "Button style",
-      "purple": "Purple",
-      "white": "White"
+      "primary": "Primary",
+      "secondary": "Secondary"
     },
     "save_changes": "Save changes"
   }
