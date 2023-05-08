@@ -6,7 +6,6 @@
 
 }
 
-
 #linkly-login-button hr {
     width: 100%;
     margin: 15px 0;
@@ -31,7 +30,7 @@
     text-decoration-line: underline !important;
 }
 
-.linkly-button a:active, .linkly-button button:active {
+.linkly-button a:active, .linkly-button button:active, .linkly-button a:focus, .linkly-button button:focus {
     border-radius: 8px;
 }
 

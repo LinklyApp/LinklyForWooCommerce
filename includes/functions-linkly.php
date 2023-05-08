@@ -3,6 +3,13 @@
 use Linkly\OAuth2\Client\Provider\Exception\LinklyProviderException;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
+/**
+ * @param LinklyUser $linklyUser
+ * @param WP_User|null $currentUser
+ *
+ * @return void
+ * @throws Exception
+ */
 function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUser = null)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
@@ -21,6 +28,13 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
     login_linkly_user($customer);
 }
 
+/**
+ * @param LinklyUser $linklyUser
+ * @param WP_User $currentUser
+ *
+ * @return void
+ * @throws Exception
+ */
 function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
@@ -44,6 +58,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 
 /**
  * @param WC_Customer $customer
+ *
  * @return void
  */
 function sync_customer_invoices_with_linkly(WC_Customer $customer): void
@@ -75,6 +90,11 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
     }
 }
 
+/**
+ * @param WC_Customer $customer
+ *
+ * @return void
+ */
 function login_linkly_user(WC_Customer $customer)
 {
     wp_clear_auth_cookie();
@@ -85,6 +105,20 @@ function login_linkly_user(WC_Customer $customer)
     }
 }
 
+/**
+ * @param WP_User $user
+ *
+ * @return bool
+ */
+function is_wp_user_linkly_user(WP_User $user): bool {
+	return $user->has_cap('linkly_user');
+}
+
+/**
+ * @param WC_Customer $customer
+ *
+ * @return bool
+ */
 function is_billing_address_equal_to_shipping_address(WC_Customer $customer) : bool
 {
     return $customer->get_billing_address_1() === $customer->get_shipping_address_1()
