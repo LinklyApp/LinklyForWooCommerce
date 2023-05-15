@@ -8,7 +8,7 @@ class WCInvoiceToLinklyInvoiceMapper
     public static function mapInvoice(WC_Order $order, Order_Document $orderDocument)
     {
         // TODO - get the correct invoice status according to orderDocument data
-        $invoiceBaseStatus = "Open";
+        $invoiceBaseStatus = "paid";
 
         return json_encode([
 	        'customerEmail' => $order->get_user()->user_email,

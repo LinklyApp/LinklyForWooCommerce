@@ -1,6 +1,5 @@
 <?php
 
-use Linkly\OAuth2\Client\Helpers\LinklyButtonHelper;
 use Linkly\OAuth2\Client\Helpers\LinklyOrderHelper;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\LinklyProvider;
@@ -26,11 +25,6 @@ class LinklyHelpers {
      */
     private LinklyOrderHelper $linklyOrderHelper;
 
-	/**
-	 * @var LinklyButtonHelper
-	 */
-	private LinklyButtonHelper $linklyButtonHelper;
-
     protected function __construct()
     {
         $this->linklyProvider = new LinklyProvider([
@@ -42,7 +36,6 @@ class LinklyHelpers {
 
         $this->linklySsoHelper = new LinklySsoHelper($this->linklyProvider);
         $this->linklyOrderHelper = new LinklyOrderHelper($this->linklyProvider);
-	    $this->linklyButtonHelper = new LinklyButtonHelper();
     }
 
     public static function instance(): LinklyHelpers {
@@ -76,14 +69,6 @@ class LinklyHelpers {
     {
         return $this->linklyProvider;
     }
-
-	/**
-	 * @return LinklyButtonHelper
-	 */
-	public function getLinklyButtonHelper(): LinklyButtonHelper
-	{
-		return $this->linklyButtonHelper;
-	}
 
 	/**
 	 * @return bool

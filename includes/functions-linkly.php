@@ -50,7 +50,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
     $customer = new WC_Customer($currentUser->ID);
 
     $customer->set_props($mappedCustomer);
-    $customer->add_meta_data('linkly_user', true);
+    $customer->add_meta_data('linkly_user', true, true);
     $customer->save();
 
     sync_customer_invoices_with_linkly($customer);
@@ -106,12 +106,12 @@ function login_linkly_user(WC_Customer $customer)
 }
 
 /**
- * @param WP_User $user
+ * @param int $userId
  *
  * @return bool
  */
-function is_wp_user_linkly_user(WP_User $user): bool {
-	return $user->has_cap('linkly_user');
+function is_wp_user_linkly_user(int $userId): bool {
+	return get_user_meta($userId, 'linkly_user', true);
 }
 
 /**

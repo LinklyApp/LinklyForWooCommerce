@@ -218,7 +218,7 @@ class Linkly_For_WC_Loader
 
         if (!$this->is_wc_pdf_compatible()) {
 
-                $this->add_admin_notice('update_woocommerce_pdf', 'error', sprintf(
+                $this->add_admin_notice('update_woocommerce_pdf', 'notice notice-warning is-dismissible', sprintf(
                     '%1$s requires WooCommerce PDF Invoices & Packing Slips version %2$s or higher. Please %3$supdate WooCommerce PDF Invoices & Packing Slips%4$s to the latest version, or %5$sdownload the minimum required version &raquo;%6$s',
                     '<strong>' . self::PLUGIN_NAME . '</strong>',
                     self::MINIMUM_WC_PDF_VERSION,

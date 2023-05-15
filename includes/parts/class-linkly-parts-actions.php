@@ -33,8 +33,6 @@ class LinklyPartsActions
     {
 	    $onlyLinkButton = true;
 	    include_once __DIR__ . '/views/html-buttons.php';
-
-//        include_once __DIR__ . '/views/html-link-account-button.php';
     }
 }
 
