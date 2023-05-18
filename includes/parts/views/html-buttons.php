@@ -34,6 +34,5 @@ if (is_user_logged_in() && is_wp_user_linkly_user(get_current_user_id()) && !$on
             <a href='" . $buttonUrl . "'><span>" .$buttonText . "</span>
                 <img src=" . LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL .  "assets/images/logo-horizontal-" . $logoStyle . "'.svg' alt='Linkly'></a>
         </div>
-        <hr>
     </div>"
 ?>
