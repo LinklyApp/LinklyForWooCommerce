@@ -8,6 +8,11 @@
     }
 }
 
+p {
+    font-size: 14px;
+    color: #1d2327;
+}
+
 form {
     margin-bottom: 2rem;
 }
@@ -36,6 +41,13 @@ form {
     width: 100%;
     max-width: 22rem !important;
     margin: 0;
+}
+
+.linkly-form-radio {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .linkly-warning {
