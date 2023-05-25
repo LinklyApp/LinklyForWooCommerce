@@ -1,7 +1,7 @@
 <script>
     document.body.onload = function () {
-        var moveToTop = document.getElementById('linkly-login-button');
-        let parrent = moveToTop.parentNode;
-        parrent.insertBefore(moveToTop, parrent.childNodes[0]);
+        let moveToTop = document.getElementById('linkly-login-button');
+        let parent = moveToTop.parentNode;
+        parent.insertBefore(moveToTop, parent.childNodes[0]);
     }
 </script>

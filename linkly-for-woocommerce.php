@@ -119,7 +119,7 @@ class Linkly_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-invoice-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-order-actions.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
 
@@ -130,7 +130,8 @@ class Linkly_For_WC_Loader
 
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-invoice-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-order-mapper.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-invoice-to-linkly-invoice-mapper.php';
 
         // Parts
         include_once plugin_dir_path(__FILE__) . 'includes/parts/class-linkly-parts-actions.php';
@@ -217,7 +218,7 @@ class Linkly_For_WC_Loader
 
         if (!$this->is_wc_pdf_compatible()) {
 
-                $this->add_admin_notice('update_woocommerce_pdf', 'error', sprintf(
+                $this->add_admin_notice('update_woocommerce_pdf', 'notice notice-warning is-dismissible', sprintf(
                     '%1$s requires WooCommerce PDF Invoices & Packing Slips version %2$s or higher. Please %3$supdate WooCommerce PDF Invoices & Packing Slips%4$s to the latest version, or %5$sdownload the minimum required version &raquo;%6$s',
                     '<strong>' . self::PLUGIN_NAME . '</strong>',
                     self::MINIMUM_WC_PDF_VERSION,

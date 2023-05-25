@@ -3,6 +3,13 @@
 use Linkly\OAuth2\Client\Provider\Exception\LinklyProviderException;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
+/**
+ * @param LinklyUser $linklyUser
+ * @param WP_User|null $currentUser
+ *
+ * @return void
+ * @throws Exception
+ */
 function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUser = null)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
@@ -10,7 +17,7 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
 
     $customer->set_props($mappedCustomer);
 
-    $customer->add_meta_data('linkly_user', true);
+    $customer->add_meta_data('linkly_user', true, true);
     $customer->update_meta_data('linkly_billing_id', $linklyUser->getBillingAddress()->getId());
     $customer->update_meta_data('linkly_billing_version', $linklyUser->getBillingAddress()->getVersion());
     $customer->update_meta_data('linkly_shipping_id', $linklyUser->getShippingAddress()->getId());
@@ -21,6 +28,13 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
     login_linkly_user($customer);
 }
 
+/**
+ * @param LinklyUser $linklyUser
+ * @param WP_User $currentUser
+ *
+ * @return void
+ * @throws Exception
+ */
 function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
@@ -36,7 +50,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
     $customer = new WC_Customer($currentUser->ID);
 
     $customer->set_props($mappedCustomer);
-    $customer->add_meta_data('linkly_user', true);
+    $customer->add_meta_data('linkly_user', true, true);
     $customer->save();
 
     sync_customer_invoices_with_linkly($customer);
@@ -44,6 +58,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 
 /**
  * @param WC_Customer $customer
+ *
  * @return void
  */
 function sync_customer_invoices_with_linkly(WC_Customer $customer): void
@@ -58,13 +73,13 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
 
     $orders = wc_get_orders($args);
 
-    $linklyInvoiceHelper = LinklyHelpers::instance()->getInvoiceHelper();
+    $linklyOrderHelper = LinklyHelpers::instance()->getInvoiceHelper();
 
     foreach ($orders as $order) {
         try {
             $invoice = wcpdf_get_document('invoice', $order, true);
-            $invoiceData = WCOrderToLinklyInvoiceMapper::mapInvoice($invoice);
-            $linklyInvoiceHelper->sendInvoice($invoiceData);
+            $invoiceData = WCInvoiceToLinklyInvoiceMapper::mapInvoice($order, $invoice);
+            $linklyOrderHelper->sendInvoice($invoiceData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
         } catch (LinklyProviderException $e) {
@@ -75,6 +90,11 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
     }
 }
 
+/**
+ * @param WC_Customer $customer
+ *
+ * @return void
+ */
 function login_linkly_user(WC_Customer $customer)
 {
     wp_clear_auth_cookie();
@@ -85,6 +105,20 @@ function login_linkly_user(WC_Customer $customer)
     }
 }
 
+/**
+ * @param int $userId
+ *
+ * @return bool
+ */
+function is_wp_user_linkly_user(int $userId): bool {
+	return get_user_meta($userId, 'linkly_user', true);
+}
+
+/**
+ * @param WC_Customer $customer
+ *
+ * @return bool
+ */
 function is_billing_address_equal_to_shipping_address(WC_Customer $customer) : bool
 {
     return $customer->get_billing_address_1() === $customer->get_shipping_address_1()

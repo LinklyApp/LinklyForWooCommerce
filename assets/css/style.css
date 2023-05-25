@@ -6,10 +6,12 @@
 
 }
 
+#linkly-login-button {
+    margin-bottom: 15px;
+}
 
 #linkly-login-button hr {
     width: 100%;
-    margin: 15px 0;
     border: none;
     height: 2px;
     background: #c3c4c7;
@@ -24,15 +26,15 @@
     padding: 10px 24px;
     gap: 8px;
 
-    background: #2F0066;
-    border-radius: 8px;
-
     text-decoration: none !important;
 }
 
 .linkly-button a:hover, .linkly-button button:hover {
-    background: #450094;
     text-decoration-line: underline !important;
+}
+
+.linkly-button a:active, .linkly-button button:active, .linkly-button a:focus, .linkly-button button:focus {
+    border-radius: 8px;
 }
 
 .linkly-button * span {
@@ -43,13 +45,38 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
-
-
-    color: #FFFFFF;
 }
 
 .linkly-button * img {
     display: inline;
     width: 78px;
     height: 24px;
+}
+
+.linkly-button.primary {
+    background: #2F0066;
+    margin: 1px;
+    border-radius: 8px;
+}
+
+.linkly-button.primary:hover {
+    background: #450094;
+}
+
+.linkly-button.primary * span {
+    color: #FFFFFF;
+}
+
+.linkly-button.secondary {
+    background: #FFFFFF;
+    border: #eeeeee 1px solid;
+    border-radius: 8px;
+}
+
+.linkly-button.secondary:hover {
+    background: #F2F2F2;
+}
+
+.linkly-button.secondary * span {
+    color: #212121;
 }

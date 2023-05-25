@@ -7,12 +7,27 @@
     "change-address-button": "Change address at",
     "admin-connect-button": "Link with",
     "go-to-linkly-button": "Go to",
+    "order_description": "Order at {0}",
     "language": "Language",
+    "warning": {
+      "title": "Warning",
+      "pdf-invoice-plugin-not-activated": "The WooCommerce PDF Invoices & Packing Slips plugin is not activated. Please activate it to be able to generate invoices."
+    },
+    "client": {
+      "id": "Client ID",
+      "secret": "Client Secret"
+    },
     "environment": {
       "title": "Environment",
       "production": "Production",
       "beta": "Beta",
       "local": "Local"
-    }
+    },
+    "button_style": {
+      "title": "Button style",
+      "primary": "Primary",
+      "secondary": "Secondary"
+    },
+    "save_changes": "Save changes"
   }
 }
