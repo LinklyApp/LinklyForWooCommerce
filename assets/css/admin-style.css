@@ -1,10 +1,15 @@
 .linkly-admin-page {
-    padding-right: 0.625rem;
+    background: white;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 0.625rem;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 783px) {
     .linkly-admin-page {
         padding-right: 2rem;
+        margin-right: 20px;
     }
 }
 
