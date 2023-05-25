@@ -34,7 +34,7 @@ if ( current_user_can( 'manage_options' ) ) {
 !$showButton ?
     ""
     :
-    "<div id='linkly-login-button'>
+    "<div id='linkly-sso-button' class='linkly-sso-button'>
         <div class='linkly-button " . $buttonStyle . "'>
             <a href='" . $buttonUrl . "'><span>" .$buttonText . "</span>
                 <img src=" . LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL .  "assets/images/logo-horizontal-" . $logoStyle . "'.svg' alt='Linkly'></a>

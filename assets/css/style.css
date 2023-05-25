@@ -6,15 +6,8 @@
 
 }
 
-#linkly-login-button {
+.linkly-sso-button {
     margin-bottom: 15px;
-}
-
-#linkly-login-button hr {
-    width: 100%;
-    border: none;
-    height: 2px;
-    background: #c3c4c7;
 }
 
 .linkly-button button, .linkly-button a {
