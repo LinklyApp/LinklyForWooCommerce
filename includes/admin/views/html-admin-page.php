@@ -58,21 +58,6 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 			<input name="linkly_client_secret" class="linkly-form-input" type="text"
 			       value="<?= get_option( 'linkly_settings_app_secret' ) ?>">
 		</div>
-		<div class="linkly-form-group">
-			<label
-				class="linkly-form-label"><?= LinklyLanguageHelper::instance()->get( "environment.title" ); ?></label>
-			<select name="linkly_environment" class="linkly-form-input">
-				<option value="prod" <?= get_option( 'linkly_settings_environment' ) === 'prod' ? 'selected' : '' ?>>
-					<?= LinklyLanguageHelper::instance()->get( "environment.production" ); ?>
-				</option>
-				<option value="beta" <?= get_option( 'linkly_settings_environment' ) === 'beta' ? 'selected' : '' ?>>
-					<?= LinklyLanguageHelper::instance()->get( "environment.beta" ); ?>
-				</option>
-				<option value="local" <?= get_option( 'linkly_settings_environment' ) === 'local' ? 'selected' : '' ?>>
-					<?= LinklyLanguageHelper::instance()->get( "environment.local" ); ?>
-				</option>
-			</select>
-		</div>
 		<button class="button-primary" type="submit">
 			<?= LinklyLanguageHelper::instance()->get( "save_changes" ); ?>
 		</button>
