@@ -19,14 +19,9 @@
       "id": "Client ID",
       "secret": "Client Secret"
     },
-    "environment": {
-      "title": "Environment",
-      "production": "Production",
-      "beta": "Beta",
-      "local": "Local"
-    },
     "button_style": {
       "title": "Button style",
+      "change": "Click one of the buttons below to change the style of the Linkly button.",
       "primary": "Primary",
       "secondary": "Secondary"
     },

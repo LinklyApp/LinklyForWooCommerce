@@ -21,6 +21,7 @@
     },
     "button_style": {
       "title": "Knop stijl",
+      "change": "Klik een van de onderstaande stijlen aan om de Linkly knop te veranderen.",
       "primary": "Primair",
       "secondary": "Secundair"
     },

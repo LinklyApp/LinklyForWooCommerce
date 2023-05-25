@@ -27,7 +27,8 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 	<?php if ( ! LinklyHelpers::instance()->isConnected() ) { ?>
 		<div class="linkly-form-group">
 			<div class="linkly-button <?= $buttonStyle ?>">
-				<a href="<?= home_url( "?linkly_request_token=" . urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ?>"><span><?= LinklyLanguageHelper::instance()->get( "admin-connect-button" ) ?></span>
+				<a href="<?= home_url( "?linkly_request_token=" . urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ?>">
+                    <span><?= LinklyLanguageHelper::instance()->get( "admin-connect-button" ) ?></span>
 					<img
 						src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ?>"></a>
 			</div>
@@ -65,34 +66,20 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 	</form>
 
 	<?php if ( LinklyHelpers::instance()->isConnected() ) { ?>
-	<form method="post" action="">
+	<form method="post">
 		<?php wp_nonce_field( 'linkly_button_style' ); ?>
-		<p>
-			<strong><?= LinklyLanguageHelper::instance()->get( 'button_style.title' ) ?></strong>
-		</p>
-		<div class="linkly-form-group linkly-form-radio">
-			<input type="radio" name="linkly_button_style" id="button_style_primary" value="primary"
-				<?= get_option( 'linkly_button_style' ) === 'primary' ? 'checked' : '' ?>>
-			<label for="button_style_primary">
-				<div class="linkly-button primary">
-					<a target="_blank"><span><?= LinklyLanguageHelper::instance()->get( "button_style.primary" ) ?></span>
-						<img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ?>"></a>
-				</div>
-			</label>
-		</div>
-		<div class="linkly-form-group linkly-form-radio">
-			<input type="radio" name="linkly_button_style" id="button_style_secondary" value="secondary"
-				<?= get_option( 'linkly_button_style' ) === 'secondary' ? 'checked' : '' ?>>
-			<label for="button_style_secondary">
-				<div class="linkly-button secondary">
-					<a target="_blank"><span><?= LinklyLanguageHelper::instance()->get( "button_style.secondary" ) ?></span>
-						<img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ?>"></a>
-				</div>
-			</label>
-		</div>
-		<button class="button-primary" type="submit">
-			<?= LinklyLanguageHelper::instance()->get( "save_changes" ); ?>
-		</button>
+		<strong><?= LinklyLanguageHelper::instance()->get( 'button_style.title' ) ?></strong>
+        <p>
+	        <?= LinklyLanguageHelper::instance()->get('button_style.change') ?>
+        </p>
+        <button type="submit" name="linkly_button_style" class="linkly-button primary" value="primary">
+            <a target="_blank"><span><?= LinklyLanguageHelper::instance()->get( "button_style.primary" ) ?></span>
+                <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ?>"></a>
+        </button>
+        <button type="submit" name="linkly_button_style" class="linkly-button secondary" value="secondary">
+            <a target="_blank"><span><?= LinklyLanguageHelper::instance()->get( "button_style.secondary" ) ?></span>
+                <img src="<?= LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ?>" alt="Linkly"></a>
+        </button>
 	</form>
     <?php } ?>
 

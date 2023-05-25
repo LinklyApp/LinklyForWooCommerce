@@ -49,6 +49,7 @@
 .linkly-button.primary {
     background: #2F0066;
     margin: 1px;
+    border: 0;
     border-radius: 8px;
 }
 
