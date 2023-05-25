@@ -18,6 +18,7 @@
 
     padding: 10px 24px;
     gap: 8px;
+    cursor: pointer;
 
     text-decoration: none !important;
 }

@@ -25,6 +25,8 @@
       "primary": "Primary",
       "secondary": "Secondary"
     },
-    "save_changes": "Save changes"
+    "save_changes": "Save changes",
+    "edit_credentials": "Change ID and/or secret",
+    "cancel": "Cancel"
   }
 }

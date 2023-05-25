@@ -25,6 +25,8 @@
       "primary": "Primair",
       "secondary": "Secundair"
     },
-    "save_changes": "Aanpassingen opslaan"
+    "save_changes": "Aanpassingen opslaan",
+    "edit_credentiels": "ID en/of secret aanpassen",
+    "cancel": "Annuleren"
   }
 }

@@ -25,12 +25,20 @@ form {
 .linkly-form-group {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     margin-bottom: 1rem;
     max-width: 30rem;
+}
+
+.linkly-secret-eye * img {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 .linkly-form-label {
@@ -43,9 +51,18 @@ form {
 
 .linkly-form-input {
     display: inline-block;
-    width: 100%;
+    width: 65%;
     max-width: 22rem !important;
     margin: 0;
+}
+
+.linkly-credentials-button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 1rem;
 }
 
 .linkly-warning {
