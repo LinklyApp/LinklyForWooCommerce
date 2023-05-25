@@ -17,11 +17,12 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 	<?php } ?>
 
 	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-		magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-		pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
-		laborum.
+		<?php if ( ! LinklyHelpers::instance()->isConnected() ) { ?>
+		<?= LinklyLanguageHelper::instance()->get( "admin-description-not-linked" ) ?>
+        <?php } ?>
+        <?php if ( LinklyHelpers::instance()->isConnected() ) { ?>
+        <?= LinklyLanguageHelper::instance()->get( "admin-description-linked" ) ?>
+        <?php } ?>
 	</p>
 	<?php if ( ! LinklyHelpers::instance()->isConnected() ) { ?>
 		<div class="linkly-form-group">
@@ -63,6 +64,7 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 		</button>
 	</form>
 
+	<?php if ( LinklyHelpers::instance()->isConnected() ) { ?>
 	<form method="post" action="">
 		<?php wp_nonce_field( 'linkly_button_style' ); ?>
 		<p>
@@ -92,5 +94,6 @@ $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'da
 			<?= LinklyLanguageHelper::instance()->get( "save_changes" ); ?>
 		</button>
 	</form>
+    <?php } ?>
 
 </div>

@@ -9,6 +9,8 @@
     "go-to-linkly-button": "Ga naar",
     "order_description": "Bestelling bij {0}",
     "language": "Taal",
+    "admin-description-not-linked": "Op deze pagina kan je je webshop koppelen met Linkly. Dit is nodig om de Linkly plugin te kunnen gebruiken. Klik op de knop hieronder om je webshop te koppelen.",
+    "admin-description-linked": "Op deze pagina kan je je ID en secret van jouw webshop beheren, ook kan je de stijl voor de knop die de gebruikers zien veranderen.",
     "warning": {
       "title": "Waarschuwing",
       "pdf-invoice-plugin": "De WooCommerce PDF Invoices & Packing Slips plugin is niet geactiveerd. Activeer deze plugin om facturen te kunnen genereren."
@@ -16,12 +18,6 @@
     "client": {
       "id": "Client ID",
       "secret": "Client Secret"
-    },
-    "environment": {
-      "title": "Omgeving",
-      "production": "Productie",
-      "beta": "Beta",
-      "local": "Lokaal"
     },
     "button_style": {
       "title": "Knop stijl",

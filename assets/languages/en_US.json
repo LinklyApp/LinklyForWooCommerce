@@ -9,6 +9,8 @@
     "go-to-linkly-button": "Go to",
     "order_description": "Order at {0}",
     "language": "Language",
+    "admin-description-not-linked": "On this page you can link your webshop to Linkly. This way you can use the Linkly services. Press the button below to link your webshop.",
+    "admin-description-linked": "On this page you can manage your ID and secret of your webshop, you can also change the style of the button that users of your webshop see.",
     "warning": {
       "title": "Warning",
       "pdf-invoice-plugin-not-activated": "The WooCommerce PDF Invoices & Packing Slips plugin is not activated. Please activate it to be able to generate invoices."
