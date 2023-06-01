@@ -23,7 +23,8 @@
       "title": "Knop stijl",
       "change": "Klik een van de onderstaande stijlen aan om de Linkly knop te veranderen.",
       "primary": "Primair",
-      "secondary": "Secundair"
+      "secondary": "Secundair",
+      "current": "Huidige"
     },
     "save_changes": "Aanpassingen opslaan",
     "edit_credentiels": "ID en/of secret aanpassen",
