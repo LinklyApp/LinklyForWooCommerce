@@ -24,7 +24,7 @@
       "change": "Click one of the buttons below to change the style of the Linkly button.",
       "primary": "Primary",
       "secondary": "Secondary",
-      "current": "Current"
+      "current": "(Current)"
     },
     "save_changes": "Save changes",
     "edit_credentials": "Change ID and/or secret",
