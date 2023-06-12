@@ -39,7 +39,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
 {
     $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
 
-    if ($currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email) {
+    if ($currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email && !user_can($currentUser, 'manage_options')) {
         $currentUser->user_email = $linklyUser->getEmail();
         $response = wp_update_user($currentUser);
         if (is_wp_error($response)) {

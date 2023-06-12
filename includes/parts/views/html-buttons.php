@@ -12,29 +12,24 @@ if (!isset($onlyLinkButton)) {
 	$onlyLinkButton = false;
 }
 
-if ( current_user_can( 'manage_options' ) ) {
-    $buttonUrl = 'https://web.linkly.me';
-    $buttonText = LinklyLanguageHelper::instance()->get('go-to-linkly-button');
+if (is_user_logged_in() && is_wp_user_linkly_user(get_current_user_id()) && !$onlyLinkButton) {
+    $buttonUrl = './?linkly_change_address_action=' . urlencode($_SERVER['REQUEST_URI']);
+    $buttonText = LinklyLanguageHelper::instance()->get('change-address-button');
+} else if (is_user_logged_in() && !is_wp_user_linkly_user(get_current_user_id())) {
+    $buttonUrl = './?linkly_link_account_action=' . urlencode($_SERVER['REQUEST_URI']);
+    $buttonText = LinklyLanguageHelper::instance()->get('link-account-button');
+} else if (!$onlyLinkButton){
+    $buttonUrl = './?linkly_login_action=' . urlencode($_SERVER['REQUEST_URI']);
+    $buttonText = LinklyLanguageHelper::instance()->get('login-button');
 } else {
-    if (is_user_logged_in() && is_wp_user_linkly_user(get_current_user_id()) && !$onlyLinkButton) {
-        $buttonUrl = './?linkly_change_address_action=' . urlencode($_SERVER['REQUEST_URI']);
-        $buttonText = LinklyLanguageHelper::instance()->get('change-address-button');
-    } else if (is_user_logged_in() && !is_wp_user_linkly_user(get_current_user_id())) {
-        $buttonUrl = './?linkly_link_account_action=' . urlencode($_SERVER['REQUEST_URI']);
-        $buttonText = LinklyLanguageHelper::instance()->get('link-account-button');
-    } else if (!$onlyLinkButton){
-        $buttonUrl = './?linkly_login_action=' . urlencode($_SERVER['REQUEST_URI']);
-        $buttonText = LinklyLanguageHelper::instance()->get('login-button');
-    } else {
-        $showButton = false;
-    }
+    $showButton = false;
 }
 ?>
 <?=
 !$showButton ?
     ""
     :
-    "<div id='linkly-login-button'>
+    "<div id='linkly-sso-button' class='linkly-sso-button'>
         <div class='linkly-button " . $buttonStyle . "'>
             <a href='" . $buttonUrl . "'><span>" .$buttonText . "</span>
                 <img src=" . LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL .  "assets/images/logo-horizontal-" . $logoStyle . "'.svg' alt='Linkly'></a>

@@ -1,13 +1,14 @@
 <?php
-/*
-Plugin Name: Linkly for Woocommerce
-Plugin URI: https://linkly.me/
-Description: Plugin to couple woocommerce to Linkly SSO
-Version: 1.0
-Author: Linkly
-Author URI: https://linkly.me/
-License: GPLv2 or later
-Text Domain: linkly
+/**
+ * Plugin Name: Linkly for Woocommerce
+ * Plugin URI: https://wordpress.org/plugins/linkly-for-woocommerce
+ * Description: Plugin to link WooCommerce to Linkly SSO
+ * Version: 1.0
+ * Author: Linkly
+ * Author URI: https://linkly.me/
+ * License: GPLv3
+ * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
+ * Text Domain: linkly
 */
 
 defined('ABSPATH') or exit;

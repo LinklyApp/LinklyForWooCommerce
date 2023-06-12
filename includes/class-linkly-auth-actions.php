@@ -108,6 +108,10 @@ class LinklyAuthActions
                 createOrUpdateLinklyCustomer($linklyUser, $user ?: null);
             }
 
+			if ( str_contains( $_SESSION['url_to_return_to'], '/wp-login.php' ) ) {
+				$_SESSION['url_to_return_to'] = get_site_url();
+			}
+
             wp_redirect($_SESSION['url_to_return_to']);
             unset($_SESSION['url_to_return_to']);
             exit;

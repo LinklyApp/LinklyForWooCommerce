@@ -1,10 +1,15 @@
 .linkly-admin-page {
-    padding-right: 0.625rem;
+    background: white;
+    border-radius: 8px;
+    margin-top: 10px;
+    margin-right: 10px;
+    padding: 0.625rem;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 783px) {
     .linkly-admin-page {
         padding-right: 2rem;
+        margin-right: 20px;
     }
 }
 
@@ -20,12 +25,20 @@ form {
 .linkly-form-group {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 
     margin-bottom: 1rem;
     max-width: 30rem;
+}
+
+.linkly-secret-eye * img {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    margin-left: 0.5rem;
+    cursor: pointer;
 }
 
 .linkly-form-label {
@@ -38,16 +51,25 @@ form {
 
 .linkly-form-input {
     display: inline-block;
-    width: 100%;
+    width: 65%;
     max-width: 22rem !important;
     margin: 0;
 }
 
-.linkly-form-radio {
+.linkly-button-current {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d2327;
+    padding-left: 20px;
+}
+
+.linkly-credentials-button {
     display: flex;
+    flex-direction: row;
     justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
     gap: 1rem;
-    flex-wrap: wrap;
 }
 
 .linkly-warning {
