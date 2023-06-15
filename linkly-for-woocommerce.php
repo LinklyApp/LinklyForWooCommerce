@@ -120,6 +120,7 @@ class Linkly_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-address-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-order-actions.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
