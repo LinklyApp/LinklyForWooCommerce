@@ -34,22 +34,13 @@ class LinklyAddressActions
 		$_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_change_address_action']);
 
 		$url = getBaseUrl();
-		$corsUrl = parse_url(get_site_url(), PHP_URL_SCHEME) . '://' . parse_url(get_site_url(), PHP_URL_HOST);
-		$port = parse_url(get_site_url(), PHP_URL_PORT);
-
-		if ($port) {
-			$corsUrl .= ':' . $port;
-		}
 
 		$params = [
 			'redirect_uri' => get_site_url() . '?linkly_change_address_callback',
 			'clientName' => get_bloginfo('name'),
-			'oauth_cors_uri' => $corsUrl,
-			'oauth_post_logout_redirect_uri' => get_site_url(),
-			'oauth_redirect_uri' => get_site_url() . '?linkly-callback',
 		];
 
-		$url .= '/external-api/adressess?' . http_build_query($params);
+		$url .= '/external-api/addresses?clientName=' . http_build_query($params);
 		wp_redirect($url);
 		exit;
 	}

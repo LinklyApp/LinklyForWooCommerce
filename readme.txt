@@ -40,5 +40,8 @@ In the search field type \"Linkly for WooCommerce\" and click Search Plugins. Yo
 3. Activate the plugin from the Plugins menu within the WordPress admin.
 
 == Changelog ==
+= 1.1.0 (**/06/2023) =
+* Added: Action to change user address with Linkly SSO
+
 = 1.0 (02/06/2023) =
 * Initial version: Link your webshop with Linkly and choose the style for the Linkly button
