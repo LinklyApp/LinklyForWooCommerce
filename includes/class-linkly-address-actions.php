@@ -37,10 +37,10 @@ class LinklyAddressActions
 
 		$params = [
 			'redirect_uri' => get_site_url() . '?linkly_change_address_callback',
-			'clientName' => get_bloginfo('name'),
+			'clientId' => get_option('linkly_settings_app_key'),
 		];
 
-		$url .= '/external-api/addresses?clientName=' . http_build_query($params);
+		$url .= '/external-api/addresses?' . http_build_query($params);
 		wp_redirect($url);
 		exit;
 	}
