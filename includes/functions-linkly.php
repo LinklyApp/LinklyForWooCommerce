@@ -127,8 +127,18 @@ function is_billing_address_equal_to_shipping_address(WC_Customer $customer) : b
         ;
 }
 
+/**
+ * @return string
+ */
+function getBaseUrl()
+{
+	$env = get_option('linkly_settings_environment');
+	if ($env === 'local') {
+		return LinklyHelpers::instance()->getLinklyProvider()->localDomain;
+	}
+	if ($env === 'beta') {
+		return LinklyHelpers::instance()->getLinklyProvider()->betaDomain;
+	}
 
-
-
-
-
+	return LinklyHelpers::instance()->getLinklyProvider()->domain;
+}

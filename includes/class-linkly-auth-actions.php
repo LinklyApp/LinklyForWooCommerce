@@ -7,7 +7,7 @@ class LinklyAuthActions
     /**
      * @var LinklySsoHelper
      */
-    private $ssoHelper;
+    private LinklySsoHelper $ssoHelper;
 
     public function __construct(LinklySsoHelper $ssoHelper)
     {
@@ -19,12 +19,14 @@ class LinklyAuthActions
         add_action('init', [$this, 'linkly_request_token_action']);
         add_action('init', [$this, 'linkly_request_token_callback']);
 
-        add_action('woocommerce_before_checkout_form', [$this, 'linkly_check_and_update_addresses_if_changed']);
-        add_action('woocommerce_before_edit_account_address_form', [$this, 'linkly_check_and_update_addresses_if_changed']);
-
         add_action('wp_logout', [$this, 'linkly_logout']);
     }
 
+	/**
+	 * The action to redirect to the Linkly SSO server to link the webshop to Linkly
+	 *
+	 * @return void
+	 */
     function linkly_request_token_action()
     {
         if (!isset($_GET['linkly_request_token'])) {
@@ -33,7 +35,7 @@ class LinklyAuthActions
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_request_token']);
         // $corsUrl is pure the domain name without the path if there is a port number it is included
 
-        $url = $this->getBaseUrl();
+        $url = getBaseUrl();
         $corsUrl = parse_url(get_site_url(), PHP_URL_SCHEME) . '://' . parse_url(get_site_url(), PHP_URL_HOST);
         $port = parse_url(get_site_url(), PHP_URL_PORT);
 
@@ -53,6 +55,11 @@ class LinklyAuthActions
         exit;
     }
 
+	/**
+	 * The callback action after the webshop has been linked to Linkly
+	 *
+	 * @return void
+	 */
     function linkly_request_token_callback()
     {
         if (!isset($_GET["linkly_request_token_callback"])) {
@@ -67,6 +74,12 @@ class LinklyAuthActions
 
     }
 
+	/**
+	 * The action to redirect to the Linkly SSO server to link the WordPress user to Linkly
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
     function linkly_link_account_action()
     {
         if (!isset($_GET['linkly_link_account_action'])) {
@@ -78,6 +91,12 @@ class LinklyAuthActions
         exit;
     }
 
+	/**
+	 * The action to redirect to the Linkly SSO server to log in
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
     function linkly_login_action()
     {
         if (!isset($_GET['linkly_login_action'])) {
@@ -91,6 +110,11 @@ class LinklyAuthActions
         exit;
     }
 
+	/**
+	 * The callback action after the user has logged in on the Linkly SSO server
+	 *
+	 * @return void
+	 */
     function linkly_login_callback()
     {
         if (!isset($_GET['linkly-callback'])) {
@@ -121,64 +145,16 @@ class LinklyAuthActions
         }
     }
 
-    public function linkly_check_and_update_addresses_if_changed()
-    {
-        if (!is_user_logged_in()) {
-            return;
-        }
-
-        $customer = new WC_Customer(get_current_user_id());
-        if (!$customer->get_meta('linkly_user')) {
-            return;
-        }
-
-        $addressData = [
-            'billingAddressId' => $customer->get_meta('linkly_billing_id'),
-            'billingAddressVersion' => $customer->get_meta('linkly_billing_version'),
-            'shippingAddressId' => $customer->get_meta('linkly_shipping_id'),
-            'shippingAddressVersion' => $customer->get_meta('linkly_shipping_version'),
-        ];
-
-        try {
-            if(!$this->ssoHelper->hasAddressBeenChanged($addressData))
-            {
-                return;
-            }
-
-            $linklyUser = $this->ssoHelper->getUser();
-            $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
-            $customer->set_props($mappedCustomer);
-
-            $customer->add_meta_data('linkly_user', true, true);
-            $customer->update_meta_data('linkly_billing_id', $linklyUser->getBillingAddress()->getId());
-            $customer->update_meta_data('linkly_billing_version', $linklyUser->getBillingAddress()->getVersion());
-            $customer->update_meta_data('linkly_shipping_id', $linklyUser->getShippingAddress()->getId());
-            $customer->update_meta_data('linkly_shipping_version', $linklyUser->getShippingAddress()->getVersion());
-
-            $customer->save();
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
-    }
-
+	/**
+	 * The action for the user to log out
+	 *
+	 * @return void
+	 */
     function linkly_logout()
     {
         $this->ssoHelper->logout();
     }
 
-    private function getBaseUrl()
-    {
-        $env = get_option('linkly_settings_environment');
-        if ($env === 'local') {
-            return LinklyHelpers::instance()->getLinklyProvider()->localDomain;
-        }
-        if ($env === 'beta') {
-            return LinklyHelpers::instance()->getLinklyProvider()->betaDomain;
-        }
-
-        return LinklyHelpers::instance()->getLinklyProvider()->domain;
-
-    }
 }
 
 new LinklyAuthActions(LinklyHelpers::instance()->getSsoHelper());

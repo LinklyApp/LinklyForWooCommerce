@@ -3,7 +3,7 @@
  * Plugin Name: Linkly for Woocommerce
  * Plugin URI: https://wordpress.org/plugins/linkly-for-woocommerce
  * Description: Plugin to link WooCommerce to Linkly SSO
- * Version: 1.0
+ * Version: 1.1.0
  * Author: Linkly
  * Author URI: https://linkly.me/
  * License: GPLv3
@@ -120,6 +120,7 @@ class Linkly_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';
+        include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-address-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-order-actions.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
