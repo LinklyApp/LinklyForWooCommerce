@@ -1,7 +1,7 @@
 <?php
 defined('ABSPATH') or exit;
-$linklyHelpers = LinklyHelpers::instance();
 
+$linklyHelpers = LinklyHelpers::instance();
 $buttonUrl = "";
 $buttonText = "";
 $showButton = true;

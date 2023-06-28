@@ -32,16 +32,12 @@ class LinklyAddressActions
 		}
 
 		$_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_change_address_action']);
-
-		$url = getBaseUrl();
-
 		$params = [
-			'redirect_uri' => get_site_url() . '?linkly_change_address_callback',
 			'clientId' => get_option('linkly_settings_app_key'),
+			'redirect_uri' => get_site_url() . '?linkly_change_address_callback'
 		];
 
-		$url .= '/external-api/addresses?' . http_build_query($params);
-		wp_redirect($url);
+		$this->ssoHelper->changeAddress($params);
 		exit;
 	}
 
