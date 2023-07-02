@@ -40,6 +40,9 @@ In the search field type \"Linkly for WooCommerce\" and click Search Plugins. Yo
 3. Activate the plugin from the Plugins menu within the WordPress admin.
 
 == Changelog ==
+= 1.1.1 (29/06/2023) =
+* Added: Send Billing and Shipping address to Linkly when an order is placed.
+
 = 1.1.0 (28/06/2023) =
 * Added: Change user address with Linkly SSO on the WooCommerce account page.
 
