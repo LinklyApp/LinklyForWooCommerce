@@ -35,7 +35,6 @@ class LinklyAuthActions
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_request_token']);
         // $corsUrl is pure the domain name without the path if there is a port number it is included
 
-        $url = getBaseUrl();
         $corsUrl = parse_url(get_site_url(), PHP_URL_SCHEME) . '://' . parse_url(get_site_url(), PHP_URL_HOST);
         $port = parse_url(get_site_url(), PHP_URL_PORT);
 
@@ -44,14 +43,14 @@ class LinklyAuthActions
         }
 
         $params = [
-            'redirect_uri' => get_site_url() . '?linkly_request_token_callback',
+            'return_url' => get_site_url() . '?linkly_request_token_callback',
             'clientName' => get_bloginfo('name'),
-            'oauth_cors_uri' => $corsUrl,
-            'oauth_post_logout_redirect_uri' => get_site_url(),
-            'oauth_redirect_uri' => get_site_url() . '?linkly-callback',
+            'allowed_cors_origin' => $corsUrl,
+            'post_logout_redirect_uri' => get_site_url(),
+            'redirect_uri' => get_site_url() . '?linkly-callback',
         ];
-        $url .= '/external-api/clients?' . http_build_query($params);
-        wp_redirect($url);
+
+	    $this->ssoHelper->linkClient($params);
         exit;
     }
 
