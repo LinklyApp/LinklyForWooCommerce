@@ -3,6 +3,8 @@
 use Linkly\OAuth2\Client\Provider\Exception\LinklyProviderException;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 /**
  * @param LinklyUser $linklyUser
  * @param WP_User|null $currentUser
@@ -10,9 +12,9 @@ use Linkly\OAuth2\Client\Provider\User\LinklyUser;
  * @return void
  * @throws Exception
  */
-function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUser = null)
+function linkly_createOrUpdateCustomer(LinklyUser $linklyUser, WP_User $currentUser = null)
 {
-    $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
+    $mappedCustomer = LinklyCustomerToWCCustomerMapper::map($linklyUser);
     $customer = new WC_Customer($currentUser->ID);
 
     $customer->set_props($mappedCustomer);
@@ -25,7 +27,7 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
 
     $customer->save();
 
-    login_linkly_user($customer);
+    linkly_login_user($customer);
 }
 
 /**
@@ -35,9 +37,9 @@ function createOrUpdateLinklyCustomer(LinklyUser $linklyUser, WP_User $currentUs
  * @return void
  * @throws Exception
  */
-function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
+function linkly_attachWCCustomer(LinklyUser $linklyUser, WP_User $currentUser)
 {
-    $mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
+    $mappedCustomer = LinklyCustomerToWCCustomerMapper::map($linklyUser);
 
     if ($currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email && !user_can($currentUser, 'manage_options')) {
         $currentUser->user_email = $linklyUser->getEmail();
@@ -53,7 +55,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
     $customer->add_meta_data('linkly_user', true, true);
     $customer->save();
 
-    sync_customer_invoices_with_linkly($customer);
+    linkly_sync_customer_invoices($customer);
 }
 
 /**
@@ -61,7 +63,7 @@ function attachWCCustomerToLinkly(LinklyUser $linklyUser, WP_User $currentUser)
  *
  * @return void
  */
-function sync_customer_invoices_with_linkly(WC_Customer $customer): void
+function linkly_sync_customer_invoices(WC_Customer $customer): void
 {
     $args = array(
         'limit' => -1, // Limit of orders to retrieve
@@ -78,7 +80,7 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
     foreach ($orders as $order) {
         try {
             $invoice = wcpdf_get_document('invoice', $order, true);
-            $invoiceData = WCInvoiceToLinklyInvoiceMapper::mapInvoice($order, $invoice);
+            $invoiceData = LinklyWCInvoiceToLinklyInvoiceMapper::mapInvoice($order, $invoice);
             $linklyOrderHelper->sendInvoice($invoiceData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
@@ -95,12 +97,12 @@ function sync_customer_invoices_with_linkly(WC_Customer $customer): void
  *
  * @return void
  */
-function login_linkly_user(WC_Customer $customer)
+function linkly_login_user(WC_Customer $customer)
 {
     wp_clear_auth_cookie();
     wc_set_customer_auth_cookie($customer->get_id());
 
-    if (is_billing_address_equal_to_shipping_address($customer)) {
+    if (linkly_is_billing_address_equal_to_shipping_address($customer)) {
         add_filter( 'woocommerce_ship_to_different_address_checked', '__return_false' );
     }
 }
@@ -110,7 +112,7 @@ function login_linkly_user(WC_Customer $customer)
  *
  * @return bool
  */
-function is_wp_user_linkly_user(int $userId): bool {
+function linkly_is_wp_user_linkly_user(int $userId): bool {
 	return get_user_meta($userId, 'linkly_user', true);
 }
 
@@ -119,7 +121,7 @@ function is_wp_user_linkly_user(int $userId): bool {
  *
  * @return bool
  */
-function is_billing_address_equal_to_shipping_address(WC_Customer $customer) : bool
+function linkly_is_billing_address_equal_to_shipping_address(WC_Customer $customer) : bool
 {
     return $customer->get_billing_address_1() === $customer->get_shipping_address_1()
         && $customer->get_billing_first_name() === $customer->get_shipping_first_name()
@@ -130,7 +132,7 @@ function is_billing_address_equal_to_shipping_address(WC_Customer $customer) : b
 /**
  * @return string
  */
-function getBaseUrl()
+function linkly_getBaseUrl()
 {
 	$env = get_option('linkly_settings_environment');
 	if ($env === 'local') {
@@ -141,4 +143,11 @@ function getBaseUrl()
 	}
 
 	return LinklyHelpers::instance()->getLinklyProvider()->domain;
+}
+
+function linkly_dd( $variable ) {
+	echo "<pre>";
+	var_export( $variable );
+	echo "</pre>";
+	die;
 }

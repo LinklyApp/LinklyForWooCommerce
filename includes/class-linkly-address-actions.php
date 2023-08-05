@@ -2,6 +2,8 @@
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class LinklyAddressActions
 {
 	/**
@@ -92,7 +94,7 @@ class LinklyAddressActions
 			}
 
 			$linklyUser = $this->ssoHelper->getUser();
-			$mappedCustomer = BCustomerToWCCustomerMapper::map($linklyUser);
+			$mappedCustomer = LinklyCustomerToWCCustomerMapper::map($linklyUser);
 			$customer->set_props($mappedCustomer);
 
 			$customer->add_meta_data('linkly_user', true, true);

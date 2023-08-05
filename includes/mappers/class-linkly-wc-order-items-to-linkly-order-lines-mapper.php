@@ -3,7 +3,8 @@
 use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
 use WPO\WC\PDF_Invoices\Documents\Order_Document;
 
-class WCOrderItemsToLinklyOrderLinesMapper
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+class LinklyWCOrderItemsToLinklyOrderLinesMapper
 {
 	/**
 	 * Generate the order lines from the order items

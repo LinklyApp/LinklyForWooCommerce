@@ -1,3 +1,7 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+?>
+
 <script>
     document.body.onload = function () {
         let moveToTop = document.getElementById('linkly-sso-button');

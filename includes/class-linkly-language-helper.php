@@ -1,5 +1,7 @@
 <?php
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class LinklyLanguageHelper
 {
     /** @var LinklyLanguageHelper singleton instance */
@@ -136,7 +138,7 @@ class LinklyLanguageHelper
                 }
             }
         }
-        dd($languages);
+        linkly_dd($languages);
 
         return [];
     }

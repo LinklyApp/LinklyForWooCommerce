@@ -1,5 +1,5 @@
 <?php
-defined( 'ABSPATH' ) or exit;
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $buttonStyle = get_option( 'linkly_button_style' );
 $logoStyle   = get_option( 'linkly_button_style' ) === 'primary' ? 'light' : 'dark';
 

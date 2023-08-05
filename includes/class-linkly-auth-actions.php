@@ -2,6 +2,8 @@
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class LinklyAuthActions
 {
     /**
@@ -125,10 +127,10 @@ class LinklyAuthActions
             $linklyUser = $this->ssoHelper->getUser();
             if (isset($_SESSION['linkly_link_account'])) {
                 unset($_SESSION['linkly_link_account']);
-                attachWCCustomerToLinkly($linklyUser, wp_get_current_user());
+                linkly_attachWCCustomer($linklyUser, wp_get_current_user());
             } else {
                 $user = get_user_by('email', $this->ssoHelper->getEmail());
-                createOrUpdateLinklyCustomer($linklyUser, $user ?: null);
+                linkly_createOrUpdateCustomer($linklyUser, $user ?: null);
             }
 
 			if ( str_contains( $_SESSION['url_to_return_to'], '/wp-login.php' ) ) {
@@ -140,7 +142,7 @@ class LinklyAuthActions
             exit;
         } catch (Exception $e) {
             wp_clear_auth_cookie();
-            dd($e);
+            linkly_dd($e);
         }
     }
 

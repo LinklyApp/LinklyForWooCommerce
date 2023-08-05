@@ -5,6 +5,8 @@ use Linkly\OAuth2\Client\Helpers\LinklyOrderHelper;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\Exception\LinklyProviderException;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class LinklyOrderActions
 {
     /**
@@ -49,14 +51,14 @@ class LinklyOrderActions
     {
         try {
             $order = wc_get_order($order_id);
-            $orderData = WCOrderToLinklyOrderMapper::mapOrder($order, $this->processing_status_name);
+            $orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder($order, $this->processing_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
             $order->save();
         } catch (LinklyProviderException $e) {
-            dd($e->getResponseBody());
+            linkly_dd($e->getResponseBody());
         } catch (IdentityProviderException $e) {
-            dd([$e->getResponseBody()]);
+            linkly_dd([$e->getResponseBody()]);
         }
     }
 
@@ -70,12 +72,12 @@ class LinklyOrderActions
                 return;
             }
 
-            $orderData = WCOrderToLinklyOrderMapper::mapOrder($order, $this->completed_status_name);
+            $orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder($order, $this->completed_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
 
 			if (!is_plugin_inactive($this->pdf_invoices_plugin)) {
 				$orderDocument = wcpdf_get_document( 'invoice', $order, true );
-				$invoiceData   = WCInvoiceToLinklyInvoiceMapper::mapInvoice( $order, $orderDocument );
+				$invoiceData   = LinklyWCInvoiceToLinklyInvoiceMapper::mapInvoice( $order, $orderDocument );
 				$this->linklyOrderHelper->sendInvoice( $invoiceData );
 			}
 
@@ -93,7 +95,7 @@ class LinklyOrderActions
 		// TODO - Vervang ssohelper isauthenticated
         if (is_user_logged_in()) {
             $customer = new WC_Customer(get_current_user_id());
-            sync_customer_invoices_with_linkly($customer);
+            linkly_sync_customer_invoices($customer);
         }
     }
 }

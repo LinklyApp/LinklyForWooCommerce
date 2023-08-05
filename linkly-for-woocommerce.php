@@ -11,7 +11,7 @@
  * Text Domain: linkly
 */
 
-defined('ABSPATH') or exit;
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 defined('LINKLY_FOR_WOOCOMMERCE_ABS_PATH')
 || define('LINKLY_FOR_WOOCOMMERCE_ABS_PATH', plugin_dir_path(__FILE__));
@@ -125,17 +125,17 @@ class Linkly_For_WC_Loader
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-filters.php';
 
-        include_once plugin_dir_path(__FILE__) . 'includes/functions-linkly.php';
+        include_once plugin_dir_path( __FILE__ ) . 'includes/linkly-functions.php';
 
         // Admin
         include_once plugin_dir_path(__FILE__) . 'includes/admin/class-linkly-admin-actions.php';
 
         // Mappers
         include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-to-linkly-order-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-invoice-to-linkly-invoice-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-order-items-to-linkly-order-lines-mapper.php';
-        include_once plugin_dir_path(__FILE__) . 'includes/mappers/class-wc-address-to-linkly-address-mapper.php';
+        include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-to-linkly-order-mapper.php';
+        include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-invoice-to-linkly-invoice-mapper.php';
+        include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-items-to-linkly-order-lines-mapper.php';
+        include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-address-to-linkly-address-mapper.php';
 
         // Parts
         include_once plugin_dir_path(__FILE__) . 'includes/parts/class-linkly-parts-actions.php';

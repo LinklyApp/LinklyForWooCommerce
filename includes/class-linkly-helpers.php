@@ -4,6 +4,8 @@ use Linkly\OAuth2\Client\Helpers\LinklyOrderHelper;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\LinklyProvider;
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 class LinklyHelpers {
     /**
      * @var LinklyHelpers singleton instance

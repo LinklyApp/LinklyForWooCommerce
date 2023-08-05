@@ -1,7 +1,7 @@
 <?php
 
 
-class CustomerMock
+class LinklyCustomerMock
 {
     public static function mock() {
         return [

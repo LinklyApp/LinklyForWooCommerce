@@ -3,7 +3,8 @@
 use WPO\WC\PDF_Invoices\Documents\Bulk_Document;
 use WPO\WC\PDF_Invoices\Documents\Order_Document;
 
-class WCAddressToLinklyAddressMapper {
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+class LinklyWCAddressToLinklyAddressMapper {
 	/**
 	 * Map the billing address from the order
 	 *

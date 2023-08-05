@@ -3,7 +3,8 @@
 
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
-class BCustomerToWCCustomerMapper
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+class LinklyCustomerToWCCustomerMapper
 {
     public static function map(LinklyUser $user)
     {
