@@ -114,7 +114,6 @@ class Linkly_For_WC_Loader
         require LINKLY_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
 
         // Helpers
-        include_once plugin_dir_path(__FILE__) . 'includes/helpers/functions-helper.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-helpers.php';
 	    include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-language-helper.php';
 
