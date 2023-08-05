@@ -75,7 +75,6 @@ class LinklyLanguageHelper
             update_option('linkly_settings_language', "wordpress");
         }
 
-
         $languageFiles = glob(__DIR__ . "/../assets/languages/*.json");
 
         if (count($languageFiles) === 0) {

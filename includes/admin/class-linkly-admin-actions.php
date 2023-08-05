@@ -20,6 +20,10 @@ class LinklyAdminActions
 			return;
 		}
 
+		if (!current_user_can('manage_options')) {
+			throw new Exception('User is not an admin');
+		}
+
 		if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
 			$this->handle_save_client_credentials();
 		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {

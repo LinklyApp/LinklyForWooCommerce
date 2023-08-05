@@ -34,6 +34,11 @@ class LinklyAuthActions
         if (!isset($_GET['linkly_request_token'])) {
             return;
         }
+
+	    if (!current_user_can('manage_options')) {
+		    throw new Exception('User is not an admin');
+	    }
+
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_request_token']);
         // $corsUrl is pure the domain name without the path if there is a port number it is included
 
@@ -45,14 +50,14 @@ class LinklyAuthActions
         }
 
         $params = [
-            'return_url' => get_site_url() . '?linkly_request_token_callback',
+            'returnUrl' => get_site_url() . '?linkly_request_token_callback',
             'clientName' => get_bloginfo('name'),
-            'allowed_cors_origin' => $corsUrl,
-            'post_logout_redirect_uri' => get_site_url(),
-            'redirect_uri' => get_site_url() . '?linkly-callback',
+            'allowedCorsOrigin' => $corsUrl,
+            'postLogoutRedirectUri' => get_site_url(),
+            'redirectUri' => get_site_url() . '?linkly-callback',
         ];
 
-	    $this->ssoHelper->linkClient($params);
+	    $this->ssoHelper->linkClientRedirect($params);
         exit;
     }
 
@@ -63,16 +68,17 @@ class LinklyAuthActions
 	 */
     function linkly_request_token_callback()
     {
-        if (!isset($_GET["linkly_request_token_callback"])) {
-            return;
-        }
+	    if (!current_user_can('manage_options')) {
+		    throw new Exception('User is not an admin');
+	    }
 
-        update_option('linkly_settings_app_key', sanitize_text_field($_GET["client_id"]));
-        update_option('linkly_settings_app_secret', sanitize_text_field($_GET["client_secret"]));
+		$client_options = $this->ssoHelper->linkClientCallback();
+
+        update_option('linkly_settings_app_key', $client_options['client_id']);
+        update_option('linkly_settings_app_secret', $client_options['client_secret']);
 
         wp_redirect(admin_url('admin.php?page=linkly-for-woocommerce'));
         exit;
-
     }
 
 	/**
