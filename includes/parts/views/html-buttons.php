@@ -25,7 +25,7 @@ if (is_user_logged_in() && is_wp_user_linkly_user(get_current_user_id()) && !$on
     $showButton = false;
 }
 ?>
-<?=
+<?php echo
 !$showButton ?
     ""
     :
