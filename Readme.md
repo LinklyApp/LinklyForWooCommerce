@@ -46,4 +46,10 @@ Automatic installation is the easiest option as WordPress handles the file trans
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation's wp-content/plugins/ directory
 3. Activate the plugin from the Plugins menu within the WordPress admin
 
--
+## Bugs and Contributions
+
+If you find a bug, please report it on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWoocommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
+
+## License
+
+This project is licensed under the [GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.txt)

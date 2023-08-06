@@ -39,6 +39,10 @@ In the search field type \"Linkly for WooCommerce\" and click Search Plugins. Yo
 2. Using an FTP program, or your hosting control panel, upload the unzipped plugin folder to your WordPress installation\'s wp-content/plugins/ directory.
 3. Activate the plugin from the Plugins menu within the WordPress admin.
 
+= Where can I report bugs? =
+
+Report bugs on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWoocommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
+
 == Changelog ==
 = 1.1.1 (29/06/2023) =
 * Added: Send Billing and Shipping address to Linkly when an order is placed.
