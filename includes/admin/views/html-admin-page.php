@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$buttonStyle = get_option( 'linkly_button_style' );
-$logoStyle   = $buttonStyle === 'primary' ? 'light' : 'dark';
+$buttonStyle   = get_option( 'linkly_button_style' );
+$logoStyle     = $buttonStyle === 'primary' ? 'light' : 'dark';
 $linklyHelpers = LinklyHelpers::instance();
 
 $textDomain = 'linkly-for-woocommerce';
@@ -32,7 +32,7 @@ $textDomain = 'linkly-for-woocommerce';
     </p>
 	<?php if ( ! $linklyHelpers->isConnected() ) : ?>
         <div class="linkly-form-group">
-            <div class="linkly-button <?php echo esc_attr($buttonStyle) ?>">
+            <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
                 <a href="<?php echo esc_url( home_url( "?linkly_request_token=" .
 				                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
                     <span><?php esc_html_e( "admin-connect-button", $textDomain ) ?></span>
@@ -43,7 +43,7 @@ $textDomain = 'linkly-for-woocommerce';
 	<?php endif; ?>
 	<?php if ( $linklyHelpers->isConnected() ) : ?>
         <div class="linkly-form-group">
-            <div class="linkly-button <?php echo esc_attr($buttonStyle) ?>">
+            <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
                 <a href="https://web.linkly.me"
                    target="_blank"><span><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?></span>
                     <img
@@ -89,9 +89,9 @@ $textDomain = 'linkly-for-woocommerce';
         </p>
         <div class="linkly-form-group">
             <button type="submit" name="linkly_button_style" class="linkly-button primary" value="primary">
-                <a target="_blank"><span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
-                    <img src="<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg") ?>"
-                         alt="Linkly"></a>
+                <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
+                <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
+                     alt="Linkly">
             </button>
             <p class="linkly-button-current">
 				<?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
@@ -99,9 +99,9 @@ $textDomain = 'linkly-for-woocommerce';
         </div>
         <div class="linkly-form-group">
             <button type="submit" name="linkly_button_style" class="linkly-button secondary" value="secondary">
-                <a target="_blank"><span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
-                    <img src="<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg") ?>"
-                         alt="Linkly"></a>
+                <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
+                <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
+                     alt="Linkly">
             </button>
             <p class="linkly-button-current">
 				<?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
@@ -135,9 +135,9 @@ $textDomain = 'linkly-for-woocommerce';
         function showHidePassword() {
             if (clientSecret.type === 'password') {
                 clientSecret.setAttribute('type', 'text');
-                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-closed.svg") ?>';
+                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-closed.svg" ) ?>';
             } else {
-                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg") ?>';
+                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>';
                 clientSecret.setAttribute('type', 'password');
             }
 

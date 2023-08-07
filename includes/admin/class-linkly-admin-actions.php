@@ -38,20 +38,32 @@ class LinklyAdminActions {
 	}
 
 	private function handle_save_client_credentials() {
-		if ( !wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ))
-		{
-			throw new Exception( 'Invalid CSRF token' );
+		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_credentials')) {
+			throw new Exception('Invalid CSRF token');
 		}
-		update_option( 'linkly_settings_app_key', sanitize_text_field( $_POST['linkly_client_id'] ) );
-		update_option( 'linkly_settings_app_secret', sanitize_text_field( $_POST['linkly_client_secret'] ) );
+		if (!isset($_POST['linkly_client_id'])) {
+			throw new Exception('Client ID not set');
+		}
+		if (!isset($_POST['linkly_client_secret'])) {
+			throw new Exception('Client secret not set');
+		}
+		$clientId = sanitize_text_field($_POST['linkly_client_id']);
+		$clientSecret = sanitize_text_field($_POST['linkly_client_secret']);
+		update_option('linkly_settings_app_key', $clientId);
+		update_option('linkly_settings_app_secret', $clientSecret);
 	}
-
 	private function handle_save_button_style() {
-		if ( !wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ))
-		{
-			throw new Exception( 'Invalid CSRF token' );
+		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_button_style')) {
+			throw new Exception('Invalid CSRF token');
 		}
-		update_option( 'linkly_button_style', sanitize_text_field( $_POST['linkly_button_style'] ) );
+		if (!isset($_POST['linkly_button_style'])) {
+			throw new Exception('Button style not set');
+		}
+		$buttonStyle = sanitize_text_field($_POST['linkly_button_style']);
+		if (!in_array($buttonStyle, ['primary', 'secondary'])) {
+			throw new Exception('Invalid button style');
+		}
+		update_option('linkly_button_style', $buttonStyle);
 	}
 
 	/**
@@ -70,7 +82,7 @@ class LinklyAdminActions {
 
 		$decodedReturnUrl = urldecode($_GET['linkly_request_token']);
 		$sanitizedReturnUrl = filter_var($decodedReturnUrl, FILTER_SANITIZE_URL);
-		$_SESSION['url_to_return_to'] = get_site_url() . $sanitizedReturnUrl;
+		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedReturnUrl);
 
 		// $corsUrl is pure the domain name without the path if there is a port number it is included
 		$corsUrl = parse_url( get_site_url(), PHP_URL_SCHEME ) . '://' . parse_url( get_site_url(), PHP_URL_HOST );

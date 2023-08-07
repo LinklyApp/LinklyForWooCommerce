@@ -34,7 +34,11 @@ class LinklyAuthActions
         if (!isset($_GET['linkly_link_account_action'])) {
             return;
         }
-        $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_login_action']);
+
+	    $decodedAccountActionUrl = urldecode($_GET['linkly_link_account_action']);
+	    $sanitizedAccountActionUrl = filter_var($decodedAccountActionUrl, FILTER_SANITIZE_URL);
+	    $_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedAccountActionUrl);
+
         $_SESSION['linkly_link_account'] = true;
         $this->ssoHelper->authorizeRedirect();
         exit;
@@ -48,11 +52,14 @@ class LinklyAuthActions
 	 */
     function linkly_login_action()
     {
-        if (!isset($_GET['linkly_login_action'])) {
-            return;
-        }
+	    if (!isset($_GET['linkly_login_action'])) {
+		    return;
+	    }
 
-        $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_login_action']);
+	    $decodedLoginActionUrl = urldecode($_GET['linkly_login_action']);
+	    $sanitizedLoginActionUrl = filter_var($decodedLoginActionUrl, FILTER_SANITIZE_URL);
+	    $_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedLoginActionUrl);
+
         unset($_SESSION['linkly_link_account']);
 
         $this->ssoHelper->authorizeRedirect();
@@ -85,7 +92,7 @@ class LinklyAuthActions
 				$_SESSION['url_to_return_to'] = get_site_url();
 			}
 
-            wp_redirect($_SESSION['url_to_return_to']);
+            wp_redirect(esc_url($_SESSION['url_to_return_to']));
             unset($_SESSION['url_to_return_to']);
             exit;
         } catch (Exception $e) {
