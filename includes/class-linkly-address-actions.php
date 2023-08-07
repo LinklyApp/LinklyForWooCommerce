@@ -62,7 +62,7 @@ class LinklyAddressActions
 			error_log($e->getMessage());
 		}
 
-		wp_redirect($_SESSION['url_to_return_to']);
+		wp_redirect(esc_url($_SESSION['url_to_return_to']));
 		unset($_SESSION['url_to_return_to']);
 		exit;
 	}
