@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Linkly for WooCommerce\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/linkly-for-woocommerce\n"
 "POT-Creation-Date: 2023-01-23T09:43:44+01:00\n"
-"PO-Revision-Date: 2023-08-07 16:44+0200\n"
+"PO-Revision-Date: 2023-08-07 17:08+0200\n"
 "Last-Translator: \n"
 "Language-Team: Dutch <info@linkly.me>\n"
 "Language: nl_NL\n"
@@ -43,7 +43,7 @@ msgstr "Op deze pagina kan je je ID en secret van jouw webshop beheren, ook kan 
 msgid "warning.title"
 msgstr "Waarschuwing"
 
-msgid "warning.pdf-invoice-plugin"
+msgid "warning.pdf-invoice-plugin-not-activated"
 msgstr "De WooCommerce PDF Invoices & Packing Slips plugin is niet geactiveerd. Activeer deze plugin om facturen te kunnen genereren."
 
 msgid "client.id"
