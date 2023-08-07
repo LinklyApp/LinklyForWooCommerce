@@ -48,7 +48,7 @@ Automatic installation is the easiest option as WordPress handles the file trans
 
 ## Bugs and Contributions
 
-If you find a bug, please report it on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWoocommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
+If you find a bug, please report it on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWooCommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
 
 ## License
 

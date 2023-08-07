@@ -3,6 +3,7 @@ Contributors: linkly
 Requires at least: 5.3
 Tested up to: 6.2.2
 Requires PHP: 7.1
+Stable tag: 1.1.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -41,7 +42,7 @@ In the search field type \"Linkly for WooCommerce\" and click Search Plugins. Yo
 
 = Where can I report bugs? =
 
-Report bugs on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWoocommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
+Report bugs on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWooCommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
 
 == Changelog ==
 = 1.1.1 (29/06/2023) =
