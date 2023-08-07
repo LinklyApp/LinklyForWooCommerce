@@ -36,7 +36,7 @@ class LinklyAuthActions
         }
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_login_action']);
         $_SESSION['linkly_link_account'] = true;
-        $this->ssoHelper->authorize();
+        $this->ssoHelper->authorizeRedirect();
         exit;
     }
 
@@ -55,7 +55,7 @@ class LinklyAuthActions
         $_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_login_action']);
         unset($_SESSION['linkly_link_account']);
 
-        $this->ssoHelper->authorize();
+        $this->ssoHelper->authorizeRedirect();
         exit;
     }
 
