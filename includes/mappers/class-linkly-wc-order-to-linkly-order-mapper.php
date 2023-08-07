@@ -20,7 +20,7 @@ class LinklyWCOrderToLinklyOrderMapper
         return json_encode([
             'customerEmail' => $order->get_user()->user_email,
             'orderNumber' => $order->get_order_number(),
-            'reference' => LinklyLanguageHelper::instance()->get('order_description', [get_bloginfo('name')]),
+            'reference' => 'Ordered at ' . get_bloginfo('name'),
             'purchaseDate' => $order->get_date_created()->format('Y-m-d'),
 			'billingAddress' => LinklyWCAddressToLinklyAddressMapper::mapBillingAddress($order),
 			'shippingAddress' => LinklyWCAddressToLinklyAddressMapper::mapShippingAddress($order),

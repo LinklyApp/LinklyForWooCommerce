@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Linkly for WooCommerce\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/linkly-for-woocommerce\n"
+"POT-Creation-Date: 2023-01-23T09:43:44+01:00\n"
+"PO-Revision-Date: 2023-08-07 17:08+0200\n"
+"Last-Translator: \n"
+"Language-Team: Dutch <info@linkly.me>\n"
+"Language: nl_NL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Domain: linkly-for-woocommerce\n"
+
+msgid "login-button"
+msgstr "Login met"
+
+msgid "link-account-button"
+msgstr "Koppel met"
+
+msgid "change-address-button"
+msgstr "Wijzig adres bij"
+
+msgid "admin-connect-button"
+msgstr "Koppel met"
+
+msgid "go-to-linkly-button"
+msgstr "Ga naar"
+
+msgid "order_description"
+msgstr "Bestelling bij {0}"
+
+msgid "language"
+msgstr "Taal"
+
+msgid "admin-description-not-linked"
+msgstr "Op deze pagina kan je je webshop koppelen met Linkly. Dit is nodig om de Linkly plugin te kunnen gebruiken. Klik op de knop hieronder om je webshop te koppelen."
+
+msgid "admin-description-linked"
+msgstr "Op deze pagina kan je je ID en secret van jouw webshop beheren, ook kan je de stijl voor de knop die de gebruikers zien veranderen."
+
+msgid "warning.title"
+msgstr "Waarschuwing"
+
+msgid "warning.pdf-invoice-plugin-not-activated"
+msgstr "De WooCommerce PDF Invoices & Packing Slips plugin is niet geactiveerd. Activeer deze plugin om facturen te kunnen genereren."
+
+msgid "client.id"
+msgstr "Client ID"
+
+msgid "client.secret"
+msgstr "Client Secret"
+
+msgid "button_style.title"
+msgstr "Knop stijl"
+
+msgid "button_style.change"
+msgstr "Klik een van de onderstaande stijlen aan om de Linkly knop te veranderen."
+
+msgid "button_style.primary"
+msgstr "Primair"
+
+msgid "button_style.secondary"
+msgstr "Secundair"
+
+msgid "button_style.current"
+msgstr "(Huidige)"
+
+msgid "save_changes"
+msgstr "Aanpassingen opslaan"
+
+msgid "edit_credentials"
+msgstr "ID en/of secret aanpassen"
+
+msgid "cancel"
+msgstr "Annuleren"

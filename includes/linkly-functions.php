@@ -146,8 +146,9 @@ function linkly_getBaseUrl()
 }
 
 function linkly_dd( $variable ) {
+	$variable_esc = esc_html($variable);
 	echo "<pre>";
-	var_export( $variable );
+	var_export( $variable_esc );
 	echo "</pre>";
 	die;
 }

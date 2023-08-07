@@ -33,7 +33,10 @@ class LinklyAddressActions
 			return;
 		}
 
-		$_SESSION['url_to_return_to'] = get_site_url() . urldecode($_GET['linkly_change_address_action']);
+		$decodedAddressUrl = urldecode($_GET['linkly_change_address_action']);
+		$sanitizedAddressUrl = filter_var($decodedAddressUrl, FILTER_SANITIZE_URL);
+		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedAddressUrl);
+
 		$params = [
 			'clientId' => get_option('linkly_settings_app_key'),
 			'redirect_uri' => get_site_url() . '?linkly_change_address_callback'
@@ -59,7 +62,7 @@ class LinklyAddressActions
 			error_log($e->getMessage());
 		}
 
-		wp_redirect($_SESSION['url_to_return_to']);
+		wp_redirect(esc_url($_SESSION['url_to_return_to']));
 		unset($_SESSION['url_to_return_to']);
 		exit;
 	}
