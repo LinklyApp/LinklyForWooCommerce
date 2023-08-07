@@ -1,11 +1,17 @@
 <?php
 
+use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 } // Exit if accessed directly
 
 class LinklyAdminActions {
-	public function __construct() {
+	private LinklySsoHelper $ssoHelper;
+
+	public function __construct(LinklySsoHelper $ssoHelper) {
+		$this->ssoHelper = $ssoHelper;
+
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9999 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'linkly_admin_style' ] );
 		add_action( 'admin_init', [ $this, 'linkly_admin_handle_save' ] );
@@ -85,6 +91,10 @@ class LinklyAdminActions {
 	 * @return void
 	 */
 	function linkly_request_token_callback() {
+		if ( ! isset( $_GET['linkly_request_token_callback'] ) ) {
+			return;
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			throw new Exception( 'User is not an admin' );
 		}
@@ -128,4 +138,4 @@ class LinklyAdminActions {
 	}
 }
 
-new LinklyAdminActions();
+new LinklyAdminActions(LinklyHelpers::instance()->getSsoHelper());
