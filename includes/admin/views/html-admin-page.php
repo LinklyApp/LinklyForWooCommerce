@@ -5,8 +5,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $buttonStyle = get_option( 'linkly_button_style' );
 $logoStyle   = $buttonStyle === 'primary' ? 'light' : 'dark';
-$linklyLanguageHelper = LinklyLanguageHelper::instance();
 $linklyHelpers = LinklyHelpers::instance();
+
+$textDomain = 'linkly-for-woocommerce';
+
 ?>
 
 <div class="linkly-admin-page">
@@ -15,16 +17,16 @@ $linklyHelpers = LinklyHelpers::instance();
         <div class="linkly-warning">
             <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . 'assets/images/package_warning.svg' ) ?>">
             <div class="linkly-warning-description">
-				<?php echo esc_html( $linklyLanguageHelper->get( "warning.pdf-invoice-plugin-not-activated" ) ) ?>
+				<?php esc_html_e( "warning.pdf-invoice-plugin-not-activated", $textDomain ) ?>
             </div>
         </div>
 	<?php endif; ?>
     <p>
 		<?php
 		if ( ! $linklyHelpers->isConnected() ) {
-			echo esc_html( $linklyLanguageHelper->get( "admin-description-not-linked" ) );
+			esc_html_e( "admin-description-not-linked", $textDomain );
 		} else {
-			echo esc_html( $linklyLanguageHelper->get( "admin-description-linked" ) );
+			esc_html_e( "admin-description-linked", $textDomain );
 		}
 		?>
     </p>
@@ -33,7 +35,7 @@ $linklyHelpers = LinklyHelpers::instance();
             <div class="linkly-button <?php echo esc_attr($buttonStyle) ?>">
                 <a href="<?php echo esc_url( home_url( "?linkly_request_token=" .
 				                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
-                    <span><?php echo esc_html( $linklyLanguageHelper->get( "admin-connect-button" ) ) ?></span>
+                    <span><?php esc_html_e( "admin-connect-button", $textDomain ) ?></span>
                     <img
                             src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ) ?>"></a>
             </div>
@@ -43,7 +45,7 @@ $linklyHelpers = LinklyHelpers::instance();
         <div class="linkly-form-group">
             <div class="linkly-button <?php echo esc_attr($buttonStyle) ?>">
                 <a href="https://web.linkly.me"
-                   target="_blank"><span><?php echo esc_html( $linklyLanguageHelper->get( "go-to-linkly-button" ) ) ?></span>
+                   target="_blank"><span><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?></span>
                     <img
                             src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ) ?>"></a>
             </div>
@@ -53,14 +55,14 @@ $linklyHelpers = LinklyHelpers::instance();
 		<?php wp_nonce_field( 'linkly_credentials' ); ?>
         <div class="linkly-form-group">
             <label class="linkly-form-label" for="linkly_client_id">
-				<?php echo esc_html( $linklyLanguageHelper->get( "client.id" ) ); ?>
+				<?php esc_html_e( "client.id", $textDomain ); ?>
             </label>
             <input name="linkly_client_id" id="linkly_client_id" class="linkly-form-input" type="text"
                    value="<?php echo esc_html( get_option( 'linkly_settings_app_key' ) ) ?>" disabled/>
         </div>
         <div class="linkly-form-group">
             <label class="linkly-form-label" for="linkly_client_secret">
-				<?php echo esc_html( $linklyLanguageHelper->get( "client.secret" ) ); ?>
+				<?php esc_html_e( "client.secret", $textDomain ); ?>
             </label>
             <input name="linkly_client_secret" id="linkly_client_secret" class="linkly-form-input" type="password"
                    value="<?php echo esc_attr( get_option( 'linkly_settings_app_secret' ) ) ?>" disabled/>
@@ -69,43 +71,44 @@ $linklyHelpers = LinklyHelpers::instance();
         </div>
         <div id="linkly_credentials_button" class="linkly-credentials-button">
             <button id="linkly_edit_credential_button" class="button-primary" type="button">
-				<?php echo esc_html($linklyLanguageHelper->get( "edit_credentials" )); ?>
+				<?php esc_html_e( "edit_credentials", $textDomain ); ?>
             </button>
             <button id="linkly_save_credentials_button" class="button-primary" type="submit">
-				<?php echo esc_html($linklyLanguageHelper->get( "save_changes" )); ?>
+				<?php esc_html_e( "save_changes", $textDomain ); ?>
             </button>
             <button id="linkly_cancel_edit_credential_button" class="button-primary" type="button">
-				<?php echo esc_html($linklyLanguageHelper->get( "cancel" )); ?>
+				<?php esc_html_e( "cancel", $textDomain ); ?>
             </button>
         </div>
     </form>
     <form method="post">
 		<?php wp_nonce_field( 'linkly_button_style' ); ?>
-        <strong><?php echo esc_html($linklyLanguageHelper->get( 'button_style.title' )) ?></strong>
+        <strong><?php esc_html_e( 'button_style.title', $textDomain ) ?></strong>
         <p>
-			<?php echo esc_html($linklyLanguageHelper->get( 'button_style.change' )) ?>
+			<?php esc_html_e( 'button_style.change', $textDomain ) ?>
         </p>
         <div class="linkly-form-group">
             <button type="submit" name="linkly_button_style" class="linkly-button primary" value="primary">
-                <a target="_blank"><span><?php echo esc_html($linklyLanguageHelper->get( "button_style.primary" )) ?></span>
+                <a target="_blank"><span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
                     <img src="<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg") ?>"
                          alt="Linkly"></a>
             </button>
             <p class="linkly-button-current">
-				<?php echo get_option( 'linkly_button_style' ) === 'primary' ? esc_html($linklyLanguageHelper->get( 'button_style.current' )) : '' ?>
+				<?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
             </p>
         </div>
         <div class="linkly-form-group">
             <button type="submit" name="linkly_button_style" class="linkly-button secondary" value="secondary">
-                <a target="_blank"><span><?php echo esc_html($linklyLanguageHelper->get( "button_style.secondary" )) ?></span>
+                <a target="_blank"><span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
                     <img src="<?php echo esc_url(LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg") ?>"
                          alt="Linkly"></a>
             </button>
             <p class="linkly-button-current">
-				<?php echo get_option( 'linkly_button_style' ) === 'secondary' ? esc_html($linklyLanguageHelper->get( 'button_style.current') ) : '' ?>
+				<?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
             </p>
         </div>
     </form>
+
 
     <script>
         var clientId = document.getElementById('linkly_client_id');

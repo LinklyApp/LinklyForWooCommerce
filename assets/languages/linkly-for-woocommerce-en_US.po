@@ -1,0 +1,77 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Linkly for WooCommerce\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/linkly-for-woocommerce\n"
+"POT-Creation-Date: 2023-01-23T09:43:44+01:00\n"
+"PO-Revision-Date: 2023-08-07 16:44+0200\n"
+"Last-Translator: \n"
+"Language-Team: LANGUAGE <info@linkly.me>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.3.2\n"
+"X-Domain: linkly-for-woocommerce\n"
+
+msgid "login-button"
+msgstr "Login with"
+
+msgid "link-account-button"
+msgstr "Link account with"
+
+msgid "change-address-button"
+msgstr "Change address at"
+
+msgid "admin-connect-button"
+msgstr "Link with"
+
+msgid "go-to-linkly-button"
+msgstr "Go to"
+
+msgid "order_description"
+msgstr "Order at {0}"
+
+msgid "language"
+msgstr "Language"
+
+msgid "admin-description-not-linked"
+msgstr "On this page you can link your webshop to Linkly. This way you can use the Linkly services. Press the button below to link your webshop."
+
+msgid "admin-description-linked"
+msgstr "On this page you can manage your ID and secret of your webshop, you can also change the style of the button that users of your webshop see."
+
+msgid "warning.title"
+msgstr "Warning"
+
+msgid "warning.pdf-invoice-plugin-not-activated"
+msgstr "The WooCommerce PDF Invoices & Packing Slips plugin is not activated. Please activate it to be able to generate invoices."
+
+msgid "client.id"
+msgstr "Client ID"
+
+msgid "client.secret"
+msgstr "Client Secret"
+
+msgid "button_style.title"
+msgstr "Button style"
+
+msgid "button_style.change"
+msgstr "Click one of the buttons below to change the style of the Linkly button."
+
+msgid "button_style.primary"
+msgstr "Primary"
+
+msgid "button_style.secondary"
+msgstr "Secondary"
+
+msgid "button_style.current"
+msgstr "(Current)"
+
+msgid "save_changes"
+msgstr "Save changes"
+
+msgid "edit_credentials"
+msgstr "Change ID and/or secret"
+
+msgid "cancel"
+msgstr "Cancel"

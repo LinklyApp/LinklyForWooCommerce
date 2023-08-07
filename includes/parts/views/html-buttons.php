@@ -5,10 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $linklyHelpers = LinklyHelpers::instance();
 $buttonUrl     = "";
-$buttonText    = "";
+$buttonVariant = "";
 $showButton    = true;
 $buttonStyle   = get_option( 'linkly_button_style' );
 $logoStyle     = $buttonStyle === 'primary' ? 'light' : 'dark';
+$textDomain    = 'linkly-for-woocommerce';
 
 if ( ! isset( $onlyLinkButton ) ) {
 	$onlyLinkButton = false;
@@ -16,22 +17,23 @@ if ( ! isset( $onlyLinkButton ) ) {
 
 if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id() ) && ! $onlyLinkButton ) {
 	$buttonUrl  = '?linkly_change_address_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonText = LinklyLanguageHelper::instance()->get( 'change-address-button' );
+	$buttonVariant = 'change-address-button';
 } else if ( is_user_logged_in() && ! linkly_is_wp_user_linkly_user( get_current_user_id() ) ) {
 	$buttonUrl  = '?linkly_link_account_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonText = LinklyLanguageHelper::instance()->get( 'link-account-button' );
+	$buttonVariant = 'link-account-button';
 } else if ( ! $onlyLinkButton ) {
 	$buttonUrl  = '?linkly_login_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonText = LinklyLanguageHelper::instance()->get( 'login-button' );
+	$buttonVariant = 'login-button';
 } else {
 	$showButton = false;
 }
+
 ?>
 <?php if ( $showButton ): ?>
     <div id="linkly-sso-button" class="linkly-sso-button">
         <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
             <a href="<?php echo esc_url( $buttonUrl ) ?>">
-                <span><?php echo esc_html( $buttonText ) ?></span>
+                <span><?php esc_html_e( $buttonVariant, $textDomain ) ?></span>
                 <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL .
 				                              'assets/images/logo-horizontal-' . $logoStyle . '.svg' ); ?>"
                      alt="Linkly">

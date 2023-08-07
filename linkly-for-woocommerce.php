@@ -8,7 +8,7 @@
  * Author URI: https://linkly.me
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
- * Text Domain: linkly
+ * Text Domain: linkly-for-woocommerce
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -62,6 +62,7 @@ class Linkly_For_WC_Loader
         add_action('admin_init', [$this, 'check_environment']);
         add_action('admin_init', [$this, 'add_plugin_notices']);
         add_action('admin_notices', [$this, 'admin_notices'], 15);
+	    add_action( 'init', [$this, 'load_textdomain' ] );
 
         // add the settings page
         $plugin = plugin_basename( __FILE__ );
@@ -78,6 +79,11 @@ class Linkly_For_WC_Loader
         array_unshift( $links, $settings_link );
         return $links;
     }
+
+	function load_textdomain() {
+		load_plugin_textdomain( 'linkly-for-woocommerce', false, basename( dirname( __FILE__ ) ) . '/assets/languages' );
+	}
+
     /**
      * Cloning instances is forbidden due to singleton pattern.
      *
@@ -115,7 +121,6 @@ class Linkly_For_WC_Loader
 
         // Helpers
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-helpers.php';
-	    include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-language-helper.php';
 
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-style-actions.php';
         include_once plugin_dir_path(__FILE__) . 'includes/class-linkly-auth-actions.php';

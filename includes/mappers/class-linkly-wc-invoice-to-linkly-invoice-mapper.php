@@ -23,7 +23,7 @@ class LinklyWCInvoiceToLinklyInvoiceMapper
 	        'customerEmail' => $order->get_user()->user_email,
             'invoiceNumber' => $orderDocument->get_number()->number,
             'orderNumber' => $order->get_order_number(),
-            'reference' => LinklyLanguageHelper::instance()->get('order_description', [get_bloginfo('name')]),
+	        'reference' => 'Ordered at ' . get_bloginfo('name'),
 			'billingAddress' => LinklyWCAddressToLinklyAddressMapper::mapBillingAddress($order),
             'issueDate' => $orderDocument->order->get_date_created()->format('Y-m-d'),
             'dueDate' => $orderDocument->order->get_date_created()->format('Y-m-d'),
