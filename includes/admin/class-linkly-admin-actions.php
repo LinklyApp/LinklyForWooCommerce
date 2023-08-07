@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class LinklyAdminActions {
 	private LinklySsoHelper $ssoHelper;
 
-	public function __construct(LinklySsoHelper $ssoHelper) {
+	public function __construct( LinklySsoHelper $ssoHelper ) {
 		$this->ssoHelper = $ssoHelper;
 
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9999 );
@@ -20,10 +20,7 @@ class LinklyAdminActions {
 	}
 
 	public function linkly_admin_handle_save() {
-		if ( ! isset( $_REQUEST['page'] )
-		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
-		     || empty( $_POST )
-		) {
+		if ( ! isset( $_REQUEST['page'] ) || $_REQUEST['page'] !== 'linkly-for-woocommerce' || empty( $_POST ) ) {
 			return;
 		}
 
@@ -41,11 +38,19 @@ class LinklyAdminActions {
 	}
 
 	private function handle_save_client_credentials() {
+		if ( !wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ))
+		{
+			throw new Exception( 'Invalid CSRF token' );
+		}
 		update_option( 'linkly_settings_app_key', sanitize_text_field( $_POST['linkly_client_id'] ) );
 		update_option( 'linkly_settings_app_secret', sanitize_text_field( $_POST['linkly_client_secret'] ) );
 	}
 
 	private function handle_save_button_style() {
+		if ( !wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ))
+		{
+			throw new Exception( 'Invalid CSRF token' );
+		}
 		update_option( 'linkly_button_style', sanitize_text_field( $_POST['linkly_button_style'] ) );
 	}
 
@@ -63,9 +68,11 @@ class LinklyAdminActions {
 			throw new Exception( 'User is not an admin' );
 		}
 
-		$_SESSION['url_to_return_to'] = get_site_url() . urldecode( $_GET['linkly_request_token'] );
-		// $corsUrl is pure the domain name without the path if there is a port number it is included
+		$decodedReturnUrl = urldecode($_GET['linkly_request_token']);
+		$sanitizedReturnUrl = filter_var($decodedReturnUrl, FILTER_SANITIZE_URL);
+		$_SESSION['url_to_return_to'] = get_site_url() . $sanitizedReturnUrl;
 
+		// $corsUrl is pure the domain name without the path if there is a port number it is included
 		$corsUrl = parse_url( get_site_url(), PHP_URL_SCHEME ) . '://' . parse_url( get_site_url(), PHP_URL_HOST );
 		$port    = parse_url( get_site_url(), PHP_URL_PORT );
 
@@ -138,4 +145,4 @@ class LinklyAdminActions {
 	}
 }
 
-new LinklyAdminActions(LinklyHelpers::instance()->getSsoHelper());
+new LinklyAdminActions( LinklyHelpers::instance()->getSsoHelper() );

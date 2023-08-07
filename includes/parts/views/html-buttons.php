@@ -15,15 +15,18 @@ if ( ! isset( $onlyLinkButton ) ) {
 	$onlyLinkButton = false;
 }
 
+$rawCurrentUri = $_SERVER['REQUEST_URI'];
+$sanitizedCurrentUri  = filter_var($rawCurrentUri, FILTER_SANITIZE_URL);
+
 if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id() ) && ! $onlyLinkButton ) {
-	$buttonUrl  = '?linkly_change_address_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonVariant = 'change-address-button';
+	$buttonUrl  = '?linkly_change_address_action=' . urlencode( $sanitizedCurrentUri );
+	$buttonVariant = 'changeAddressButton';
 } else if ( is_user_logged_in() && ! linkly_is_wp_user_linkly_user( get_current_user_id() ) ) {
-	$buttonUrl  = '?linkly_link_account_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonVariant = 'link-account-button';
+	$buttonUrl  = '?linkly_link_account_action=' . urlencode( $sanitizedCurrentUri );
+	$buttonVariant = 'linkAccountButton';
 } else if ( ! $onlyLinkButton ) {
-	$buttonUrl  = '?linkly_login_action=' . urlencode( $_SERVER['REQUEST_URI'] );
-	$buttonVariant = 'login-button';
+	$buttonUrl  = '?linkly_login_action=' . urlencode( $sanitizedCurrentUri );
+	$buttonVariant = 'loginButton';
 } else {
 	$showButton = false;
 }
