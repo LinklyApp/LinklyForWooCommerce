@@ -1,11 +1,11 @@
 <?php
 /**
  * Plugin Name: Linkly for Woocommerce
- * Plugin URI: https://wordpress.org/plugins/linkly-for-woocommerce
+ * Plugin URI: https://linkly.me
  * Description: Plugin to link WooCommerce to Linkly SSO
  * Version: 1.1.1
  * Author: Linkly
- * Author URI: https://linkly.me/
+ * Author URI: https://linkly.me
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.txt
  * Text Domain: linkly
