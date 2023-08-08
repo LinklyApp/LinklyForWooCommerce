@@ -19,11 +19,6 @@ class LinklyOrderActions
      */
     private $linklySsoHelper;
 
-	/**
-	 * @var string The plugin name for the used PDF invoices plugin
-	 */
-	private $pdf_invoices_plugin = 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php';
-
     /**
      * @var string The status name for when the order is processing
      */
@@ -75,7 +70,7 @@ class LinklyOrderActions
             $orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder($order, $this->completed_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
 
-			if (!is_plugin_inactive($this->pdf_invoices_plugin)) {
+			if (linkly_is_pdf_invoices_plugin_active()) {
 				$orderDocument = wcpdf_get_document( 'invoice', $order, true );
 				$invoiceData   = LinklyWCInvoiceToLinklyInvoiceMapper::mapInvoice( $order, $orderDocument );
 				$this->linklyOrderHelper->sendInvoice( $invoiceData );

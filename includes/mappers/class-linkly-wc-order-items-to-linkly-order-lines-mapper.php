@@ -17,7 +17,8 @@ class LinklyWCOrderItemsToLinklyOrderLinesMapper
 		$orderLines = [];
 		$i = 1;
 		foreach ($orderItems as $item) {
-			$taxRatePercentage = current(WC_Tax::get_rates($item->get_tax_class(), WC()->customer))['rate'];
+			$taxRatePercentage = current(WC_Tax::get_rates($item->get_tax_class(), WC()->customer)) ?
+				current(WC_Tax::get_rates($item->get_tax_class(), WC()->customer))['rate'] : 0;
 			$orderLine['sequenceNumber'] = $i;
 			$orderLine['name'] = $item->get_name();
 			$orderLine['unitAmount'] = $item->get_total() / $item->get_quantity();

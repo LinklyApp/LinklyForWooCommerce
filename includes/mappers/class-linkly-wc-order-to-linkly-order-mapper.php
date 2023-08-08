@@ -17,14 +17,15 @@ class LinklyWCOrderToLinklyOrderMapper
 	 */
     public static function mapOrder(WC_Order $order, string $statusName)
     {
-        return json_encode([
+		$linklyStatusName = LinklyWCOrderStatusNameToLinklyMapper::mapStatusName($statusName);
+		return json_encode([
             'customerEmail' => $order->get_user()->user_email,
             'orderNumber' => $order->get_order_number(),
             'reference' => 'Ordered at ' . get_bloginfo('name'),
             'purchaseDate' => $order->get_date_created()->format('Y-m-d'),
 			'billingAddress' => LinklyWCAddressToLinklyAddressMapper::mapBillingAddress($order),
-			'shippingAddress' => LinklyWCAddressToLinklyAddressMapper::mapShippingAddress($order),
-            'statusName' => $statusName,
+			'shippingAddress' => $order->has_shipping_address() ? LinklyWCAddressToLinklyAddressMapper::mapShippingAddress($order) : null,
+            'statusName' => $linklyStatusName,
             'countryCode' => $order->get_billing_country(),
             'taxExclusiveAmount' => $order->get_total() - $order->get_total_tax(),
             'taxAmount' => $order->get_total_tax(),

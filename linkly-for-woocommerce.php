@@ -149,6 +149,7 @@ class Linkly_For_WC_Loader {
 		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-invoice-to-linkly-invoice-mapper.php';
 		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-items-to-linkly-order-lines-mapper.php';
 		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-address-to-linkly-address-mapper.php';
+		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-status-name-to-linkly-mapper.php';
 
 		// Parts
 		include_once plugin_dir_path( __FILE__ ) . 'includes/parts/class-linkly-parts-actions.php';

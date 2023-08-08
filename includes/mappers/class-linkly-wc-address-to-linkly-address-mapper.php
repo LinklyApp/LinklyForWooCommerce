@@ -22,7 +22,7 @@ class LinklyWCAddressToLinklyAddressMapper {
 			'phoneNumber'   => $order->get_billing_phone(),
 			'postcode'      => $order->get_billing_postcode(),
 			'city'          => $order->get_billing_city(),
-			'extraInfo'     => $order->get_customer_order_notes()[0],
+			'extraInfo'     => $order->get_customer_order_notes() ? $order->get_customer_order_notes()[0] : '',
 			'countryAlpha2' => $order->get_billing_country(),
 		];
 
@@ -37,6 +37,7 @@ class LinklyWCAddressToLinklyAddressMapper {
 	 * @return array
 	 */
 	public static function mapShippingAddress( WC_Order $order ): array {
+
 		$shippingAddress = [
 			'firstName'     => $order->get_shipping_first_name(),
 			'lastName'      => $order->get_shipping_last_name(),
@@ -46,7 +47,7 @@ class LinklyWCAddressToLinklyAddressMapper {
 			'phoneNumber'   => $order->get_shipping_phone(),
 			'postcode'      => $order->get_shipping_postcode(),
 			'city'          => $order->get_shipping_city(),
-			'extraInfo'     => $order->get_customer_order_notes()[0],
+			'extraInfo'     => $order->get_customer_order_notes() ? $order->get_customer_order_notes()[0] : '',
 			'countryAlpha2'  => $order->get_shipping_country(),
 		];
 
