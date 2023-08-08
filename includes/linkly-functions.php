@@ -67,7 +67,7 @@ function linkly_attachWCCustomer( LinklyUser $linklyUser, WP_User $currentUser )
 function linkly_sync_customer_invoices( WC_Customer $customer ): void {
 	$args = array(
 		'limit'        => - 1, // Limit of orders to retrieve
-		'meta_key'     => 'linkly_exported', // Postmeta key field
+		'meta_key'     => 'linkly_order_exported', // Postmeta key field
 		'meta_compare' => 'NOT EXISTS',
 		'customer_id'  => $customer->get_id(), // User ID
 		'return'       => 'objects', // Possible values are ‘ids’ and ‘objects’.
@@ -81,6 +81,8 @@ function linkly_sync_customer_invoices( WC_Customer $customer ): void {
 		try {
 			$orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder( $order, $order->get_status());
 			$linklyOrderHelper->sendOrder( $orderData );
+			$order->add_meta_data( 'linkly_order_exported', gmdate( "Y-m-d H:i:s" ) . ' +00:00' );
+			$order->save();
 
 			if ( $order->get_status() !== 'completed' || ! linkly_is_pdf_invoices_plugin_active() ) {
 				continue;
@@ -89,7 +91,8 @@ function linkly_sync_customer_invoices( WC_Customer $customer ): void {
 			$invoice     = wcpdf_get_document( 'invoice', $order, true );
 			$invoiceData = LinklyWCInvoiceToLinklyInvoiceMapper::mapInvoice( $order, $invoice );
 			$linklyOrderHelper->sendInvoice( $invoiceData );
-			$order->add_meta_data( 'linkly_exported', gmdate( "Y-m-d H:i:s" ) . ' +00:00' );
+
+			$order->add_meta_data( 'linkly_invoice_exported', gmdate( "Y-m-d H:i:s" ) . ' +00:00' );
 			$order->save();
 		} catch ( LinklyProviderException $e ) {
 			dd( $e->getResponseBody());
