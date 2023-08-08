@@ -1,6 +1,7 @@
 <?php
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
+use function Linkly\OAuth2\Client\Helpers\dd;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
