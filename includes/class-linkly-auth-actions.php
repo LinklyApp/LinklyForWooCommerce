@@ -73,7 +73,7 @@ class LinklyAuthActions
 	 */
     function linkly_login_callback()
     {
-        if (!isset($_GET['linkly-callback'])) {
+        if (!isset($_GET['linkly_callback'])) {
             return;
         }
 

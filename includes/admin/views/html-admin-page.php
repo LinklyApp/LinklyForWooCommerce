@@ -33,7 +33,7 @@ $textDomain = 'linkly-for-woocommerce';
 	<?php if ( ! $linklyHelpers->isConnected() ) : ?>
         <div class="linkly-form-group">
             <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
-                <a href="<?php echo esc_url( home_url( "?linkly_request_token=" .
+                <a href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
 				                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
                     <span><?php esc_html_e( "admin-connect-button", $textDomain ) ?></span>
                     <img
@@ -44,7 +44,7 @@ $textDomain = 'linkly-for-woocommerce';
 	<?php if ( $linklyHelpers->isConnected() ) : ?>
         <div class="linkly-form-group">
             <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
-                <a href="https://web.linkly.me"
+                <a href="<?php echo esc_url($linklyHelpers->getLinklyProvider()->getWebDomainUrl()) ?>"
                    target="_blank"><span><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?></span>
                     <img
                             src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ) ?>"></a>
@@ -81,36 +81,64 @@ $textDomain = 'linkly-for-woocommerce';
             </button>
         </div>
     </form>
-    <form method="post">
+    <form method="post" id="linklyButtonForm">
 		<?php wp_nonce_field( 'linkly_button_style' ); ?>
         <strong><?php esc_html_e( 'button_style.title', $textDomain ) ?></strong>
         <p>
 			<?php esc_html_e( 'button_style.change', $textDomain ) ?>
         </p>
         <div class="linkly-form-group">
-            <button type="submit" name="linkly_button_style" class="linkly-button primary" value="primary">
-                <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
-                <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
-                     alt="Linkly">
-            </button>
+            <div class="linkly-button primary">
+                <a href="javascript:void(0);">
+                    <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
+                    <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
+                         alt="Linkly">
+                </a>
+            </div>
             <p class="linkly-button-current">
 				<?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
             </p>
         </div>
         <div class="linkly-form-group">
-            <button type="submit" name="linkly_button_style" class="linkly-button secondary" value="secondary">
-                <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
-                <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
-                     alt="Linkly">
-            </button>
+            <div class="linkly-button secondary">
+                <a href="javascript:void(0);">
+                    <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
+                    <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
+                         alt="Linkly">
+                </a>
+            </div>
             <p class="linkly-button-current">
 				<?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
             </p>
         </div>
+        <!-- Hidden input field for button style -->
+        <input type="hidden" name="linkly_button_style" id="buttonStyleInput">
+        <!-- Invisible submit button -->
+        <input type="submit" style="display: none;" id="hiddenSubmit">
     </form>
 
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('linklyButtonForm');
+            const primaryButton = document.querySelector('.linkly-button.primary');
+            const secondaryButton = document.querySelector('.linkly-button.secondary');
+            const buttonStyleInput = document.getElementById('buttonStyleInput');
+
+            // Add click event listener to the primary button div
+            primaryButton.addEventListener('click', function() {
+                buttonStyleInput.value = 'primary'; // Set the hidden input value
+                form.submit();
+            });
+
+            // Add click event listener to the secondary button div
+            secondaryButton.addEventListener('click', function() {
+                buttonStyleInput.value = 'secondary'; // Set the hidden input value
+                form.submit();
+            });
+        });
+
+
         var clientId = document.getElementById('linkly_client_id');
         var clientSecret = document.getElementById('linkly_client_secret');
         var editButton = document.getElementById('linkly_edit_credential_button');

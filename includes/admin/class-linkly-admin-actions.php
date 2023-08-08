@@ -1,6 +1,7 @@
 <?php
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
+use function Linkly\OAuth2\Client\Helpers\dd;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -93,11 +94,11 @@ class LinklyAdminActions {
 		}
 
 		$params = [
-			'returnUrl'             => get_site_url() . '?linkly_request_token_callback',
+			'returnUrl'             => get_admin_url() . '?linkly_request_token_callback',
 			'clientName'            => get_bloginfo( 'name' ),
 			'allowedCorsOrigin'     => $corsUrl,
 			'postLogoutRedirectUri' => get_site_url(),
-			'redirectUri'           => get_site_url() . '?linkly-callback',
+			'redirectUri'           => get_site_url() . '?linkly_callback',
 		];
 
 		$this->ssoHelper->linkClientRedirect( $params );
