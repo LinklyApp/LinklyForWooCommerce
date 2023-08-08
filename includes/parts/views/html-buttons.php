@@ -20,13 +20,13 @@ $sanitizedCurrentUri  = filter_var($rawCurrentUri, FILTER_SANITIZE_URL);
 
 if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id() ) && ! $onlyLinkButton ) {
 	$buttonUrl  = '?linkly_change_address_action=' . urlencode( $sanitizedCurrentUri );
-	$buttonVariant = 'changeAddressButton';
+	$buttonVariant = 'change-address-button';
 } else if ( is_user_logged_in() && ! linkly_is_wp_user_linkly_user( get_current_user_id() ) ) {
 	$buttonUrl  = '?linkly_link_account_action=' . urlencode( $sanitizedCurrentUri );
-	$buttonVariant = 'linkAccountButton';
+	$buttonVariant = 'linky-account-button';
 } else if ( ! $onlyLinkButton ) {
 	$buttonUrl  = '?linkly_login_action=' . urlencode( $sanitizedCurrentUri );
-	$buttonVariant = 'loginButton';
+	$buttonVariant = 'login-button';
 } else {
 	$showButton = false;
 }

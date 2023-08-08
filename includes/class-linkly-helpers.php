@@ -32,7 +32,7 @@ class LinklyHelpers {
         $this->linklyProvider = new LinklyProvider([
             'clientId' => get_option('linkly_settings_app_key'), // 'test-wp-plugin'
             'clientSecret' => get_option('linkly_settings_app_secret'), // 'secret',
-            'redirectUri' => rtrim(get_site_url() . '?linkly-callback'),
+            'redirectUri' => rtrim(get_site_url() . '?linkly_callback'),
             'environment' => get_option('linkly_settings_environment') // options are "prod", "beta", "local"
         ]);
 

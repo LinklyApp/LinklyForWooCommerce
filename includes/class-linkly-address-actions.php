@@ -42,7 +42,7 @@ class LinklyAddressActions
 			'redirect_uri' => get_site_url() . '?linkly_change_address_callback'
 		];
 
-		$this->ssoHelper->changeAddress($params);
+		$this->ssoHelper->changeAddressRedirect($params);
 		exit;
 	}
 
