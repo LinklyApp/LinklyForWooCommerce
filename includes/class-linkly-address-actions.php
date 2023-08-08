@@ -39,7 +39,7 @@ class LinklyAddressActions
 
 		$params = [
 			'clientId' => get_option('linkly_settings_app_key'),
-			'redirect_uri' => get_site_url() . '?linkly_change_address_callback'
+			'returnUrl' => get_site_url() . '?linkly_change_address_callback'
 		];
 
 		$this->ssoHelper->changeAddressRedirect($params);
