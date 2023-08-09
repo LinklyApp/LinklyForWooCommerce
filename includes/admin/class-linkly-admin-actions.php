@@ -18,6 +18,24 @@ class LinklyAdminActions {
 		add_action( 'admin_init', [ $this, 'linkly_admin_handle_save' ] );
 		add_action( 'admin_init', [ $this, 'linkly_request_token_action' ] );
 		add_action( 'admin_init', [ $this, 'linkly_request_token_callback' ] );
+		add_action('linkly_notice_hook', [$this, 'display_client_credentials_saved_notice']);
+	}
+
+	public function display_client_credentials_saved_notice() {
+		if ( ! isset( $_REQUEST['page'] )
+		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
+		     || ! get_transient( 'linkly_client_credentials_saved' )
+		) {
+			return;
+		}
+
+
+		echo '<div class="updated notice is-dismissible" ><p>';
+		echo 'Client ID and secret saved successfully!';
+		echo '</p></div>';
+
+		// Delete the transient so that the notice doesn't keep showing up on refresh
+		delete_transient( 'linkly_client_credentials_saved' );
 	}
 
 	public function linkly_admin_handle_save() {
@@ -39,32 +57,39 @@ class LinklyAdminActions {
 	}
 
 	private function handle_save_client_credentials() {
-		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_credentials')) {
-			throw new Exception('Invalid CSRF token');
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+			throw new Exception( 'Invalid CSRF token' );
 		}
-		if (!isset($_POST['linkly_client_id'])) {
-			throw new Exception('Client ID not set');
+		if ( ! isset( $_POST['linkly_client_id'] ) ) {
+			throw new Exception( 'Client ID not set' );
 		}
-		if (!isset($_POST['linkly_client_secret'])) {
-			throw new Exception('Client secret not set');
+		if ( ! isset( $_POST['linkly_client_secret'] ) ) {
+			throw new Exception( 'Client secret not set' );
 		}
-		$clientId = sanitize_text_field($_POST['linkly_client_id']);
-		$clientSecret = sanitize_text_field($_POST['linkly_client_secret']);
-		update_option('linkly_settings_app_key', $clientId);
-		update_option('linkly_settings_app_secret', $clientSecret);
+		$clientId     = sanitize_text_field( $_POST['linkly_client_id'] );
+		$clientSecret = sanitize_text_field( $_POST['linkly_client_secret'] );
+		update_option( 'linkly_settings_app_key', $clientId );
+		update_option( 'linkly_settings_app_secret', $clientSecret );
+
+		set_transient( 'linkly_client_credentials_saved', true, 5 );
+
+		$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
+		wp_redirect( $redirect_url );
+		exit;
 	}
+
 	private function handle_save_button_style() {
-		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_button_style')) {
-			throw new Exception('Invalid CSRF token');
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+			throw new Exception( 'Invalid CSRF token' );
 		}
-		if (!isset($_POST['linkly_button_style'])) {
-			throw new Exception('Button style not set');
+		if ( ! isset( $_POST['linkly_button_style'] ) ) {
+			throw new Exception( 'Button style not set' );
 		}
-		$buttonStyle = sanitize_text_field($_POST['linkly_button_style']);
-		if (!in_array($buttonStyle, ['primary', 'secondary'])) {
-			throw new Exception('Invalid button style');
+		$buttonStyle = sanitize_text_field( $_POST['linkly_button_style'] );
+		if ( ! in_array( $buttonStyle, [ 'primary', 'secondary' ] ) ) {
+			throw new Exception( 'Invalid button style' );
 		}
-		update_option('linkly_button_style', $buttonStyle);
+		update_option( 'linkly_button_style', $buttonStyle );
 	}
 
 	/**
@@ -81,9 +106,9 @@ class LinklyAdminActions {
 			throw new Exception( 'User is not an admin' );
 		}
 
-		$decodedReturnUrl = urldecode($_GET['linkly_request_token']);
-		$sanitizedReturnUrl = filter_var($decodedReturnUrl, FILTER_SANITIZE_URL);
-		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedReturnUrl);
+		$decodedReturnUrl             = urldecode( $_GET['linkly_request_token'] );
+		$sanitizedReturnUrl           = filter_var( $decodedReturnUrl, FILTER_SANITIZE_URL );
+		$_SESSION['url_to_return_to'] = esc_url( get_site_url() . $sanitizedReturnUrl );
 
 		// $corsUrl is pure the domain name without the path if there is a port number it is included
 		$corsUrl = parse_url( get_site_url(), PHP_URL_SCHEME ) . '://' . parse_url( get_site_url(), PHP_URL_HOST );

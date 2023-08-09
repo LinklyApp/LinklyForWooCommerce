@@ -75,3 +75,6 @@ msgstr "Change ID and/or secret"
 
 msgid "cancel"
 msgstr "Cancel"
+
+msgid "enter-client-secret"
+msgstr "Enter your client secret"

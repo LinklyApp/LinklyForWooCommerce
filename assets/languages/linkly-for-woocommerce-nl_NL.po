@@ -75,3 +75,6 @@ msgstr "ID en/of secret aanpassen"
 
 msgid "cancel"
 msgstr "Annuleren"
+
+msgid "enter-client-secret"
+msgstr "Voer je client secret in"

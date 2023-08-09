@@ -11,189 +11,229 @@ $textDomain = 'linkly-for-woocommerce';
 
 ?>
 
-<div class="linkly-admin-page">
-    <h1>Linkly</h1>
-	<?php if ( is_plugin_inactive( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) ) : ?>
-        <div class="linkly-warning">
-            <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . 'assets/images/package_warning.svg' ) ?>">
-            <div class="linkly-warning-description">
-				<?php esc_html_e( "warning.pdf-invoice-plugin-not-activated", $textDomain ) ?>
+<div id="clientSecretModal" class="modal">
+
+    <div class="modal-content">
+        <form action="<?php echo esc_url( remove_query_arg( 'client_id' ) ); ?>" method="post">
+            <h2><?php esc_html_e( "enter-client-secret", $textDomain ); ?></h2>
+
+            <div class="linkly-form-group">
+                <label class="linkly-form-label" for="linkly_modal_client_id">
+					<?php esc_html_e( "client.id", $textDomain ); ?>
+                </label>
+                <input name="linkly_client_id" id="linkly_modal_client_id" class="linkly-form-input" type="text"
+                       value="<?php echo isset( $_GET['client_id'] ) ? esc_html( $_GET['client_id'] ) : ''; ?>"
+                       readonly/>
             </div>
-        </div>
-	<?php endif; ?>
-    <p>
-		<?php
-		if ( ! $linklyHelpers->isConnected() ) {
-			esc_html_e( "admin-description-not-linked", $textDomain );
-		} else {
-			esc_html_e( "admin-description-linked", $textDomain );
-		}
-		?>
-    </p>
-	<?php if ( ! $linklyHelpers->isConnected() ) : ?>
-        <div class="linkly-form-group">
-            <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
-                <a href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
-				                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
-                    <span><?php esc_html_e( "admin-connect-button", $textDomain ) ?></span>
-                    <img
-                            src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ) ?>"></a>
+
+            <div class="linkly-form-group">
+                <label class="linkly-form-label" for="linkly_modal_client_secret">
+					<?php esc_html_e( "client.secret", $textDomain ); ?>
+                </label>
+                <input name="linkly_client_secret" id="linkly_modal_client_secret" class="linkly-form-input"
+                       type="text"/>
             </div>
-        </div>
-	<?php endif; ?>
-	<?php if ( $linklyHelpers->isConnected() ) : ?>
-        <div class="linkly-form-group">
-            <div class="linkly-button <?php echo esc_attr( $buttonStyle ) ?>">
-                <a href="<?php echo esc_url($linklyHelpers->getLinklyProvider()->getWebDomainUrl()) ?>"
-                   target="_blank"><span><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?></span>
-                    <img
-                            src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-" . $logoStyle . ".svg" ) ?>"></a>
-            </div>
-        </div>
-	<?php endif; ?>
-    <form method="post">
-		<?php wp_nonce_field( 'linkly_credentials' ); ?>
-        <div class="linkly-form-group">
-            <label class="linkly-form-label" for="linkly_client_id">
-				<?php esc_html_e( "client.id", $textDomain ); ?>
-            </label>
-            <input name="linkly_client_id" id="linkly_client_id" class="linkly-form-input" type="text"
-                   value="<?php echo esc_html( get_option( 'linkly_settings_app_key' ) ) ?>" disabled/>
-        </div>
-        <div class="linkly-form-group">
-            <label class="linkly-form-label" for="linkly_client_secret">
-				<?php esc_html_e( "client.secret", $textDomain ); ?>
-            </label>
-            <input name="linkly_client_secret" id="linkly_client_secret" class="linkly-form-input" type="password"
-                   value="<?php echo esc_attr( get_option( 'linkly_settings_app_secret' ) ) ?>" disabled/>
-            <span class="linkly-secret-eye"><i id="passwordToggler"><img
-                            src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>"></i></span>
-        </div>
-        <div id="linkly_credentials_button" class="linkly-credentials-button">
-            <button id="linkly_edit_credential_button" class="button-primary" type="button">
-				<?php esc_html_e( "edit_credentials", $textDomain ); ?>
-            </button>
-            <button id="linkly_save_credentials_button" class="button-primary" type="submit">
-				<?php esc_html_e( "save_changes", $textDomain ); ?>
-            </button>
-            <button id="linkly_cancel_edit_credential_button" class="button-primary" type="button">
+
+			<?php wp_nonce_field( 'linkly_credentials' ); ?>
+
+            <input type="submit" name="submit_client_secret" class="button-primary"
+                   value="<?php esc_html_e( "save_changes", $textDomain ); ?>">
+            <button onclick="window.location.href = '<?php echo esc_js( esc_url( remove_query_arg( 'client_id' ) ) ); ?>'; return false;"
+                    class="button-secondary" type="button">
 				<?php esc_html_e( "cancel", $textDomain ); ?>
             </button>
-        </div>
-    </form>
-    <form method="post" id="linklyButtonForm">
-		<?php wp_nonce_field( 'linkly_button_style' ); ?>
-        <strong><?php esc_html_e( 'button_style.title', $textDomain ) ?></strong>
-        <p>
-			<?php esc_html_e( 'button_style.change', $textDomain ) ?>
-        </p>
-        <div class="linkly-form-group">
-            <div class="linkly-button primary">
-                <a href="javascript:void(0);">
-                    <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
-                    <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
-                         alt="Linkly">
-                </a>
+        </form>
+    </div>
+</div>
+
+
+<div class="linkly-admin-page">
+    <h1>Linkly settings</h1>
+    <div class="linkly-admin-page__content">
+		<?php if ( is_plugin_inactive( 'woocommerce-pdf-invoices-packing-slips/woocommerce-pdf-invoices-packingslips.php' ) ) : ?>
+            <div class="linkly-warning">
+                <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . 'assets/images/package_warning.svg' ) ?>">
+                <div class="linkly-warning-description">
+					<?php esc_html_e( "warning.pdf-invoice-plugin-not-activated", $textDomain ) ?>
+                </div>
             </div>
-            <p class="linkly-button-current">
-				<?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
-            </p>
-        </div>
-        <div class="linkly-form-group">
-            <div class="linkly-button secondary">
-                <a href="javascript:void(0);">
-                    <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
-                    <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
-                         alt="Linkly">
+		<?php endif; ?>
+		<?php do_action( 'linkly_notice_hook' ); ?>
+        <div class="linkly-admin-page__row">
+			<?php if ( $linklyHelpers->isConnected() ) : ?>
+                <h3>Status: <span style="color: #008000; font-style: italic;">Connected</span></h3>
+                <a class="button"
+                   href="<?php echo esc_url( $linklyHelpers->getLinklyProvider()->getWebDomainUrl() ) ?>"
+                   target="_blank"><b><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?>
+                    </b>
                 </a>
-            </div>
-            <p class="linkly-button-current">
-				<?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
-            </p>
+			<?php endif; ?>
+			<?php if ( ! $linklyHelpers->isConnected() ) : ?>
+                <h3>Status: <span style="color: red">Not connected</span></h3>
+                <a class="button" href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
+				                                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
+                    <b><?php esc_html_e( "admin-connect-button", $textDomain ) ?></b>
+                </a>
+			<?php endif; ?>
         </div>
-        <!-- Hidden input field for button style -->
-        <input type="hidden" name="linkly_button_style" id="buttonStyleInput">
-        <!-- Invisible submit button -->
-        <input type="submit" style="display: none;" id="hiddenSubmit">
-    </form>
+        <form method="post" class="linkly-admin-page__row">
+
+            <?php wp_nonce_field( 'linkly_credentials' ); ?>
+            <div>
+                <h3>Manual installation</h3>
+
+                <div class="linkly-form-group">
+                    <label class="linkly-form-label" for="linkly_client_id">
+						<?php esc_html_e( "client.id", $textDomain ); ?>
+                    </label>
+                    <input name="linkly_client_id" id="linkly_client_id" class="linkly-form-input" type="text"
+                           value="<?php echo esc_html( get_option( 'linkly_settings_app_key' ) ) ?>" disabled/>
+                </div>
+                <div class="linkly-form-group">
+                    <label class="linkly-form-label" for="linkly_client_secret">
+						<?php esc_html_e( "client.secret", $textDomain ); ?>
+                    </label>
+                    <input name="linkly_client_secret" id="linkly_client_secret" class="linkly-form-input"
+                           type="password"
+                           value="<?php echo esc_attr( get_option( 'linkly_settings_app_secret' ) ) ?>" disabled/>
+                    <span class="linkly-secret-eye"><i id="passwordToggler"><img
+                                    src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>"></i></span>
+                </div>
+            </div>
+            <div id="linkly_credentials_button" class="linkly-credentials-button">
+                <button id="linkly_edit_credential_button" class="button-primary" type="button">
+					<?php esc_html_e( "edit_credentials", $textDomain ); ?>
+                </button>
+                <button id="linkly_save_credentials_button" class="button-primary" type="submit">
+					<?php esc_html_e( "save_changes", $textDomain ); ?>
+                </button>
+                <button id="linkly_cancel_edit_credential_button" class="button-secondary" type="button">
+					<?php esc_html_e( "cancel", $textDomain ); ?>
+                </button>
+            </div>
+        </form>
+        <form method="post" id="linklyButtonForm" class="linkly-admin-page__row">
+			<?php wp_nonce_field( 'linkly_button_style' ); ?>
+            <h3><?php esc_html_e( 'button_style.title', $textDomain ) ?></h3>
+                <div class="linkly-form-group linkly-form-group--vertical">
+                    <p class="linkly-button-current">
+		                <?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
+                    </p>
+                    <div class="linkly-button primary">
+                        <a href="javascript:void(0);">
+                            <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
+                            <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
+                                 alt="Linkly">
+                        </a>
+                    </div>
+
+                </div>
+                <div class="linkly-form-group linkly-form-group--vertical">
+                    <p class="linkly-button-current">
+		                <?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
+                    </p>
+                    <div class="linkly-button secondary">
+                        <a href="javascript:void(0);">
+                            <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
+                            <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
+                                 alt="Linkly">
+                        </a>
+                    </div>
+
+                </div>
+            <!-- Hidden input field for button style -->
+            <input type="hidden" name="linkly_button_style" id="buttonStyleInput">
+            <!-- Invisible submit button -->
+            <input type="submit" style="display: none;" id="hiddenSubmit">
+        </form>
+
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // For the modal
+        let urlParams = new URLSearchParams(window.location.search);
+        let clientId = urlParams.get('client_id');
+
+        if (clientId) {
+            document.getElementById('clientSecretModal').style.display = "block";
+        }
 
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('linklyButtonForm');
-            const primaryButton = document.querySelector('.linkly-button.primary');
-            const secondaryButton = document.querySelector('.linkly-button.secondary');
-            const buttonStyleInput = document.getElementById('buttonStyleInput');
+        // For the button form
+        const form = document.getElementById('linklyButtonForm');
+        const primaryButton = document.querySelector('.linkly-button.primary');
+        const secondaryButton = document.querySelector('.linkly-button.secondary');
+        const buttonStyleInput = document.getElementById('buttonStyleInput');
 
-            // Add click event listener to the primary button div
-            primaryButton.addEventListener('click', function() {
-                buttonStyleInput.value = 'primary'; // Set the hidden input value
-                form.submit();
-            });
-
-            // Add click event listener to the secondary button div
-            secondaryButton.addEventListener('click', function() {
-                buttonStyleInput.value = 'secondary'; // Set the hidden input value
-                form.submit();
-            });
+        // Add click event listener to the primary button div
+        primaryButton.addEventListener('click', function () {
+            buttonStyleInput.value = 'primary'; // Set the hidden input value
+            form.submit();
         });
 
+        // Add click event listener to the secondary button div
+        secondaryButton.addEventListener('click', function () {
+            buttonStyleInput.value = 'secondary'; // Set the hidden input value
+            form.submit();
+        });
+    });
 
-        var clientId = document.getElementById('linkly_client_id');
-        var clientSecret = document.getElementById('linkly_client_secret');
-        var editButton = document.getElementById('linkly_edit_credential_button');
-        var saveButton = document.getElementById('linkly_save_credentials_button');
-        var cancelButton = document.getElementById('linkly_cancel_edit_credential_button');
-        var passwordToggler = document.getElementById('passwordToggler');
-        var edit = false;
 
-        saveButton.style.display = 'none';
+    var clientId = document.getElementById('linkly_client_id');
+    var clientSecret = document.getElementById('linkly_client_secret');
+    var editButton = document.getElementById('linkly_edit_credential_button');
+    var saveButton = document.getElementById('linkly_save_credentials_button');
+    var cancelButton = document.getElementById('linkly_cancel_edit_credential_button');
+    var passwordToggler = document.getElementById('passwordToggler');
+    var edit = false;
+
+    saveButton.style.display = 'none';
+    cancelButton.style.display = 'none';
+
+    if (clientId.value === '' || clientSecret.value === '') {
+
+        clientId.removeAttribute('disabled');
+        clientSecret.removeAttribute('disabled');
+
+        editButton.style.display = 'none';
+        saveButton.style.display = 'inline-block';
         cancelButton.style.display = 'none';
+    }
 
-        if (clientId.value === '' || clientSecret.value === '') {
+    function showHidePassword() {
+        if (clientSecret.type === 'password') {
+            clientSecret.setAttribute('type', 'text');
+            passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-closed.svg" ) ?>';
+        } else {
+            passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>';
+            clientSecret.setAttribute('type', 'password');
+        }
 
+    }
+
+    function setCredentialsEditable() {
+        edit = !edit;
+
+        if (edit) {
             clientId.removeAttribute('disabled');
             clientSecret.removeAttribute('disabled');
 
             editButton.style.display = 'none';
             saveButton.style.display = 'inline-block';
+            cancelButton.style.display = 'inline-block';
+
+        } else {
+            clientId.setAttribute('disabled', 'disabled');
+            clientSecret.setAttribute('disabled', 'disabled');
+
+            editButton.style.display = 'inline-block';
+            saveButton.style.display = 'none';
             cancelButton.style.display = 'none';
         }
+    }
 
-        function showHidePassword() {
-            if (clientSecret.type === 'password') {
-                clientSecret.setAttribute('type', 'text');
-                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-closed.svg" ) ?>';
-            } else {
-                passwordToggler.getElementsByTagName('img')[0].src = '<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>';
-                clientSecret.setAttribute('type', 'password');
-            }
-
-        }
-
-        function setCredentialsEditable() {
-            edit = !edit;
-
-            if (edit) {
-                clientId.removeAttribute('disabled');
-                clientSecret.removeAttribute('disabled');
-
-                editButton.style.display = 'none';
-                saveButton.style.display = 'inline-block';
-                cancelButton.style.display = 'inline-block';
-
-            } else {
-                clientId.setAttribute('disabled', 'disabled');
-                clientSecret.setAttribute('disabled', 'disabled');
-
-                editButton.style.display = 'inline-block';
-                saveButton.style.display = 'none';
-                cancelButton.style.display = 'none';
-            }
-        }
-
-        passwordToggler.addEventListener('click', showHidePassword);
-        editButton.addEventListener('click', setCredentialsEditable);
-        cancelButton.addEventListener('click', setCredentialsEditable);
-    </script>
-</div>
+    passwordToggler.addEventListener('click', showHidePassword);
+    editButton.addEventListener('click', setCredentialsEditable);
+    cancelButton.addEventListener('click', setCredentialsEditable);
+</script>
