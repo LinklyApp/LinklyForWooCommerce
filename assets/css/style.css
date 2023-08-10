@@ -49,13 +49,13 @@
 
 .linkly-button.primary {
     background: #2F0066;
-    margin: 1px;
-    border: 0;
+    border: 1px solid #2F0066;
     border-radius: 8px;
 }
 
 .linkly-button.primary:hover {
     background: #450094;
+    border-color: #450094;
 }
 
 .linkly-button.primary * span {

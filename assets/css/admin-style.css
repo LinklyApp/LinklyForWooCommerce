@@ -1,21 +1,64 @@
 .linkly-admin-page {
-    background: white;
-    border-radius: 8px;
     margin-top: 10px;
     margin-right: 10px;
-    padding: 0.625rem;
 }
 
 @media screen and (min-width: 783px) {
     .linkly-admin-page {
-        padding-right: 2rem;
-        margin-right: 20px;
     }
+}
+
+.linkly-admin-page__content {
+    background: #fff;
+    margin: 20px 0;
+    padding: 20px 20px 0;
+    max-width: 600px;
+}
+
+.linkly-admin-page__row{
+    border-bottom: 1px solid #eee;
+    padding: 20px;
+    margin: -20px -20px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.client-status {
+    font-style: italic;
+}
+
+.client-status__connected{
+    color: #008000;
+}
+
+.client-status__disconnected{
+    color: #D32F2F;
 }
 
 p {
     font-size: 14px;
     color: #1d2327;
+}
+
+.justify-center {
+    display: flex;
+    justify-content: center;
+}
+
+.align-center {
+    display: flex;
+    align-items: center;
+}
+
+.linkly-button__wrapper {
+    /*border-radius: 8px;*/
+    padding: 4px 5px;
+    border: 5px solid transparent;
+}
+
+.linkly-button__wrapper.selected {
+    border-color: lightgreen;
 }
 
 form {
@@ -31,6 +74,14 @@ form {
 
     margin-bottom: 1rem;
     max-width: 30rem;
+}
+
+.linkly-form-group--vertical {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+
 }
 
 .linkly-secret-eye * img {
@@ -60,16 +111,10 @@ form {
     font-size: 14px;
     font-weight: 600;
     color: #1d2327;
-    padding-left: 20px;
 }
 
 .linkly-credentials-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 1rem;
+
 }
 
 .linkly-warning {
@@ -96,4 +141,30 @@ form {
     display: inline-block;
     width: 100%;
     margin: 0;
+}
+
+/* modal */
+/* Basic modal styling */
+.modal {
+    display: none; /* Default is hidden */
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7); /* Dimmed background */
+    z-index: 9999; /* Ensure it's above other elements */
+}
+
+.modal-content {
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    width: 60%; /* Adjust width as required */
+    max-width: 500px; /* Maximum width */
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 }

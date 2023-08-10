@@ -17,9 +17,30 @@ This WooCommerce extension enables you to link your webshop with Linkly, providi
 ## Installation
 
 ### Minimum Requirements
-
-- WooCommerce 6.9.1 or later
 - WordPress 5.3 or later
+- WooCommerce 6.9.1 or later
+
+**Special Note for Users Cloning or Downloading Directly from GitHub**:
+
+If you've cloned or downloaded the plugin directly from GitHub, the `vendor` folder won't be included. You'll need to generate it manually.
+
+#### Prerequisites for GitHub Users:
+
+-   [PHP 7.4+](https://www.php.net/manual/en/install.php): It is needed to run Composer.
+-   [Composer](https://getcomposer.org/doc/00-intro.md): We use Composer to manage all of the dependencies for PHP packages.
+
+After ensuring the above prerequisites:
+
+1. Navigate to the plugin directory and run the command:
+
+    ```bash
+    composer install
+    ```
+
+2. This will create the `vendor` folder with all required dependencies.
+3. (Optional) If you wish to redistribute or move the plugin, you can zip the entire plugin directory, including the newly created `vendor` folder.
+
+Now, proceed with the remaining installation instructions.
 
 ### Automatic Installation
 
@@ -53,3 +74,7 @@ If you find a bug, please report it on the [LinklyApp GitHub repository](https:/
 ## License
 
 This project is licensed under the [GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.txt)
+
+--- 
+
+This is the full `Readme.md` with clear sections and improved GitHub-specific instructions.

@@ -1,5 +1,6 @@
 <?php
 
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use function Linkly\OAuth2\Client\Helpers\dd;
 
@@ -16,8 +17,42 @@ class LinklyAdminActions {
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9999 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'linkly_admin_style' ] );
 		add_action( 'admin_init', [ $this, 'linkly_admin_handle_save' ] );
-		add_action( 'admin_init', [ $this, 'linkly_request_token_action' ] );
-		add_action( 'admin_init', [ $this, 'linkly_request_token_callback' ] );
+		add_action('linkly_notice_hook', [$this, 'display_client_credentials_saved_notice']);
+		add_action('linkly_notice_hook', [$this, 'display_client_credentials_save_error_notice']);
+	}
+
+	public function display_client_credentials_saved_notice() {
+		if ( ! isset( $_REQUEST['page'] )
+		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
+		     || ! get_transient( 'linkly_client_credentials_saved' )
+		) {
+			return;
+		}
+
+
+		echo '<div class="updated notice is-dismissible" ><p>';
+		echo 'Client ID and secret saved successfully!';
+		echo '</p></div>';
+
+		// Delete the transient so that the notice doesn't keep showing up on refresh
+		delete_transient( 'linkly_client_credentials_saved' );
+	}
+
+	public function display_client_credentials_save_error_notice() {
+		if ( ! isset( $_REQUEST['page'] )
+		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
+		     || ! get_transient( 'display_client_credentials_save_error' )
+		) {
+			return;
+		}
+
+		echo '<div class="error notice is-dismissible" ><p>';
+		esc_html_e( "client.connection-error", 'linkly-for-woocommerce' );
+		echo ': ' . esc_html(get_transient( 'display_client_credentials_save_error' ));
+		echo '</p></div>';
+
+		// Delete the transient so that the notice doesn't keep showing up on refresh
+		delete_transient( 'display_client_credentials_save_error' );
 	}
 
 	public function linkly_admin_handle_save() {
@@ -33,38 +68,58 @@ class LinklyAdminActions {
 			$this->handle_save_client_credentials();
 		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
 			$this->handle_save_button_style();
+		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+			$this->handle_linkly_admin_connect();
 		} else {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 	}
 
 	private function handle_save_client_credentials() {
-		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_credentials')) {
-			throw new Exception('Invalid CSRF token');
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+			throw new Exception( 'Invalid CSRF token' );
 		}
-		if (!isset($_POST['linkly_client_id'])) {
-			throw new Exception('Client ID not set');
+		if ( ! isset( $_POST['linkly_client_id'] ) ) {
+			throw new Exception( 'Client ID not set' );
 		}
-		if (!isset($_POST['linkly_client_secret'])) {
-			throw new Exception('Client secret not set');
+		if ( ! isset( $_POST['linkly_client_secret'] ) ) {
+			throw new Exception( 'Client secret not set' );
 		}
-		$clientId = sanitize_text_field($_POST['linkly_client_id']);
-		$clientSecret = sanitize_text_field($_POST['linkly_client_secret']);
-		update_option('linkly_settings_app_key', $clientId);
-		update_option('linkly_settings_app_secret', $clientSecret);
+		$clientId     = sanitize_text_field( $_POST['linkly_client_id'] );
+		$clientSecret = sanitize_text_field( $_POST['linkly_client_secret'] );
+		update_option( 'linkly_settings_app_key', $clientId );
+		update_option( 'linkly_settings_app_secret', $clientSecret );
+
+		try {
+			$clientCredentials = [
+				'clientId'     => $clientId,
+				'clientSecret' => $clientSecret,
+			];
+			$this->ssoHelper->verifyClientCredentials($clientCredentials);
+			update_option( 'linkly_settings_app_connected', true );
+			set_transient( 'linkly_client_credentials_saved', true, 5 );
+		} catch ( IdentityProviderException $e ) {
+			update_option( 'linkly_settings_app_connected', false );
+			set_transient( 'display_client_credentials_save_error', sanitize_text_field($e->getResponseBody()['error']), 5 );
+		} finally {
+			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
+			wp_redirect( $redirect_url );
+			exit;
+		}
 	}
+
 	private function handle_save_button_style() {
-		if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'linkly_button_style')) {
-			throw new Exception('Invalid CSRF token');
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+			throw new Exception( 'Invalid CSRF token' );
 		}
-		if (!isset($_POST['linkly_button_style'])) {
-			throw new Exception('Button style not set');
+		if ( ! isset( $_POST['linkly_button_style'] ) ) {
+			throw new Exception( 'Button style not set' );
 		}
-		$buttonStyle = sanitize_text_field($_POST['linkly_button_style']);
-		if (!in_array($buttonStyle, ['primary', 'secondary'])) {
-			throw new Exception('Invalid button style');
+		$buttonStyle = sanitize_text_field( $_POST['linkly_button_style'] );
+		if ( ! in_array( $buttonStyle, [ 'primary', 'secondary' ] ) ) {
+			throw new Exception( 'Invalid button style' );
 		}
-		update_option('linkly_button_style', $buttonStyle);
+		update_option( 'linkly_button_style', $buttonStyle );
 	}
 
 	/**
@@ -72,18 +127,12 @@ class LinklyAdminActions {
 	 *
 	 * @return void
 	 */
-	function linkly_request_token_action() {
-		if ( ! isset( $_GET['linkly_request_token'] ) ) {
-			return;
+	function handle_linkly_admin_connect() {
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+			throw new Exception( 'Invalid CSRF token' );
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			throw new Exception( 'User is not an admin' );
-		}
-
-		$decodedReturnUrl = urldecode($_GET['linkly_request_token']);
-		$sanitizedReturnUrl = filter_var($decodedReturnUrl, FILTER_SANITIZE_URL);
-		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedReturnUrl);
+		$sanitizedReturnUrl = sanitize_url(admin_url( "admin.php?page=".$_GET["page"] ));
 
 		// $corsUrl is pure the domain name without the path if there is a port number it is included
 		$corsUrl = parse_url( get_site_url(), PHP_URL_SCHEME ) . '://' . parse_url( get_site_url(), PHP_URL_HOST );
@@ -94,7 +143,7 @@ class LinklyAdminActions {
 		}
 
 		$params = [
-			'returnUrl'             => get_admin_url() . '?linkly_request_token_callback',
+			'returnUrl'             => $sanitizedReturnUrl,
 			'clientName'            => get_bloginfo( 'name' ),
 			'allowedCorsOrigin'     => $corsUrl,
 			'postLogoutRedirectUri' => get_site_url(),
@@ -102,29 +151,6 @@ class LinklyAdminActions {
 		];
 
 		$this->ssoHelper->linkClientRedirect( $params );
-		exit;
-	}
-
-	/**
-	 * The callback action after the webshop has been linked to Linkly
-	 *
-	 * @return void
-	 */
-	function linkly_request_token_callback() {
-		if ( ! isset( $_GET['linkly_request_token_callback'] ) ) {
-			return;
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			throw new Exception( 'User is not an admin' );
-		}
-
-		$client_options = $this->ssoHelper->linkClientCallback();
-
-		update_option( 'linkly_settings_app_key', $client_options['client_id'] );
-		update_option( 'linkly_settings_app_secret', $client_options['client_secret'] );
-
-		wp_redirect( admin_url( 'admin.php?page=linkly-for-woocommerce' ) );
 		exit;
 	}
 
