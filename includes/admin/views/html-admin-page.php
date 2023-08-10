@@ -65,31 +65,29 @@ $textDomain = 'linkly-for-woocommerce';
                     <span class="client-status client-status__connected">
                         <?php esc_html_e( "client.connected", $textDomain ) ?>
                     </span></h3>
-                <div class="justify-center align-center">
-                    <a class="button"
-                       href="<?php echo esc_url( $linklyHelpers->getLinklyProvider()->getWebDomainUrl() ) ?>"
-                       target="_blank"><b><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?>
-                        </b>
-                    </a>
-                </div>
+                <a class="button"
+                   href="<?php echo esc_url( $linklyHelpers->getLinklyProvider()->getWebDomainUrl() ) ?>"
+                   target="_blank"><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?>
+
+                </a>
 			<?php endif; ?>
 			<?php if ( ! $linklyHelpers->isConnected() ) : ?>
-                <h3><?php esc_html_e( "client.status", $textDomain ) ?>: 
+                <h3><?php esc_html_e( "client.status", $textDomain ) ?>:
                     <span class="client-status client-status__disconnected">
                         <?php esc_html_e( "client.disconnected", $textDomain ) ?>
                     </span></h3>
-                <div class="justify-center align-center">
-                    <a class="button" href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
-					                                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
-                        <b><?php esc_html_e( "admin-connect-button", $textDomain ) ?></b>
-                    </a>
-                </div>
+                <form method="post" style="margin: 0">
+					<?php wp_nonce_field( 'linkly_admin_connect' ); ?>
+                    <button class="button-primary" type="submit">
+						<?php esc_html_e( "admin-connect-button", $textDomain ) ?>
+                    </button>
+                </form>
 			<?php endif; ?>
         </div>
         <form method="post" class="linkly-admin-page__row">
 
 			<?php wp_nonce_field( 'linkly_credentials' ); ?>
-            <div>
+            <div style="flex-basis: 100%">
                 <h3><?php esc_html_e( "client.connection-settings", $textDomain ); ?>
                 </h3>
 
@@ -110,18 +108,20 @@ $textDomain = 'linkly-for-woocommerce';
                     <span class="linkly-secret-eye"><i id="passwordToggler"><img
                                     src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/password-eye-open.svg" ) ?>"></i></span>
                 </div>
+
+                <div id="linkly_credentials_button" class="linkly-credentials-button">
+                    <button id="linkly_edit_credential_button" class="button-primary" type="button">
+			            <?php esc_html_e( "edit_credentials", $textDomain ); ?>
+                    </button>
+                    <button id="linkly_save_credentials_button" class="button-primary" type="submit">
+			            <?php esc_html_e( "save_changes", $textDomain ); ?>
+                    </button>
+                    <button id="linkly_cancel_edit_credential_button" class="button-secondary" type="button">
+			            <?php esc_html_e( "cancel", $textDomain ); ?>
+                    </button>
+                </div>
             </div>
-            <div id="linkly_credentials_button" class="linkly-credentials-button">
-                <button id="linkly_edit_credential_button" class="button-primary" type="button">
-					<?php esc_html_e( "edit_credentials", $textDomain ); ?>
-                </button>
-                <button id="linkly_save_credentials_button" class="button-primary" type="submit">
-					<?php esc_html_e( "save_changes", $textDomain ); ?>
-                </button>
-                <button id="linkly_cancel_edit_credential_button" class="button-secondary" type="button">
-					<?php esc_html_e( "cancel", $textDomain ); ?>
-                </button>
-            </div>
+
         </form>
         <form method="post" id="linklyButtonForm" class="linkly-admin-page__row">
 			<?php wp_nonce_field( 'linkly_button_style' ); ?>

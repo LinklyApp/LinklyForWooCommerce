@@ -464,12 +464,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/LinklyApp/PhpAdapter.git",
-                "reference": "986695f8f10789c27c36437c43061dc56967e5ae"
+                "reference": "f52216caf7cd3674ba67376e280057a90d472550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/LinklyApp/PhpAdapter/zipball/986695f8f10789c27c36437c43061dc56967e5ae",
-                "reference": "986695f8f10789c27c36437c43061dc56967e5ae",
+                "url": "https://api.github.com/repos/LinklyApp/PhpAdapter/zipball/f52216caf7cd3674ba67376e280057a90d472550",
+                "reference": "f52216caf7cd3674ba67376e280057a90d472550",
                 "shasum": ""
             },
             "require": {
@@ -508,7 +508,7 @@
                 "issues": "https://github.com/LinklyApp/PhpAdapter/issues",
                 "source": "https://github.com/LinklyApp/PhpAdapter/tree/main"
             },
-            "time": "2023-08-08T15:51:01+00:00"
+            "time": "2023-08-10T16:16:50+00:00"
         },
         {
             "name": "paragonie/random_compat",

@@ -114,12 +114,7 @@ form {
 }
 
 .linkly-credentials-button {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 1rem;
+
 }
 
 .linkly-warning {
