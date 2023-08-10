@@ -61,26 +61,37 @@ $textDomain = 'linkly-for-woocommerce';
 		<?php do_action( 'linkly_notice_hook' ); ?>
         <div class="linkly-admin-page__row">
 			<?php if ( $linklyHelpers->isConnected() ) : ?>
-                <h3>Status: <span style="color: #008000; font-style: italic;">Connected</span></h3>
-                <a class="button"
-                   href="<?php echo esc_url( $linklyHelpers->getLinklyProvider()->getWebDomainUrl() ) ?>"
-                   target="_blank"><b><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?>
-                    </b>
-                </a>
+                <h3><?php esc_html_e( "client.status", $textDomain ) ?>:
+                    <span class="client-status client-status__connected">
+                        <?php esc_html_e( "client.connected", $textDomain ) ?>
+                    </span></h3>
+                <div class="justify-center align-center">
+                    <a class="button"
+                       href="<?php echo esc_url( $linklyHelpers->getLinklyProvider()->getWebDomainUrl() ) ?>"
+                       target="_blank"><b><?php esc_html_e( "go-to-linkly-button", $textDomain ) ?>
+                        </b>
+                    </a>
+                </div>
 			<?php endif; ?>
 			<?php if ( ! $linklyHelpers->isConnected() ) : ?>
-                <h3>Status: <span style="color: red">Not connected</span></h3>
-                <a class="button" href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
-				                                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
-                    <b><?php esc_html_e( "admin-connect-button", $textDomain ) ?></b>
-                </a>
+                <h3><?php esc_html_e( "client.status", $textDomain ) ?>: 
+                    <span class="client-status client-status__disconnected">
+                        <?php esc_html_e( "client.disconnected", $textDomain ) ?>
+                    </span></h3>
+                <div class="justify-center align-center">
+                    <a class="button" href="<?php echo esc_url( admin_url( "?linkly_request_token=" .
+					                                                       urlencode( "/wp-admin/admin.php?page=linkly-for-woocommerce" ) ) ) ?>">
+                        <b><?php esc_html_e( "admin-connect-button", $textDomain ) ?></b>
+                    </a>
+                </div>
 			<?php endif; ?>
         </div>
         <form method="post" class="linkly-admin-page__row">
 
-            <?php wp_nonce_field( 'linkly_credentials' ); ?>
+			<?php wp_nonce_field( 'linkly_credentials' ); ?>
             <div>
-                <h3>Manual installation</h3>
+                <h3><?php esc_html_e( "client.connection-settings", $textDomain ); ?>
+                </h3>
 
                 <div class="linkly-form-group">
                     <label class="linkly-form-label" for="linkly_client_id">
@@ -114,33 +125,28 @@ $textDomain = 'linkly-for-woocommerce';
         </form>
         <form method="post" id="linklyButtonForm" class="linkly-admin-page__row">
 			<?php wp_nonce_field( 'linkly_button_style' ); ?>
-            <h3><?php esc_html_e( 'button_style.title', $textDomain ) ?></h3>
-                <div class="linkly-form-group linkly-form-group--vertical">
-                    <p class="linkly-button-current">
-		                <?php get_option( 'linkly_button_style' ) === 'primary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
-                    </p>
-                    <div class="linkly-button primary">
-                        <a href="javascript:void(0);">
-                            <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
-                            <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
-                                 alt="Linkly">
-                        </a>
-                    </div>
+            <div style="display: flex; justify-content: start; align-items: start">
+                <h3><?php esc_html_e( 'button_style.title', $textDomain ) ?></h3></div>
+            <div class="linkly-button__wrapper <?php get_option( 'linkly_button_style' ) === 'primary' ? esc_attr_e( 'selected' ) : esc_attr_e( '' ) ?>">
+                <div class="linkly-button  primary">
 
+                    <a href="javascript:void(0);">
+                        <span><?php esc_html_e( "button_style.primary", $textDomain ) ?></span>
+                        <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-light.svg" ) ?>"
+                             alt="Linkly">
+                    </a>
                 </div>
-                <div class="linkly-form-group linkly-form-group--vertical">
-                    <p class="linkly-button-current">
-		                <?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_html_e( 'button_style.current', $textDomain ) : '' ?>
-                    </p>
-                    <div class="linkly-button secondary">
-                        <a href="javascript:void(0);">
-                            <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
-                            <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
-                                 alt="Linkly">
-                        </a>
-                    </div>
+            </div>
+            <div class="linkly-button__wrapper <?php get_option( 'linkly_button_style' ) === 'secondary' ? esc_attr_e( 'selected' ) : esc_attr_e( '' ) ?>">
+                <div class="linkly-button secondary">
+                    <a href="javascript:void(0);">
+                        <span><?php esc_html_e( "button_style.secondary", $textDomain ) ?></span>
+                        <img src="<?php echo esc_url( LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/images/logo-horizontal-dark.svg" ) ?>"
+                             alt="Linkly">
+                    </a>
+                </div>
+            </div>
 
-                </div>
             <!-- Hidden input field for button style -->
             <input type="hidden" name="linkly_button_style" id="buttonStyleInput">
             <!-- Invisible submit button -->

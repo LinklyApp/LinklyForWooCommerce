@@ -76,5 +76,14 @@ msgstr ""
 msgid "cancel"
 msgstr ""
 
-msgid "enter-client-secret"
+msgid "client.connection-settings"
+msgstr ""
+
+msgid "client.status"
+msgstr ""
+
+msgid "client.connected"
+msgstr ""
+
+msgid "client.disconnected"
 msgstr ""

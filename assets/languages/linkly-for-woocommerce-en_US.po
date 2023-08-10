@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Linkly for WooCommerce\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/linkly-for-woocommerce\n"
 "POT-Creation-Date: 2023-01-23T09:43:44+01:00\n"
-"PO-Revision-Date: 2023-08-07 16:44+0200\n"
+"PO-Revision-Date: 2023-08-10 16:00+0200\n"
 "Last-Translator: \n"
 "Language-Team: LANGUAGE <info@linkly.me>\n"
 "Language: en_US\n"
@@ -26,7 +26,7 @@ msgid "admin-connect-button"
 msgstr "Link with"
 
 msgid "go-to-linkly-button"
-msgstr "Go to"
+msgstr "Go to Linkly"
 
 msgid "order_description"
 msgstr "Order at {0}"
@@ -78,3 +78,15 @@ msgstr "Cancel"
 
 msgid "enter-client-secret"
 msgstr "Enter your client secret"
+
+msgid "client.status"
+msgstr "Status"
+
+msgid "client.connected"
+msgstr "Connected"
+
+msgid "client.disconnected"
+msgstr "Disconnected"
+
+msgid "client.connection-settings"
+msgstr "Connection settings"
