@@ -12,7 +12,6 @@ $textDomain = 'linkly-for-woocommerce';
 ?>
 
 <div id="clientSecretModal" class="modal">
-
     <div class="modal-content">
         <form action="<?php echo esc_url( remove_query_arg( 'client_id' ) ); ?>" method="post">
             <h2><?php esc_html_e( "enter-client-secret", $textDomain ); ?></h2>
