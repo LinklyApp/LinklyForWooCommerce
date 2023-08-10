@@ -46,6 +46,13 @@ class LinklyOrderActions
     {
         try {
             $order = wc_get_order($order_id);
+
+	        $customer = new WC_Customer($order->get_user_id());
+
+	        if (!$customer->get_meta('linkly_user')) {
+		        return;
+	        }
+
             $orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder($order, $this->processing_status_name);
             $this->linklyOrderHelper->sendOrder($orderData);
             $order->add_meta_data('linkly_exported', gmdate("Y-m-d H:i:s") . ' +00:00');
@@ -90,6 +97,10 @@ class LinklyOrderActions
 		// TODO - Vervang ssohelper isauthenticated
         if (is_user_logged_in()) {
             $customer = new WC_Customer(get_current_user_id());
+
+	        if (!$customer->get_meta('linkly_user')) {
+		        return;
+	        }
             linkly_sync_customer_invoices($customer);
         }
     }
