@@ -87,3 +87,7 @@ msgstr ""
 
 msgid "client.disconnected"
 msgstr ""
+
+msgid "client.connection-error"
+msgstr ""
+

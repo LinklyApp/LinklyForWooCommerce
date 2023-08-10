@@ -1,5 +1,6 @@
 <?php
 
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use function Linkly\OAuth2\Client\Helpers\dd;
 
@@ -19,6 +20,7 @@ class LinklyAdminActions {
 		add_action( 'admin_init', [ $this, 'linkly_request_token_action' ] );
 		add_action( 'admin_init', [ $this, 'linkly_request_token_callback' ] );
 		add_action('linkly_notice_hook', [$this, 'display_client_credentials_saved_notice']);
+		add_action('linkly_notice_hook', [$this, 'display_client_credentials_save_error_notice']);
 	}
 
 	public function display_client_credentials_saved_notice() {
@@ -36,6 +38,23 @@ class LinklyAdminActions {
 
 		// Delete the transient so that the notice doesn't keep showing up on refresh
 		delete_transient( 'linkly_client_credentials_saved' );
+	}
+
+	public function display_client_credentials_save_error_notice() {
+		if ( ! isset( $_REQUEST['page'] )
+		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
+		     || ! get_transient( 'display_client_credentials_save_error' )
+		) {
+			return;
+		}
+
+		echo '<div class="error notice is-dismissible" ><p>';
+		esc_html_e( "client.connection-error", 'linkly-for-woocommerce' );
+		echo ': ' . esc_html(get_transient( 'display_client_credentials_save_error' ));
+		echo '</p></div>';
+
+		// Delete the transient so that the notice doesn't keep showing up on refresh
+		delete_transient( 'display_client_credentials_save_error' );
 	}
 
 	public function linkly_admin_handle_save() {
@@ -71,11 +90,18 @@ class LinklyAdminActions {
 		update_option( 'linkly_settings_app_key', $clientId );
 		update_option( 'linkly_settings_app_secret', $clientSecret );
 
-		set_transient( 'linkly_client_credentials_saved', true, 5 );
-
-		$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
-		wp_redirect( $redirect_url );
-		exit;
+		try {
+			$this->ssoHelper->verifyClientCredentials();
+			update_option( 'linkly_settings_app_connected', true );
+			set_transient( 'linkly_client_credentials_saved', true, 5 );
+		} catch ( IdentityProviderException $e ) {
+			update_option( 'linkly_settings_app_connected', false );
+			set_transient( 'display_client_credentials_save_error', sanitize_text_field($e->getResponseBody()['error']), 5 );
+		} finally {
+			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
+			wp_redirect( $redirect_url );
+			exit;
+		}
 	}
 
 	private function handle_save_button_style() {

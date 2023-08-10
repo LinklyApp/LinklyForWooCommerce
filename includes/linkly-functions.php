@@ -96,9 +96,9 @@ function linkly_sync_customer_invoices( WC_Customer $customer ): void {
 			$order->save();
 		} catch ( LinklyProviderException $e ) {
 			dd( $e->getResponseBody());
-			error_log( $e->getResponseBody() );
+			error_log( json_encode($e->getResponseBody()) );
 		} catch ( Exception $e ) {
-			error_log( $e->getMessage() );
+			error_log( json_encode($e->getMessage()) );
 		}
 	}
 }

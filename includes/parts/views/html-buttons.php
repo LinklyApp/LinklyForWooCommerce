@@ -23,7 +23,7 @@ if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id()
 	$buttonVariant = 'change-address-button';
 } else if ( is_user_logged_in() && ! linkly_is_wp_user_linkly_user( get_current_user_id() ) ) {
 	$buttonUrl  = '?linkly_link_account_action=' . urlencode( $sanitizedCurrentUri );
-	$buttonVariant = 'linky-account-button';
+	$buttonVariant = 'link-account-button';
 } else if ( ! $onlyLinkButton ) {
 	$buttonUrl  = '?linkly_login_action=' . urlencode( $sanitizedCurrentUri );
 	$buttonVariant = 'login-button';

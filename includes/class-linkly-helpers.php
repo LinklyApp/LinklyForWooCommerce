@@ -76,6 +76,6 @@ class LinklyHelpers {
 	 * @return bool
 	 */
 	public function isConnected() : bool {
-		return !empty(get_option('linkly_settings_app_key')) && !empty(get_option('linkly_settings_app_secret'));
+		return !!get_option('linkly_settings_app_connected');
 	}
 }
