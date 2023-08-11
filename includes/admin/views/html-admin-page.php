@@ -164,7 +164,6 @@ $textDomain = 'linkly-for-woocommerce';
             document.getElementById('clientSecretModal').style.display = "block";
         }
 
-
         // For the button form
         const form = document.getElementById('linklyButtonForm');
         const primaryButton = document.querySelector('.linkly-button.primary');

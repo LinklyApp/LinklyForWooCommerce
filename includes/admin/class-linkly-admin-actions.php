@@ -17,6 +17,7 @@ class LinklyAdminActions {
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9999 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'linkly_admin_style' ] );
 		add_action( 'admin_init', [ $this, 'linkly_admin_handle_save' ] );
+		add_action( 'admin_init', [ $this, 'handle_linkly_admin_connect_callback' ] );
 		add_action( 'linkly_notice_hook', [ $this, 'display_client_credentials_saved_notice' ] );
 		add_action( 'linkly_notice_hook', [ $this, 'display_client_credentials_save_error_notice' ] );
 	}
@@ -103,7 +104,7 @@ class LinklyAdminActions {
 			set_transient( 'display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
 		} finally {
 			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
-			wp_redirect( $redirect_url );
+			wp_redirect( esc_url($redirect_url) );
 			exit;
 		}
 	}
@@ -166,7 +167,7 @@ class LinklyAdminActions {
 
 		$this->ssoHelper->linkClientCallback();
 
-		wp_redirect( admin_url( 'admin.php?page=linkly-for-woocommerce&'. sanitize_url( $_GET['client_id'] ) ) );
+		wp_redirect( esc_url(admin_url( 'admin.php?page=linkly-for-woocommerce&client_id='.  $_GET['client_id'] )) );
 		exit;
 	}
 
