@@ -162,13 +162,21 @@ class LinklyAdminActions {
 
 		if ( empty( $_GET['client_id'] ) ) {
 			error_log( "Client ID is empty in callback URL for Linkly Admin Connect" );
-			return;
+			throw new Exception( 'Client ID is empty in callback URL for Linkly Admin Connect' );
 		}
 
-		$this->ssoHelper->linkClientCallback();
+		$query = 'admin.php?page=linkly-for-woocommerce';
 
-		wp_redirect( esc_url(admin_url( 'admin.php?page=linkly-for-woocommerce&client_id='.  $_GET['client_id'] )) );
-		exit;
+		try {
+			$this->ssoHelper->linkClientCallback();
+			$query .= '&client_id=' . $_GET['client_id'];
+		} catch ( Exception $e ) {
+			error_log( "Error in Linkly Admin Connect callback: State does not match" );
+			set_transient( 'display_client_credentials_save_error', 'state does not match' );
+		} finally {
+			wp_redirect( esc_url( admin_url( $query ), null, 'redirect' ) );
+			exit;
+		}
 	}
 
 	public function register_menu() {
