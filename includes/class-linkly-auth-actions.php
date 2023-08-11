@@ -109,7 +109,6 @@ class LinklyAuthActions {
 	private function create_or_update_customer( LinklyUser $linklyUser, WP_User $currentUser = null ) {
 		$customer = new WC_Customer( $currentUser->ID );
 		linkly_update_wc_customer( $linklyUser, $customer );
-
 		linkly_login_user( $customer );
 	}
 
@@ -133,7 +132,6 @@ class LinklyAuthActions {
 		$customer = new WC_Customer( $currentUser->ID );
 		linkly_update_wc_customer( $linklyUser, $customer );
 		do_action( 'linkly_after_link_wc_account', $customer);
-		linkly_sync_customer_invoices( $customer );
 	}
 
 

@@ -3,9 +3,12 @@
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 class LinklyPartsActions
 {
-
-    public function __construct()
+	public function __construct(LinklyHelpers $linklyHelpers)
     {
+	    if (!$linklyHelpers->isConnected()) {
+			return;
+	    }
+
         add_action('woocommerce_before_checkout_form', [$this, 'buttons'], 8);
         add_action('login_form', [$this, 'buttons']);
         add_action('woocommerce_login_form_end', [$this, 'buttons']);
@@ -37,4 +40,4 @@ class LinklyPartsActions
     }
 }
 
-new LinklyPartsActions();
+new LinklyPartsActions(LinklyHelpers::instance() );
