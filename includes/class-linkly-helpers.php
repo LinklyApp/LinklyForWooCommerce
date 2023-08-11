@@ -61,7 +61,7 @@ class LinklyHelpers {
 	/**
 	 * @return LinklyOrderHelper
 	 */
-	public function getInvoiceHelper(): LinklyOrderHelper {
+	public function getOrderHelper(): LinklyOrderHelper {
 		return $this->linklyOrderHelper;
 	}
 

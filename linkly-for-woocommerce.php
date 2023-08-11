@@ -58,7 +58,6 @@ class Linkly_For_WC_Loader {
 	protected function __construct() {
 		register_activation_hook( __FILE__, [ $this, 'activation_check' ] );
 
-
 		add_action( 'admin_init', [ $this, 'check_environment' ] );
 		add_action( 'admin_init', [ $this, 'add_plugin_notices' ] );
 		add_action( 'admin_notices', [ $this, 'admin_notices' ], 15 );
@@ -84,7 +83,7 @@ class Linkly_For_WC_Loader {
 	function linkly_load_textdomain() {
 		$domain = 'linkly-for-woocommerce';
 		$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
-		$path = plugin_dir_path( __FILE__ ) . 'assets/languages';
+		$path = LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'assets/languages';
 		$mofile = $domain . '-' . $locale . '.mo';
 
 		// Try to load the .mo file for the current locale
@@ -129,33 +128,33 @@ class Linkly_For_WC_Loader {
 		require LINKLY_FOR_WOOCOMMERCE_ABS_PATH . '/vendor/autoload.php';
 
 		// Helpers
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-helpers.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-helpers.php';
 
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-style-actions.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-auth-actions.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-address-actions.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-order-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-style-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-order-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-auth-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-address-actions.php';
 
-		include_once plugin_dir_path( __FILE__ ) . 'includes/class-linkly-filters.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-filters.php';
 
-		include_once plugin_dir_path( __FILE__ ) . 'includes/linkly-functions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/linkly-functions.php';
 
 		// Admin
-		include_once plugin_dir_path( __FILE__ ) . 'includes/admin/class-linkly-admin-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/admin/class-linkly-admin-actions.php';
 
 		// Mappers
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-to-linkly-order-mapper.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-invoice-to-linkly-invoice-mapper.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-items-to-linkly-order-lines-mapper.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-address-to-linkly-address-mapper.php';
-		include_once plugin_dir_path( __FILE__ ) . 'includes/mappers/class-linkly-wc-order-status-name-to-linkly-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-to-wc-customer-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-wc-order-to-linkly-order-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-wc-invoice-to-linkly-invoice-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-wc-order-items-to-linkly-order-lines-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-wc-address-to-linkly-address-mapper.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/mappers/class-linkly-wc-order-status-name-to-linkly-mapper.php';
 
 		// Parts
-		include_once plugin_dir_path( __FILE__ ) . 'includes/parts/class-linkly-parts-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/parts/class-linkly-parts-actions.php';
 
 		// Settings
-		include_once plugin_dir_path( __FILE__ ) . 'includes/settings/class-linkly-setting-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/settings/class-linkly-setting-actions.php';
 
 		//         fire it up!
 		if ( function_exists( 'linkly' ) ) {
