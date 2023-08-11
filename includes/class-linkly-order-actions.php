@@ -15,6 +15,8 @@ class LinklyOrderActions {
 	 */
 	private LinklyOrderHelper $linklyOrderHelper;
 
+	private LinklyHelpers $linklyHelpers;
+
 	/**
 	 * @var string The status name for when the order is processing
 	 */
@@ -25,8 +27,9 @@ class LinklyOrderActions {
 	 */
 	private string $completed_status_name = "Completed";
 
-	public function __construct( LinklyOrderHelper $linklyOrderHelper ) {
-		$this->linklyOrderHelper = $linklyOrderHelper;
+	public function __construct( LinklyHelpers $linklyHelpers ) {
+		$this->linklyHelpers = $linklyHelpers;
+		$this->linklyOrderHelper = $linklyHelpers->getOrderHelper();
 
 		add_action( 'woocommerce_account_dashboard', [ $this, 'sync_current_wc_customer_invoices_to_linkly' ], 999 );
 		add_action( 'woocommerce_after_account_orders', [ $this, 'sync_current_wc_customer_invoices_to_linkly' ], 999 );
@@ -100,6 +103,10 @@ class LinklyOrderActions {
 	 */
 	private function send_linkly_order_and_invoice_to_linkly( $order_id, $status_name, $handle_invoice = false ) {
 		try {
+			if (!$this->linklyHelpers->isConnected()) {
+				return;
+			}
+
 			$order    = wc_get_order( $order_id );
 			$customer = new WC_Customer( $order->get_user_id() );
 
@@ -129,4 +136,4 @@ class LinklyOrderActions {
 
 }
 
-new LinklyOrderActions( LinklyHelpers::instance()->getOrderHelper() );
+new LinklyOrderActions( LinklyHelpers::instance() );
