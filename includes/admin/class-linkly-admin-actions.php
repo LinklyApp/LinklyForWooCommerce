@@ -17,8 +17,8 @@ class LinklyAdminActions {
 		add_action( 'admin_menu', [ $this, 'register_menu' ], 9999 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'linkly_admin_style' ] );
 		add_action( 'admin_init', [ $this, 'linkly_admin_handle_save' ] );
-		add_action('linkly_notice_hook', [$this, 'display_client_credentials_saved_notice']);
-		add_action('linkly_notice_hook', [$this, 'display_client_credentials_save_error_notice']);
+		add_action( 'linkly_notice_hook', [ $this, 'display_client_credentials_saved_notice' ] );
+		add_action( 'linkly_notice_hook', [ $this, 'display_client_credentials_save_error_notice' ] );
 	}
 
 	public function display_client_credentials_saved_notice() {
@@ -48,7 +48,7 @@ class LinklyAdminActions {
 
 		echo '<div class="error notice is-dismissible" ><p>';
 		esc_html_e( "client.connection-error", 'linkly-for-woocommerce' );
-		echo ': ' . esc_html(get_transient( 'display_client_credentials_save_error' ));
+		echo ': ' . esc_html( get_transient( 'display_client_credentials_save_error' ) );
 		echo '</p></div>';
 
 		// Delete the transient so that the notice doesn't keep showing up on refresh
@@ -95,12 +95,12 @@ class LinklyAdminActions {
 				'clientId'     => $clientId,
 				'clientSecret' => $clientSecret,
 			];
-			$this->ssoHelper->verifyClientCredentials($clientCredentials);
+			$this->ssoHelper->verifyClientCredentials( $clientCredentials );
 			update_option( 'linkly_settings_app_connected', true );
 			set_transient( 'linkly_client_credentials_saved', true, 5 );
 		} catch ( IdentityProviderException $e ) {
 			update_option( 'linkly_settings_app_connected', false );
-			set_transient( 'display_client_credentials_save_error', sanitize_text_field($e->getResponseBody()['error']), 5 );
+			set_transient( 'display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
 		} finally {
 			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
 			wp_redirect( $redirect_url );
@@ -127,12 +127,12 @@ class LinklyAdminActions {
 	 *
 	 * @return void
 	 */
-	function handle_linkly_admin_connect() {
+	public function handle_linkly_admin_connect() {
 		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 
-		$sanitizedReturnUrl = sanitize_url(admin_url( "admin.php?page=".$_GET["page"] ));
+		$sanitizedReturnUrl = sanitize_url( admin_url( "admin.php?linkly_admin_connect_callback" ) );
 
 		// $corsUrl is pure the domain name without the path if there is a port number it is included
 		$corsUrl = parse_url( get_site_url(), PHP_URL_SCHEME ) . '://' . parse_url( get_site_url(), PHP_URL_HOST );
@@ -151,6 +151,22 @@ class LinklyAdminActions {
 		];
 
 		$this->ssoHelper->linkClientRedirect( $params );
+		exit;
+	}
+
+	public function handle_linkly_admin_connect_callback() {
+		if ( ! isset( $_GET['linkly_admin_connect_callback'] ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['client_id'] ) ) {
+			error_log( "Client ID is empty in callback URL for Linkly Admin Connect" );
+			return;
+		}
+
+		$this->ssoHelper->linkClientCallback();
+
+		wp_redirect( admin_url( 'admin.php?page=linkly-for-woocommerce&'. sanitize_url( $_GET['client_id'] ) ) );
 		exit;
 	}
 
