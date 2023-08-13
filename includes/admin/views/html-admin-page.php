@@ -59,7 +59,7 @@ $textDomain = 'linkly-for-woocommerce';
 		<?php endif; ?>
 		<?php do_action( 'linkly_notice_hook' ); ?>
         <div class="linkly-admin-page__row">
-			<?php if ( $linklyHelpers->isConnected() ) : ?>
+			<?php if ( $linklyHelpers->isConnectedWithVerification() ) : ?>
                 <h3><?php esc_html_e( "client.status", $textDomain ) ?>:
                     <span class="client-status client-status__connected">
                         <?php esc_html_e( "client.connected", $textDomain ) ?>
@@ -70,7 +70,7 @@ $textDomain = 'linkly-for-woocommerce';
 
                 </a>
 			<?php endif; ?>
-			<?php if ( ! $linklyHelpers->isConnected() ) : ?>
+			<?php if ( ! $linklyHelpers->isConnectedWithVerification() ) : ?>
                 <h3><?php esc_html_e( "client.status", $textDomain ) ?>:
                     <span class="client-status client-status__disconnected">
                         <?php esc_html_e( "client.disconnected", $textDomain ) ?>

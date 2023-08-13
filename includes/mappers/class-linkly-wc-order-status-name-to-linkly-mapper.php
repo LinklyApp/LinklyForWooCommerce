@@ -18,13 +18,10 @@ class LinklyWCOrderStatusNameToLinklyMapper {
 	public static function mapStatusName( string $statusName ) {
 		$linklyStatusName = $statusName;  // Start with the original value as default
 
-		switch ($statusName) {
-			case 'pending':
-			case 'on-hold':
-				$linklyStatusName = 'processing';
-				break;
-
+		switch ( $statusName ) {
 			case 'failed':
+				$linklyStatusName = 'pending';
+				break;
 			case 'trash':
 				$linklyStatusName = 'cancelled';
 				break;
@@ -36,6 +33,8 @@ class LinklyWCOrderStatusNameToLinklyMapper {
 			case 'completed':
 			case 'cancelled':
 			case 'processing':
+			case 'pending':
+			case 'on-hold':
 				// No change required.
 				break;
 

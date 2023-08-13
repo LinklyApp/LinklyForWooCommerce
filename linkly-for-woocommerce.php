@@ -131,8 +131,8 @@ class Linkly_For_WC_Loader {
 		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-helpers.php';
 
 		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-style-actions.php';
-		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-order-actions.php';
 		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-auth-actions.php';
+		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-order-actions.php';
 		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-address-actions.php';
 
 		include_once LINKLY_FOR_WOOCOMMERCE_ABS_PATH . 'includes/class-linkly-filters.php';
