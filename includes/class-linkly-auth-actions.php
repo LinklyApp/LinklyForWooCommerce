@@ -121,7 +121,12 @@ class LinklyAuthActions {
 	 */
 	private function attach_wc_customer_to_linkly( LinklyUser $linklyUser, WP_User $currentUser ) {
 		// Prevent admin email from being changed
-		if ( $currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email && ! user_can( $currentUser, 'manage_options' ) ) {
+		if ( $currentUser->ID !== 0 && $linklyUser->getEmail() !== $currentUser->user_email ) {
+			if( user_can( $currentUser, 'manage_options' ) ) {
+				throw new Exception( 'When a WordPress account is connected to Linkly, the email gets updated to the Linkly email address. However, this action is not permissible for admin accounts. We kindly request that you update your WordPress email to match the one you use in Linkly. Once updated, linking your account will then be possible.
+				' );
+			}
+
 			$currentUser->user_email = $linklyUser->getEmail();
 			$response = wp_update_user( $currentUser );
 			if ( is_wp_error( $response ) ) {
