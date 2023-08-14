@@ -15,9 +15,8 @@ class LinklyWCOrderToLinklyOrderMapper
 	 *
 	 * @return false|string
 	 */
-    public static function mapOrder(WC_Order $order, string $statusName)
+    public static function mapOrder(WC_Order $order)
     {
-		$linklyStatusName = LinklyWCOrderStatusNameToLinklyMapper::mapStatusName($statusName);
 		return json_encode([
             'customerEmail' => $order->get_user()->user_email,
             'orderNumber' => $order->get_order_number(),
@@ -25,7 +24,7 @@ class LinklyWCOrderToLinklyOrderMapper
             'purchaseDate' => $order->get_date_created()->format('Y-m-d'),
 			'billingAddress' => LinklyWCAddressToLinklyAddressMapper::mapBillingAddress($order),
 			'shippingAddress' => $order->has_shipping_address() ? LinklyWCAddressToLinklyAddressMapper::mapShippingAddress($order) : null,
-            'statusName' => $linklyStatusName,
+            'statusName' => LinklyWCOrderStatusNameToLinklyMapper::mapStatusName($order->get_status()),
             'countryCode' => $order->get_billing_country(),
             'taxExclusiveAmount' => $order->get_total() - $order->get_total_tax(),
             'taxAmount' => $order->get_total_tax(),

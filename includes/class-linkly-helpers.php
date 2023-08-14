@@ -61,7 +61,7 @@ class LinklyHelpers {
 	/**
 	 * @return LinklyOrderHelper
 	 */
-	public function getInvoiceHelper(): LinklyOrderHelper {
+	public function getOrderHelper(): LinklyOrderHelper {
 		return $this->linklyOrderHelper;
 	}
 
@@ -75,9 +75,9 @@ class LinklyHelpers {
 	/**
 	 * @return bool
 	 */
-	public function isConnected(): bool {
+	public function isConnectedWithVerification(): bool {
 		try {
-			$clientKey = get_option( 'linkly_settings_app_key' );
+			$clientKey    = get_option( 'linkly_settings_app_key' );
 			$clientSecret = get_option( 'linkly_settings_app_secret' );
 
 			if ( ! $clientKey || ! $clientSecret ) {
@@ -86,10 +86,20 @@ class LinklyHelpers {
 
 			$this->getSsoHelper()->verifyClientCredentials();
 			update_option( 'linkly_settings_app_connected', true );
+
 			return true;
 		} catch ( IdentityProviderException $e ) {
 			update_option( 'linkly_settings_app_connected', false );
+
 			return false;
 		}
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function isConnected(): bool {
+		return !!get_option( 'linkly_settings_app_connected' );
 	}
 }

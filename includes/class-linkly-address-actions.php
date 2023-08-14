@@ -1,6 +1,7 @@
 <?php
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
+use Linkly\OAuth2\Client\Provider\User\LinklyUser;
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -79,7 +80,7 @@ class LinklyAddressActions
 		}
 
 		$customer = new WC_Customer(get_current_user_id());
-		if (!$customer->get_meta('linkly_user')) {
+		if (!linkly_is_wp_user_linkly_user($customer->get_id())) {
 			return;
 		}
 
@@ -97,16 +98,7 @@ class LinklyAddressActions
 			}
 
 			$linklyUser = $this->ssoHelper->getUser();
-			$mappedCustomer = LinklyCustomerToWCCustomerMapper::map($linklyUser);
-			$customer->set_props($mappedCustomer);
-
-			$customer->add_meta_data('linkly_user', true, true);
-			$customer->update_meta_data('linkly_billing_id', $linklyUser->getBillingAddress()->getId());
-			$customer->update_meta_data('linkly_billing_version', $linklyUser->getBillingAddress()->getVersion());
-			$customer->update_meta_data('linkly_shipping_id', $linklyUser->getShippingAddress()->getId());
-			$customer->update_meta_data('linkly_shipping_version', $linklyUser->getShippingAddress()->getVersion());
-
-			$customer->save();
+			linkly_update_wc_customer( $linklyUser, $customer );
 		} catch (Exception $e) {
 			error_log($e->getMessage());
 		}
