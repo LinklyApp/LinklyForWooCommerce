@@ -27,11 +27,11 @@ class LinklyOrderActions {
 		add_action( 'woocommerce_after_account_orders', [ $this, 'sync_current_wc_customer_invoices_to_linkly' ], 999 );
 		add_action( 'linkly_after_link_wc_account', [ $this, 'sync_current_wc_customer_invoices_to_linkly' ] );
 		add_action( 'woocommerce_order_status_changed', [ $this, 'linkly_order_status_changed' ] );
-		add_action( 'woocommerce_order_status_completed', [ $this, 'linkly_order_to_completed' ] );
 	}
 
-	public function linkly_order_status_changed( $order_id ) {
-		$this->send_linkly_order_and_invoice_to_linkly( $order_id );
+	public function linkly_order_status_changed( $orderId ) {
+		$order = wc_get_order( $orderId );
+		$this->send_linkly_order_and_invoice_to_linkly( $order, true );
 	}
 
 	public function sync_current_wc_customer_invoices_to_linkly(): void {
@@ -83,7 +83,7 @@ class LinklyOrderActions {
 		$orders = wc_get_orders( $args );
 
 		foreach ( $orders as $order ) {
-			$this->send_linkly_order_and_invoice_to_linkly( $order->get_id() );
+			$this->send_linkly_order_and_invoice_to_linkly( $order );
 		}
 	}
 
@@ -94,25 +94,23 @@ class LinklyOrderActions {
 	 *
 	 * @return void
 	 */
-	private function send_linkly_order_and_invoice_to_linkly( $order_id ) {
+	private function send_linkly_order_and_invoice_to_linkly( WC_Order $order, $statusChanged = false) {
 		try {
 			if ( ! $this->linklyHelpers->isConnected() ) {
 				return;
 			}
 
-			$order    = wc_get_order( $order_id );
 			$customer = new WC_Customer( $order->get_user_id() );
 
 			if ( ! linkly_is_wp_user_linkly_user( $customer->get_id() ) ) {
 				return;
 			}
 
-			if ( ! $order->get_meta( 'linkly_order_exported' ) ) {
+			if ( $statusChanged || ! $order->get_meta( 'linkly_order_exported' ) ) {
 				$orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder( $order );
 				$this->linklyOrderHelper->sendOrder( $orderData );
 				$order->add_meta_data( 'linkly_order_exported', gmdate( "Y-m-d H:i:s" ) . ' +00:00' );
 			}
-
 
 			if ( linkly_is_pdf_invoices_plugin_active() && $order->get_status() === 'completed' && !$order->get_meta( 'linkly_invoice_exported' ) ) {
 				$orderDocument = wcpdf_get_document( 'invoice', $order, true );
@@ -130,7 +128,6 @@ class LinklyOrderActions {
 			error_log( json_encode( $e->getMessage() ) );
 		}
 	}
-
 }
 
 new LinklyOrderActions( LinklyHelpers::instance() );

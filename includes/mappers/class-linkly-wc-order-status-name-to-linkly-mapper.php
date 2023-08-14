@@ -25,6 +25,9 @@ class LinklyWCOrderStatusNameToLinklyMapper {
 			case 'trash':
 				$linklyStatusName = 'cancelled';
 				break;
+			case 'on-hold':
+				$linklyStatusName = 'onHold';
+				break;
 
 			// The following cases are redundant as they would set the value
 			// to the same as the current value. They're included for clarity
@@ -34,7 +37,6 @@ class LinklyWCOrderStatusNameToLinklyMapper {
 			case 'cancelled':
 			case 'processing':
 			case 'pending':
-			case 'on-hold':
 				// No change required.
 				break;
 
