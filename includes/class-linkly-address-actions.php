@@ -32,24 +32,22 @@ class LinklyAddressActions {
 	 * @return void
 	 * @throws Exception
 	 */
-	public function linkly_link_account_action() {
-		if ( ! isset( $_GET['linkly_link_account_action'] ) ) {
+	public function linkly_change_address_action() {
+		if (!isset($_GET['linkly_change_address_action'])) {
 			return;
 		}
 
-		// Sanitizing the URL before decoding.
-		$sanitizedAccountActionUrl = sanitize_url( $_GET['linkly_link_account_action'] );
-		$decodedAccountActionUrl = urldecode( $sanitizedAccountActionUrl );
+		$decodedAddressUrl = urldecode($_GET['linkly_change_address_action']);
+		$sanitizedAddressUrl = filter_var($decodedAddressUrl, FILTER_SANITIZE_URL);
 
-		// Further validation if necessary.
-		if ( filter_var($decodedAccountActionUrl, FILTER_VALIDATE_URL) === false ) {
-			throw new Exception( 'Invalid URL' );
-		}
+		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedAddressUrl);
 
-		$_SESSION['url_to_return_to'] = esc_url_raw( get_site_url() . $decodedAccountActionUrl );
+		$params = [
+			'clientId' => get_option('linkly_settings_app_key'),
+			'returnUrl' => get_site_url() . '?linkly_change_address_callback'
+		];
 
-		$_SESSION['linkly_link_account'] = true;
-		$this->ssoHelper->authorizeRedirect();
+		$this->ssoHelper->changeAddressRedirect($params);
 		exit;
 	}
 	/**

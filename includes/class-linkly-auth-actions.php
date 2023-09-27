@@ -2,6 +2,7 @@
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
+use function Linkly\OAuth2\Client\Helpers\dd;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -35,17 +36,12 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$rawAccountActionUrl = $_GET['linkly_link_account_action'];
+		$rawAccountActionPath = $_GET['linkly_link_account_action'];
 		// Sanitize the URL before decoding.
-		$sanitizedAccountActionUrl = sanitize_url($rawAccountActionUrl);
-		$decodedAccountActionUrl = urldecode($sanitizedAccountActionUrl);
+		$sanitizedAccountActionPath = sanitize_url($rawAccountActionPath);
+		$decodedAccountActionPath = urldecode($sanitizedAccountActionPath);
 
-		// Validate the URL.
-		if (filter_var($decodedAccountActionUrl, FILTER_VALIDATE_URL) === false) {
-			return;
-		}
-
-		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedAccountActionUrl);
+		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedAccountActionPath);
 
 		$_SESSION['linkly_link_account'] = true;
 		$this->ssoHelper->authorizeRedirect();
@@ -64,16 +60,11 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$rawLoginActionUrl = $_GET['linkly_login_action'];
+		$rawLoginActionPath = $_GET['linkly_login_action'];
 
 		// Sanitize first.
-		$sanitizedLoginActionUrl = sanitize_url($rawLoginActionUrl);
-		$decodedLoginActionUrl = urldecode($sanitizedLoginActionUrl);
-
-		// Validate the URL.
-		if ( filter_var($decodedLoginActionUrl, FILTER_VALIDATE_URL) === false ) {
-			throw new Exception('Invalid URL');
-		}
+		$sanitizedLoginActionPath = sanitize_url($rawLoginActionPath);
+		$decodedLoginActionUrl = urldecode($sanitizedLoginActionPath);
 
 		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedLoginActionUrl);
 

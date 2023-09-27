@@ -33,7 +33,9 @@ $sanitizedClientId = isset($_GET['client_id']) ? sanitize_text_field($_GET['clie
                        type="text"/>
             </div>
 
-			<?php wp_nonce_field( 'linkly_credentials' ); ?>
+            <input type="hidden" name="linkly_credentials" value="">
+
+            <?php wp_nonce_field( 'linkly_credentials' ); ?>
 
             <input type="submit" name="submit_client_secret" class="button-primary"
                    value="<?php esc_html_e( "save_changes", 'linkly-for-woocommerce' ); ?>">
@@ -77,6 +79,7 @@ $sanitizedClientId = isset($_GET['client_id']) ? sanitize_text_field($_GET['clie
                     </span></h3>
                 <form method="post" style="margin: 0">
 					<?php wp_nonce_field( 'linkly_admin_connect' ); ?>
+                    <input type="hidden" name="linkly_admin_connect" value="">
                     <button class="button-primary" type="submit">
 						<?php esc_html_e( "admin-connect-button", 'linkly-for-woocommerce' ) ?>
                     </button>
@@ -86,6 +89,7 @@ $sanitizedClientId = isset($_GET['client_id']) ? sanitize_text_field($_GET['clie
         <form method="post" class="linkly-admin-page__row">
 
 			<?php wp_nonce_field( 'linkly_credentials' ); ?>
+            <input type="hidden" name="linkly_credentials" value="">
             <div style="flex-basis: 100%">
                 <h3><?php esc_html_e( "client.connection-settings", 'linkly-for-woocommerce' ); ?>
                 </h3>
