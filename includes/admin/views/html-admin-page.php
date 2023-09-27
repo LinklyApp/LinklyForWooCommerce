@@ -7,6 +7,8 @@ $buttonStyle   = get_option( 'linkly_button_style' );
 $logoStyle     = $buttonStyle === 'primary' ? 'light' : 'dark';
 $linklyHelpers = LinklyHelpers::instance();
 
+$sanitizedClientId = isset($_GET['client_id']) ? sanitize_text_field($_GET['client_id']) : '';
+
 ?>
 
 <div id="clientSecretModal" class="modal">
@@ -19,7 +21,7 @@ $linklyHelpers = LinklyHelpers::instance();
 					<?php esc_html_e( "client.id", 'linkly-for-woocommerce' ); ?>
                 </label>
                 <input name="linkly_client_id" id="linkly_modal_client_id" class="linkly-form-input" type="text"
-                       value="<?php echo isset( $_GET['client_id'] ) ? esc_html( $_GET['client_id'] ) : ''; ?>"
+                       value="<?php esc_attr_e( $sanitizedClientId ) ?>"
                        readonly/>
             </div>
 

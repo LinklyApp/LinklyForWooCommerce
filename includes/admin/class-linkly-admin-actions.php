@@ -166,11 +166,13 @@ class LinklyAdminActions {
 			throw new Exception( 'Client ID is empty in callback URL for Linkly Admin Connect' );
 		}
 
+		$sanitizedClientId = sanitize_text_field( $_GET['client_id'] );
+
 		$query = 'admin.php?page=linkly-for-woocommerce';
 
 		try {
 			$this->ssoHelper->linkClientCallback();
-			$query .= '&client_id=' . $_GET['client_id'];
+			$query .= '&client_id=' . $sanitizedClientId;
 		} catch ( Exception $e ) {
 			error_log( "Error in Linkly Admin Connect callback: State does not match" );
 			set_transient( 'linkly_display_client_credentials_save_error', 'state does not match' );

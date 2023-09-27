@@ -14,8 +14,8 @@ if ( ! isset( $onlyLinkButton ) ) {
 	$onlyLinkButton = false;
 }
 
-$rawCurrentUri       = $_SERVER['REQUEST_URI'];
-$sanitizedCurrentUri = filter_var( $rawCurrentUri, FILTER_SANITIZE_URL );
+$rawCurrentUri = $_SERVER['REQUEST_URI'];
+$sanitizedCurrentUri = sanitize_text_field($rawCurrentUri);;
 
 if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id() ) && ! $onlyLinkButton ) {
 	$buttonUrl     = '?linkly_change_address_action=' . urlencode( $sanitizedCurrentUri );
@@ -38,15 +38,15 @@ if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id()
                 <span>
                     <?php
                     switch ( $buttonVariant ) {
-                        case 'change-address-button':
-                            esc_html_e( 'Change Address Button', 'linkly-for-woocommerce' );
-                            break;
-                        case 'link-account-button':
-                            esc_html_e( 'Link Account Button', 'linkly-for-woocommerce' );
-                            break;
-                        case 'login-button':
-                            esc_html_e( 'Login Button', 'linkly-for-woocommerce' );
-                            break;
+	                    case 'change-address-button':
+		                    esc_html_e( 'Change Address Button', 'linkly-for-woocommerce' );
+		                    break;
+	                    case 'link-account-button':
+		                    esc_html_e( 'Link Account Button', 'linkly-for-woocommerce' );
+		                    break;
+	                    case 'login-button':
+		                    esc_html_e( 'Login Button', 'linkly-for-woocommerce' );
+		                    break;
                     }
                     ?>
                 </span>
