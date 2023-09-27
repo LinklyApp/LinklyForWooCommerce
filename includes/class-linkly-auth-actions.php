@@ -2,6 +2,7 @@
 
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
 use Linkly\OAuth2\Client\Provider\User\LinklyUser;
+use function Linkly\OAuth2\Client\Helpers\dd;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -35,14 +36,18 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$decodedAccountActionUrl      = urldecode( $_GET['linkly_link_account_action'] );
-		$sanitizedAccountActionUrl    = filter_var( $decodedAccountActionUrl, FILTER_SANITIZE_URL );
-		$_SESSION['url_to_return_to'] = esc_url( get_site_url() . $sanitizedAccountActionUrl );
+		$rawAccountActionPath = $_GET['linkly_link_account_action'];
+		// Sanitize the URL before decoding.
+		$sanitizedAccountActionPath = sanitize_url($rawAccountActionPath);
+		$decodedAccountActionPath = urldecode($sanitizedAccountActionPath);
+
+		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedAccountActionPath);
 
 		$_SESSION['linkly_link_account'] = true;
 		$this->ssoHelper->authorizeRedirect();
 		exit;
 	}
+
 
 	/**
 	 * The action to redirect to the Linkly SSO server to log in
@@ -55,15 +60,20 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$decodedLoginActionUrl        = urldecode( $_GET['linkly_login_action'] );
-		$sanitizedLoginActionUrl      = filter_var( $decodedLoginActionUrl, FILTER_SANITIZE_URL );
-		$_SESSION['url_to_return_to'] = esc_url( get_site_url() . $sanitizedLoginActionUrl );
+		$rawLoginActionPath = $_GET['linkly_login_action'];
 
-		unset( $_SESSION['linkly_link_account'] );
+		// Sanitize first.
+		$sanitizedLoginActionPath = sanitize_url($rawLoginActionPath);
+		$decodedLoginActionUrl = urldecode($sanitizedLoginActionPath);
+
+		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedLoginActionUrl);
+
+		unset($_SESSION['linkly_link_account']);
 
 		$this->ssoHelper->authorizeRedirect();
 		exit;
 	}
+
 
 	/**
 	 * The callback action after the user has logged in on the Linkly SSO server
@@ -86,11 +96,14 @@ class LinklyAuthActions {
 				$this->create_or_update_customer( $linklyUser, $user ?: null );
 			}
 
-			if ( str_contains( $_SESSION['url_to_return_to'], '/wp-login.php' ) ) {
-				$_SESSION['url_to_return_to'] = get_site_url();
+			$rawUrlToReturnTo = $_SESSION['url_to_return_to'];
+			$sanitizedUrlToReturnTo = sanitize_url($rawUrlToReturnTo);
+
+			if ( str_contains( $sanitizedUrlToReturnTo, '/wp-login.php' ) ) {
+				$sanitizedUrlToReturnTo = get_site_url();
 			}
 
-			wp_redirect( esc_url( $_SESSION['url_to_return_to'] ) );
+			wp_redirect( esc_url( $sanitizedUrlToReturnTo ) );
 			unset( $_SESSION['url_to_return_to'] );
 			exit;
 		} catch ( Exception $e ) {

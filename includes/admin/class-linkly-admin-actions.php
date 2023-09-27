@@ -42,18 +42,18 @@ class LinklyAdminActions {
 	public function display_client_credentials_save_error_notice() {
 		if ( ! isset( $_REQUEST['page'] )
 		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
-		     || ! get_transient( 'display_client_credentials_save_error' )
+		     || ! get_transient( 'linkly_display_client_credentials_save_error' )
 		) {
 			return;
 		}
 
 		echo '<div class="error notice is-dismissible" ><p>';
 		esc_html_e( "client.connection-error", 'linkly-for-woocommerce' );
-		echo ': ' . esc_html( get_transient( 'display_client_credentials_save_error' ) );
+		echo ': ' . esc_html( get_transient( 'linkly_display_client_credentials_save_error' ) );
 		echo '</p></div>';
 
 		// Delete the transient so that the notice doesn't keep showing up on refresh
-		delete_transient( 'display_client_credentials_save_error' );
+		delete_transient( 'linkly_display_client_credentials_save_error' );
 	}
 
 	public function linkly_admin_handle_save() {
@@ -61,23 +61,27 @@ class LinklyAdminActions {
 			return;
 		}
 
+		if ( ! isset( $_POST['_wpnonce'] ) ) {
+			throw new Exception( 'CSRF token is required' );
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			throw new Exception( 'User is not an admin' );
 		}
 
-		if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+		if ( isset($_POST['linkly_credentials'])) {
 			$this->handle_save_client_credentials();
-		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+		} else if ( isset($_POST['linkly_button_style'])) {
 			$this->handle_save_button_style();
-		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+		} else if ( isset($_POST['linkly_admin_connect']) ) {
 			$this->handle_linkly_admin_connect();
 		} else {
-			throw new Exception( 'Invalid CSRF token' );
+			throw new Exception( 'Post data not recognized' );
 		}
 	}
 
 	private function handle_save_client_credentials() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_credentials' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 		if ( ! isset( $_POST['linkly_client_id'] ) ) {
@@ -101,20 +105,17 @@ class LinklyAdminActions {
 			set_transient( 'linkly_client_credentials_saved', true, 5 );
 		} catch ( IdentityProviderException $e ) {
 			update_option( 'linkly_settings_app_connected', false );
-			set_transient( 'display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
+			set_transient( 'linkly_display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
 		} finally {
 			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
-			wp_redirect( esc_url($redirect_url) );
+			wp_redirect( esc_url( $redirect_url ) );
 			exit;
 		}
 	}
 
 	private function handle_save_button_style() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_button_style' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
-		}
-		if ( ! isset( $_POST['linkly_button_style'] ) ) {
-			throw new Exception( 'Button style not set' );
 		}
 		$buttonStyle = sanitize_text_field( $_POST['linkly_button_style'] );
 		if ( ! in_array( $buttonStyle, [ 'primary', 'secondary' ] ) ) {
@@ -129,7 +130,7 @@ class LinklyAdminActions {
 	 * @return void
 	 */
 	public function handle_linkly_admin_connect() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_admin_connect' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 
@@ -165,14 +166,16 @@ class LinklyAdminActions {
 			throw new Exception( 'Client ID is empty in callback URL for Linkly Admin Connect' );
 		}
 
+		$sanitizedClientId = sanitize_text_field( $_GET['client_id'] );
+
 		$query = 'admin.php?page=linkly-for-woocommerce';
 
 		try {
 			$this->ssoHelper->linkClientCallback();
-			$query .= '&client_id=' . $_GET['client_id'];
+			$query .= '&client_id=' . $sanitizedClientId;
 		} catch ( Exception $e ) {
 			error_log( "Error in Linkly Admin Connect callback: State does not match" );
-			set_transient( 'display_client_credentials_save_error', 'state does not match' );
+			set_transient( 'linkly_display_client_credentials_save_error', 'state does not match' );
 		} finally {
 			wp_redirect( esc_url( admin_url( $query ), null, 'redirect' ) );
 			exit;
@@ -192,7 +195,7 @@ class LinklyAdminActions {
 		);
 	}
 
-	function linkly_admin_style() {
+	public function linkly_admin_style() {
 		if ( ! wp_style_is( 'linkly-admin-style', 'registered' ) ) {
 			wp_register_style( "linkly-admin-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/admin-style.css" );
 		}
