@@ -42,18 +42,18 @@ class LinklyAdminActions {
 	public function display_client_credentials_save_error_notice() {
 		if ( ! isset( $_REQUEST['page'] )
 		     || $_REQUEST['page'] !== 'linkly-for-woocommerce'
-		     || ! get_transient( 'display_client_credentials_save_error' )
+		     || ! get_transient( 'linkly_display_client_credentials_save_error' )
 		) {
 			return;
 		}
 
 		echo '<div class="error notice is-dismissible" ><p>';
 		esc_html_e( "client.connection-error", 'linkly-for-woocommerce' );
-		echo ': ' . esc_html( get_transient( 'display_client_credentials_save_error' ) );
+		echo ': ' . esc_html( get_transient( 'linkly_display_client_credentials_save_error' ) );
 		echo '</p></div>';
 
 		// Delete the transient so that the notice doesn't keep showing up on refresh
-		delete_transient( 'display_client_credentials_save_error' );
+		delete_transient( 'linkly_display_client_credentials_save_error' );
 	}
 
 	public function linkly_admin_handle_save() {
@@ -101,7 +101,7 @@ class LinklyAdminActions {
 			set_transient( 'linkly_client_credentials_saved', true, 5 );
 		} catch ( IdentityProviderException $e ) {
 			update_option( 'linkly_settings_app_connected', false );
-			set_transient( 'display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
+			set_transient( 'linkly_display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
 		} finally {
 			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
 			wp_redirect( esc_url($redirect_url) );
@@ -172,7 +172,7 @@ class LinklyAdminActions {
 			$query .= '&client_id=' . $_GET['client_id'];
 		} catch ( Exception $e ) {
 			error_log( "Error in Linkly Admin Connect callback: State does not match" );
-			set_transient( 'display_client_credentials_save_error', 'state does not match' );
+			set_transient( 'linkly_display_client_credentials_save_error', 'state does not match' );
 		} finally {
 			wp_redirect( esc_url( admin_url( $query ), null, 'redirect' ) );
 			exit;
