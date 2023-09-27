@@ -55,9 +55,15 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$decodedLoginActionUrl        = urldecode( $_GET['linkly_login_action'] );
-		$sanitizedLoginActionUrl      = filter_var( $decodedLoginActionUrl, FILTER_SANITIZE_URL );
-		$_SESSION['url_to_return_to'] = esc_url( get_site_url() . $sanitizedLoginActionUrl );
+		$decodedLoginActionUrl = urldecode( $_GET['linkly_login_action'] );
+
+		// Validate the URL.
+		if ( filter_var($decodedLoginActionUrl, FILTER_VALIDATE_URL) === false ) {
+			return;
+		}
+
+		$sanitizedLoginActionUrl      = sanitize_url($decodedLoginActionUrl);
+		$_SESSION['url_to_return_to'] = esc_url_raw( get_site_url() . $sanitizedLoginActionUrl );
 
 		unset( $_SESSION['linkly_link_account'] );
 

@@ -61,23 +61,27 @@ class LinklyAdminActions {
 			return;
 		}
 
+		if ( ! isset( $_POST['_wpnonce'] ) ) {
+			throw new Exception( 'CSRF token is required' );
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			throw new Exception( 'User is not an admin' );
 		}
 
-		if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+		if ( isset($_POST['linkly_credentials'])) {
 			$this->handle_save_client_credentials();
-		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+		} else if ( isset($_POST['linkly_button_style'])) {
 			$this->handle_save_button_style();
-		} else if ( wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+		} else if ( isset($_POST['linkly_admin_connect']) ) {
 			$this->handle_linkly_admin_connect();
 		} else {
-			throw new Exception( 'Invalid CSRF token' );
+			throw new Exception( 'Post data not recognized' );
 		}
 	}
 
 	private function handle_save_client_credentials() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_credentials' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_credentials' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 		if ( ! isset( $_POST['linkly_client_id'] ) ) {
@@ -104,17 +108,14 @@ class LinklyAdminActions {
 			set_transient( 'linkly_display_client_credentials_save_error', sanitize_text_field( $e->getResponseBody()['error'] ), 5 );
 		} finally {
 			$redirect_url = remove_query_arg( 'client_id', $_SERVER['HTTP_REFERER'] );
-			wp_redirect( esc_url($redirect_url) );
+			wp_redirect( esc_url( $redirect_url ) );
 			exit;
 		}
 	}
 
 	private function handle_save_button_style() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_button_style' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_button_style' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
-		}
-		if ( ! isset( $_POST['linkly_button_style'] ) ) {
-			throw new Exception( 'Button style not set' );
 		}
 		$buttonStyle = sanitize_text_field( $_POST['linkly_button_style'] );
 		if ( ! in_array( $buttonStyle, [ 'primary', 'secondary' ] ) ) {
@@ -129,7 +130,7 @@ class LinklyAdminActions {
 	 * @return void
 	 */
 	public function handle_linkly_admin_connect() {
-		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'linkly_admin_connect' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_wpnonce'] ) ), 'linkly_admin_connect' ) ) {
 			throw new Exception( 'Invalid CSRF token' );
 		}
 
@@ -192,7 +193,7 @@ class LinklyAdminActions {
 		);
 	}
 
-	function linkly_admin_style() {
+	public function linkly_admin_style() {
 		if ( ! wp_style_is( 'linkly-admin-style', 'registered' ) ) {
 			wp_register_style( "linkly-admin-style", LINKLY_FOR_WOOCOMMERCE_PLUGIN_URL . "assets/css/admin-style.css" );
 		}
