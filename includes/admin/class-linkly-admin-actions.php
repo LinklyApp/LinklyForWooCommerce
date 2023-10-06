@@ -61,6 +61,10 @@ class LinklyAdminActions {
 			return;
 		}
 
+		if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+			return;
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			throw new Exception( 'User is not an admin' );
 		}
