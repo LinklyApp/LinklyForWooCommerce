@@ -36,9 +36,8 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$rawAccountActionPath = $_GET['linkly_link_account_action'];
 		// Sanitize the URL before decoding.
-		$sanitizedAccountActionPath = sanitize_url($rawAccountActionPath);
+		$sanitizedAccountActionPath = sanitize_url($_GET['linkly_link_account_action']);
 		$decodedAccountActionPath = urldecode($sanitizedAccountActionPath);
 
 		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedAccountActionPath);
@@ -60,10 +59,8 @@ class LinklyAuthActions {
 			return;
 		}
 
-		$rawLoginActionPath = $_GET['linkly_login_action'];
-
 		// Sanitize first.
-		$sanitizedLoginActionPath = sanitize_url($rawLoginActionPath);
+		$sanitizedLoginActionPath = sanitize_url($_GET['linkly_login_action']);
 		$decodedLoginActionUrl = urldecode($sanitizedLoginActionPath);
 
 		$_SESSION['url_to_return_to'] = esc_url_raw(get_site_url() . $decodedLoginActionUrl);
@@ -96,8 +93,7 @@ class LinklyAuthActions {
 				$this->create_or_update_customer( $linklyUser, $user ?: null );
 			}
 
-			$rawUrlToReturnTo = $_SESSION['url_to_return_to'];
-			$sanitizedUrlToReturnTo = sanitize_url($rawUrlToReturnTo);
+			$sanitizedUrlToReturnTo = sanitize_url($_SESSION['url_to_return_to']);
 
 			if ( str_contains( $sanitizedUrlToReturnTo, '/wp-login.php' ) ) {
 				$sanitizedUrlToReturnTo = get_site_url();

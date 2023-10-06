@@ -14,8 +14,7 @@ if ( ! isset( $onlyLinkButton ) ) {
 	$onlyLinkButton = false;
 }
 
-$rawCurrentUri = $_SERVER['REQUEST_URI'];
-$sanitizedCurrentUri = sanitize_text_field($rawCurrentUri);;
+$sanitizedCurrentUri = sanitize_text_field($_SERVER['REQUEST_URI']);;
 
 if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id() ) && ! $onlyLinkButton ) {
 	$buttonUrl     = '?linkly_change_address_action=' . urlencode( $sanitizedCurrentUri );

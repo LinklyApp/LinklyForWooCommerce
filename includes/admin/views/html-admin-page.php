@@ -21,7 +21,7 @@ $sanitizedClientId = isset($_GET['client_id']) ? sanitize_text_field($_GET['clie
 					<?php esc_html_e( "client.id", 'linkly-for-woocommerce' ); ?>
                 </label>
                 <input name="linkly_client_id" id="linkly_modal_client_id" class="linkly-form-input" type="text"
-                       value="<?php esc_attr_e( $sanitizedClientId ) ?>"
+                       value="<?php esc_attr_e( $sanitizedClientId, 'linkly-for-woocommerce' ) ?>"
                        readonly/>
             </div>
 

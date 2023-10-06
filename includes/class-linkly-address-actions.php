@@ -37,10 +37,10 @@ class LinklyAddressActions {
 			return;
 		}
 
-		$decodedAddressUrl = urldecode($_GET['linkly_change_address_action']);
-		$sanitizedAddressUrl = filter_var($decodedAddressUrl, FILTER_SANITIZE_URL);
+		$sanitizedAddressUrl = sanitize_text_field($_GET['linkly_change_address_action']);
+		$decodedAddressUrl = urldecode($sanitizedAddressUrl);
 
-		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $sanitizedAddressUrl);
+		$_SESSION['url_to_return_to'] = esc_url(get_site_url() . $decodedAddressUrl);
 
 		$params = [
 			'clientId' => get_option('linkly_settings_app_key'),
