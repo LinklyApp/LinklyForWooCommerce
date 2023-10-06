@@ -66,8 +66,7 @@ class LinklyAddressActions {
 			error_log( $e->getMessage() );
 		}
 
-		$rawUrlToReturnTo = $_SESSION['url_to_return_to'];
-		$sanitizedUrlToReturnTo = sanitize_url($rawUrlToReturnTo);
+		$sanitizedUrlToReturnTo = sanitize_url($_SESSION['url_to_return_to']);
 
 		wp_redirect( esc_url( $sanitizedUrlToReturnTo) );
 		unset( $_SESSION['url_to_return_to'] );
