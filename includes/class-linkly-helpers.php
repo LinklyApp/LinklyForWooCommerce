@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Exception\ConnectException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Linkly\OAuth2\Client\Helpers\LinklyOrderHelper;
 use Linkly\OAuth2\Client\Helpers\LinklySsoHelper;
@@ -91,6 +92,8 @@ class LinklyHelpers {
 		} catch ( IdentityProviderException $e ) {
 			update_option( 'linkly_settings_app_connected', false );
 
+			return false;
+		} catch ( ConnectException $e ) {
 			return false;
 		}
 	}
