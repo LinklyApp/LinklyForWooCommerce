@@ -108,6 +108,7 @@ class LinklyOrderActions {
 
 			if ( $statusChanged || ! $order->get_meta( 'linkly_order_exported' ) ) {
 				$orderData = LinklyWCOrderToLinklyOrderMapper::mapOrder( $order );
+
 				$this->linklyOrderHelper->sendOrder( $orderData );
 				$order->add_meta_data( 'linkly_order_exported', gmdate( "Y-m-d H:i:s" ) . ' +00:00' );
 			}

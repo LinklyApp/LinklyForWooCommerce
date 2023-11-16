@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Linkly for WooCommerce\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/linkly-for-woocommerce\n"
 "POT-Creation-Date: 2023-01-23T09:43:44+01:00\n"
-"PO-Revision-Date: 2023-08-10 17:11+0200\n"
+"PO-Revision-Date: 2023-11-16 16:35+0100\n"
 "Last-Translator: \n"
 "Language-Team: Dutch <info@linkly.me>\n"
 "Language: nl_NL\n"
@@ -27,6 +27,9 @@ msgstr "Koppel met Linkly"
 
 msgid "go-to-linkly-button"
 msgstr "Ga naar Linkly"
+
+msgid "shipping.costs"
+msgstr "Verzendkosten"
 
 msgid "order_description"
 msgstr "Bestelling bij {0}"

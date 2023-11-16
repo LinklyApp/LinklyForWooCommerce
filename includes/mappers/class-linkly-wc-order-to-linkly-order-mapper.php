@@ -17,7 +17,7 @@ class LinklyWCOrderToLinklyOrderMapper
 	 */
     public static function mapOrder(WC_Order $order)
     {
-		return json_encode([
+		$linklyOrder = [
             'customerEmail' => $order->get_user()->user_email,
             'orderNumber' => $order->get_order_number(),
             'reference' => 'Ordered at ' . get_bloginfo('name'),
@@ -32,6 +32,19 @@ class LinklyWCOrderToLinklyOrderMapper
             'prePaidAmount' => $order->get_date_paid() ? $order->get_total() : 0,
             'payableAmount' => $order->get_date_paid() ? 0 : $order->get_total(),
             'lines' => LinklyWCOrderItemsToLinklyOrderLinesMapper::mapOrderItems($order->get_items())
-        ]);
+        ];
+
+	    if ($order->shipping_total > 0) {
+		    $linklyOrder['lines'][] = [
+			    'sequenceNumber' => count($linklyOrder['lines']) + 1,
+			    'name' => __('shipping.costs', 'linkly-for-woocommerce'),
+			    'unitAmountExclTax' => $order->get_shipping_total(),
+			    'quantity' => 1,
+			    'lineAmountExclTax' => $order->get_shipping_total(),
+			    'taxRatePercentage' => $order->get_shipping_tax() / $order->get_shipping_total() * 100,
+		    ];
+	    }
+
+		return json_encode($linklyOrder);
     }
 }

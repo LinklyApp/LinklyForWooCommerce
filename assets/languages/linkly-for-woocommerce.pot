@@ -16,6 +16,9 @@ msgstr ""
 msgid "login-button"
 msgstr ""
 
+msgid "shipping.costs"
+msgstr ""
+
 msgid "link-account-button"
 msgstr ""
 
