@@ -38,13 +38,13 @@ if ( is_user_logged_in() && linkly_is_wp_user_linkly_user( get_current_user_id()
                     <?php
                     switch ( $buttonVariant ) {
 	                    case 'change-address-button':
-		                    esc_html_e( 'Change Address Button', 'linkly-for-woocommerce' );
+		                    esc_html_e( 'Change Address at', 'linkly-for-woocommerce' );
 		                    break;
 	                    case 'link-account-button':
-		                    esc_html_e( 'Link Account Button', 'linkly-for-woocommerce' );
+		                    esc_html_e( 'Link Account with', 'linkly-for-woocommerce' );
 		                    break;
 	                    case 'login-button':
-		                    esc_html_e( 'Login Button', 'linkly-for-woocommerce' );
+		                    esc_html_e( 'Login with', 'linkly-for-woocommerce' );
 		                    break;
                     }
                     ?>

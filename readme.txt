@@ -45,6 +45,9 @@ In the search field type \"Linkly for WooCommerce\" and click Search Plugins. Yo
 Report bugs on the [LinklyApp GitHub repository](https://github.com/LinklyApp/LinklyForWooCommerce/issues?utm_medium=referral&utm_source=wordpress.org&utm_campaign=wp_org_repo_listing).
 
 == Changelog ==
+= 1.1.5 (29/02/2024) =
+* Fixed: Button uses wrong texts.
+
 = 1.1.4 (11/10/2023) =
 * Added: Fix issues with translation and sanitizing.
 
