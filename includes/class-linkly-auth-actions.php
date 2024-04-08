@@ -93,6 +93,11 @@ class LinklyAuthActions {
 				$this->create_or_update_customer( $linklyUser, $user ?: null );
 			}
 
+			if (!isset($_SESSION['url_to_return_to'])) {
+				wp_redirect( get_site_url() );
+				exit;
+			}
+
 			$sanitizedUrlToReturnTo = sanitize_url($_SESSION['url_to_return_to']);
 
 			if ( str_contains( $sanitizedUrlToReturnTo, '/wp-login.php' ) ) {
