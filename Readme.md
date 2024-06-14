@@ -75,6 +75,4 @@ If you find a bug, please report it on the [LinklyApp GitHub repository](https:/
 
 This project is licensed under the [GPLv3 License](https://www.gnu.org/licenses/gpl-3.0.txt)
 
---- 
-
-This is the full `Readme.md` with clear sections and improved GitHub-specific instructions.
+---
